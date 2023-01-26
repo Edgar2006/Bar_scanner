@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="10dp">
+
+
+    <TextView
+
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="70dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="17dp"
+        android:layout_toEndOf="@+id/like"
+        android:hint="Name"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_marginHorizontal="70dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/like"
+        android:hint="Comment"
+        android:textSize="18dp" />
+
+    <ImageButton
+        android:id="@+id/like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        app:srcCompat="@android:drawable/ic_media_play" />
+
+    <TextView
+        android:id="@+id/count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/like"
+        android:layout_alignParentStart="true"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="-1dp"
+        android:hint="0"/>
+
+</RelativeLayout>

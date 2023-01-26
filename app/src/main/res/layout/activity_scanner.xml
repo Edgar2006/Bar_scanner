@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Scanner">
+
+    <TextView
+        android:id="@+id/hello"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="Hello "
+        android:textSize="30dp" />
+
+    <EditText
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hello"
+        android:textSize="20dp"
+        android:hint="place input your reaction :)"
+        android:layout_marginStart="20dp"
+        />
+
+    <Button
+
+        android:id="@+id/read_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/submit"
+        android:layout_marginBottom="49dp"
+        android:backgroundTint="#25CCBE"
+        android:text="bar_code_read"
+        android:textColor="@color/black"
+        android:textSize="30dp" />
+
+
+    <Button
+
+        android:id="@+id/submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/scan_now"
+        android:layout_marginBottom="49dp"
+        android:backgroundTint="#FF0000"
+        android:text="Submit"
+        android:textColor="@color/black"
+        android:textSize="30dp" />
+
+    <Button
+        android:id="@+id/scan_now"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/read_open"
+        android:layout_marginBottom="56dp"
+        android:backgroundTint="@color/common_google_signin_btn_text_light_default"
+        android:text="Scan now"
+        android:textColor="@color/black"
+        android:textSize="30dp" />
+
+
+    <Button
+
+        android:id="@+id/read_open"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/logout"
+        android:layout_marginBottom="53dp"
+        android:backgroundTint="#00ff00"
+        android:text="Read"
+        android:textColor="@color/black"
+        android:textSize="30dp" />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:text="Logout"
+        android:textColor="@color/black"
+        android:textSize="30dp" />
+</RelativeLayout>
