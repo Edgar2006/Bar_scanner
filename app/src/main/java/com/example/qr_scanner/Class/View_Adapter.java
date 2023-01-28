@@ -44,13 +44,12 @@ public class View_Adapter extends RecyclerView.Adapter<View_Adapter.ViewHolder> 
         holder.address = friend.getMessenger().getAddress();
         holder.email.setText(friend.getMessenger().getEmail());
         holder.comment.setText(friend.getMessenger().getComment());
-        holder.count.setText(Integer.toString(friend.getFriend_list().size()));
+        holder.count.setText(friend.getMessenger().getCount());
         holder.mAuth = FirebaseAuth.getInstance();
         holder.database = FirebaseDatabase.getInstance();
         holder.reference  = FirebaseDatabase.getInstance().getReference("Product").child(holder.address).child(holder.email.getText().toString().replace(".", "|"));
         holder.friend_ref  = FirebaseDatabase.getInstance().getReference("Friends").child(holder.address).child(holder.email.getText().toString().replace(".", "|"));
-        holder.list_friend = friend.getFriend_list();
-        holder.count.setText(String.valueOf(friend.getFriend_list().size()));
+        holder.like_ref = FirebaseDatabase.getInstance().getReference("Friends").child(holder.address).child(holder.email.getText().toString().replace(".", "|"));
     }
 
     @Override
@@ -64,68 +63,67 @@ public class View_Adapter extends RecyclerView.Adapter<View_Adapter.ViewHolder> 
         ImageButton like;
         String address;
         FirebaseAuth mAuth;
-        DatabaseReference reference,friend_ref;
+        DatabaseReference reference,friend_ref,like_ref;
         FirebaseDatabase database;
-        ArrayList<String> list_friend;
-
+        int size;
         public ViewHolder(View view) {
             super(view);
             email = view.findViewById(R.id.name);
             comment = view.findViewById(R.id.comment);
             count = view.findViewById(R.id.count);
             like = view.findViewById(R.id.like);
-            Toast.makeText(view.getContext(), User.EMAIL, Toast.LENGTH_SHORT).show();
-
+            like_ref = friend_ref;
+            size = 0;
             like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    friend_ref.addValueEventListener(new ValueEventListener() {
+                    friend_ref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (!list_friend.isEmpty()){list_friend.clear();}
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                                String data = snapshot.getValue(String.class);
-                                list_friend.add(data);
-                            }
-                            //Log.d("_0:",list_friend.toString());
-                            //Toast.makeText(view.getContext(), list_friend.toString(), Toast.LENGTH_SHORT).show();
-                            int index = 0;
-                            for(int i=0;i<list_friend.size();i++){
-                                if(User.EMAIL.equals(list_friend.get(i))){
-                                    Toast.makeText(view.getContext(), "fuckkkkkkkkkkkkkkkkkk", Toast.LENGTH_SHORT).show();
-                                    list_friend.remove(i);
-                                    index=1;
-                                    i--;
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            boolean b = false;
+                            for(DataSnapshot data: dataSnapshot.getChildren()){
+                                Toast.makeText(view.getContext(), "_-_" + data.getKey().toString(), Toast.LENGTH_SHORT).show();
+                                if(data.getKey().toString().equals(User.EMAIL_CONVERT)){
+                                    b=true;
+                                    MyBool isLike = data.getValue(MyBool.class);
+                                    boolean isOk = isLike.isLike();
+                                    like_ref.child(User.EMAIL_CONVERT).setValue(new MyBool(!isOk));
+                                    int second = Integer.parseInt(count.getText().toString());
+                                    if(!isOk){
+                                        second++;
+                                        count.setText(Integer.toString(second));
+                                    }
+                                    else{
+                                        second--;
+                                    }
+                                    count.setText(Integer.toString(second));
+                                    add_messenger();
+
                                 }
-                                else {
-                                    Toast.makeText(view.getContext(), "suka" + list_friend.get(i), Toast.LENGTH_SHORT).show();
-                                }
                             }
-                            if(index == 0){
-                                list_friend.add(User.EMAIL);
+                            if(!b){
+                                like_ref.child(User.EMAIL_CONVERT).setValue(new MyBool(true));
+                                int second = Integer.parseInt(count.getText().toString());
+                                second++;
+                                count.setText(Integer.toString(second));
+                                add_messenger();
+
                             }
                         }
                         @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            // Getting Post failed, log a message
-                            Log.w("TAG:", "loadPost:onCancelled", databaseError.toException());
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
                         }
                     });
-                    //Log.d("_1:",list_friend.toString());
-                    HashSet<String> hashSet = new HashSet<>(list_friend);
-                    list_friend = new ArrayList<String>(hashSet);
-                    friend_ref.setValue(list_friend);
-                    add_messenger();
                 }
             });
-
         }
         private void add_messenger(){
-            Messenger newMessenger = new Messenger(address,comment.getText().toString(),email.getText().toString());
+            Messenger newMessenger = new Messenger(email.getText().toString(),comment.getText().toString(),address,count.getText().toString());
             Map<String,Object> map = new HashMap<>();
-            map.put("address",newMessenger.getAddress());
-            map.put("comment",newMessenger.getComment());
             map.put("email",newMessenger.getEmail());
+            map.put("comment",newMessenger.getComment());
+            map.put("address",newMessenger.getAddress());
+            map.put("count",newMessenger.getCount());
             reference.updateChildren(map);
         }
         private int find(int size,ArrayList<String> friends,String email){
@@ -136,7 +134,6 @@ public class View_Adapter extends RecyclerView.Adapter<View_Adapter.ViewHolder> 
             }
             return -1;
         }
-
     }
 
 
@@ -145,8 +142,5 @@ public class View_Adapter extends RecyclerView.Adapter<View_Adapter.ViewHolder> 
         View view = inflater.inflate(R.layout.list_item,parent,false);
         return new ViewHolder(view);
     }
-
-
-
 
 }

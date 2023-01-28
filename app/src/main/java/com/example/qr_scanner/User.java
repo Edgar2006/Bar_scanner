@@ -3,6 +3,7 @@ package com.example.qr_scanner;
 public class User {
     private String id,email,password;
     public static String EMAIL;
+    public static String EMAIL_CONVERT;
 
     public User(String id, String email, String password) {
         this.id = id;

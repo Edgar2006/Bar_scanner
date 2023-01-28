@@ -25,18 +25,38 @@
         android:layout_marginStart="20dp"
         />
 
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="348dp"
+        android:layout_height="247dp"
+        android:layout_below="@+id/text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="27dp" />
+    <Button
+
+        android:id="@+id/chooseImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/read_1"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="1dp"
+        android:backgroundTint="#9C27B0"
+        android:onClick="onClickChooseImage"
+        android:text="Choose Image"
+        android:textColor="@color/black"
+        android:textSize="30dp" />
+
     <Button
 
         android:id="@+id/read_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/submit"
-        android:layout_marginBottom="49dp"
+        android:layout_marginBottom="5dp"
         android:backgroundTint="#25CCBE"
         android:text="bar_code_read"
         android:textColor="@color/black"
         android:textSize="30dp" />
-
 
     <Button
 
@@ -44,7 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/scan_now"
-        android:layout_marginBottom="49dp"
+        android:layout_marginBottom="1dp"
         android:backgroundTint="#FF0000"
         android:text="Submit"
         android:textColor="@color/black"
@@ -55,12 +75,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/read_open"
-        android:layout_marginBottom="56dp"
+        android:layout_marginBottom="7dp"
         android:backgroundTint="@color/common_google_signin_btn_text_light_default"
         android:text="Scan now"
         android:textColor="@color/black"
         android:textSize="30dp" />
-
 
     <Button
 
@@ -68,7 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/logout"
-        android:layout_marginBottom="53dp"
+        android:layout_marginBottom="-7dp"
         android:backgroundTint="#00ff00"
         android:text="Read"
         android:textColor="@color/black"
@@ -79,8 +98,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="-22dp"
         android:text="Logout"
         android:textColor="@color/black"
         android:textSize="30dp" />

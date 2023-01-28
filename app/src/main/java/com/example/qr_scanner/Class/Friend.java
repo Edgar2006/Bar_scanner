@@ -1,14 +1,17 @@
 package com.example.qr_scanner.Class;
 
+import com.google.firebase.database.DatabaseReference;
+
+import java.lang.ref.Reference;
 import java.util.ArrayList;
 
 public class Friend {
     private Messenger messenger;
     private ArrayList<String> friend_list;
-
-    public Friend(Messenger messenger, ArrayList<String> friend_list) {
+    private DatabaseReference reference;
+    public Friend(Messenger messenger, DatabaseReference reference) {
         this.messenger = messenger;
-        this.friend_list = friend_list;
+        this.reference = reference;
     }
 
     public Messenger getMessenger() {
@@ -19,11 +22,11 @@ public class Friend {
         this.messenger = messenger;
     }
 
-    public ArrayList<String> getFriend_list() {
-        return friend_list;
+    public DatabaseReference getReference() {
+        return reference;
     }
 
-    public void setFriend_list(ArrayList<String> friend_list) {
-        this.friend_list = friend_list;
+    public void setReference(DatabaseReference reference) {
+        this.reference = reference;
     }
 }
