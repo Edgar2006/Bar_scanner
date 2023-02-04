@@ -1,16 +1,17 @@
-package com.example.qr_scanner;
+package com.example.qr_scanner.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.qr_scanner.DataBase_Class.User;
+import com.example.qr_scanner.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -28,6 +29,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         init();
     }
     public void init(){
@@ -50,7 +52,7 @@ public class Login extends AppCompatActivity {
                     if(task.isSuccessful()){
                         User.EMAIL = email_txt;
                         Toast.makeText(Login.this, "Okay", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(Login.this,Scanner.class);
+                        Intent intent = new Intent(Login.this,HomeActivity.class);
                         intent.putExtra("email",email_txt);
                         intent.putExtra("password",password_txt);
                         startActivity(intent);

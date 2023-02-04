@@ -8,5 +8,6 @@
     <color name="black" tools:override="true">#3A353F</color>
     <color name="white"  tools:override="true">#FFFFFFFF</color>
     <color name="Base_color" tools:override="true">#2F36DA</color>
+    <color name="Second_color" tools:override="true">#DCDEF4</color>
 
 </resources>

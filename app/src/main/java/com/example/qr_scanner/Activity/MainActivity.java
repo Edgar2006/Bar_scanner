@@ -1,17 +1,16 @@
-package com.example.qr_scanner;
+package com.example.qr_scanner.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.example.qr_scanner.Class.Function;
+import com.example.qr_scanner.DataBase_Class.User;
+import com.example.qr_scanner.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -21,7 +20,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
@@ -51,13 +49,14 @@ public class MainActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()){
                                     User.EMAIL = Function.convertor(email_txt);
-                                    Intent intent = new Intent(MainActivity.this,Scanner.class);
+                                    Intent intent = new Intent(MainActivity.this,HomeActivity.class);
                                     intent.putExtra("email",email_txt);
                                     intent.putExtra("password",password_txt);
                                     startActivity(intent);
                                 }
                                 else{
-                                    Toast.makeText(MainActivity.this, "You have some errors!", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(MainActivity.this,Login_or_register.class);
+                                    startActivity(intent);
                                 }
                             }
                         });

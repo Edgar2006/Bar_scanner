@@ -1,4 +1,4 @@
-package com.example.qr_scanner.Class;
+package com.example.qr_scanner.Adapter;
 
 import com.journeyapps.barcodescanner.CaptureActivity;
 

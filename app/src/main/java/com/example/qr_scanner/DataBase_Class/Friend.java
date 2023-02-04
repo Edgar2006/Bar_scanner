@@ -1,8 +1,7 @@
-package com.example.qr_scanner.Class;
+package com.example.qr_scanner.DataBase_Class;
 
 import com.google.firebase.database.DatabaseReference;
 
-import java.lang.ref.Reference;
 import java.util.ArrayList;
 
 public class Friend {

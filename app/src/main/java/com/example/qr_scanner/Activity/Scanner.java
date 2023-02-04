@@ -1,9 +1,7 @@
-package com.example.qr_scanner;
+package com.example.qr_scanner.Activity;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,10 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.qr_scanner.Class.CaptureAct;
-import com.example.qr_scanner.Class.Friend;
+import com.example.qr_scanner.Adapter.CaptureAct;
 import com.example.qr_scanner.Class.Function;
-import com.example.qr_scanner.Class.Messenger;
+import com.example.qr_scanner.DataBase_Class.Messenger;
+import com.example.qr_scanner.DataBase_Class.User;
+import com.example.qr_scanner.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,7 +33,6 @@ import com.google.firebase.storage.UploadTask;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

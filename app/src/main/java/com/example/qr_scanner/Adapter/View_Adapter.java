@@ -1,9 +1,6 @@
-package com.example.qr_scanner.Class;
+package com.example.qr_scanner.Adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,20 +11,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.qr_scanner.DataBase_Class.Friend;
+import com.example.qr_scanner.DataBase_Class.Messenger;
+import com.example.qr_scanner.DataBase_Class.MyBool;
 import com.example.qr_scanner.R;
-import com.example.qr_scanner.User;
+import com.example.qr_scanner.DataBase_Class.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
 public class View_Adapter extends RecyclerView.Adapter<View_Adapter.ViewHolder> {

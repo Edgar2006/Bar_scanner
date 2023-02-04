@@ -1,4 +1,4 @@
-package com.example.qr_scanner;
+package com.example.qr_scanner.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.qr_scanner.Class.Friend;
-import com.example.qr_scanner.Class.Messenger;
-import com.example.qr_scanner.Class.View_Adapter;
+import com.example.qr_scanner.DataBase_Class.Friend;
+import com.example.qr_scanner.DataBase_Class.Messenger;
+import com.example.qr_scanner.Adapter.View_Adapter;
+import com.example.qr_scanner.DataBase_Class.User;
+import com.example.qr_scanner.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,6 +40,7 @@ public class Read extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read);
+
         init();
         getDataFromDataBase();
     }

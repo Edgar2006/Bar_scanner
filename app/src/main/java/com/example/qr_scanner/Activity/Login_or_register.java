@@ -1,4 +1,4 @@
-package com.example.qr_scanner;
+package com.example.qr_scanner.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,8 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.qr_scanner.R;
 
 public class Login_or_register extends AppCompatActivity {
     Button createNewAccount;
@@ -17,6 +18,7 @@ public class Login_or_register extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_or_register);
+
         init();
     }
 
