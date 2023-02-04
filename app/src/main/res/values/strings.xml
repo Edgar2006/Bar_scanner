@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">QR_scanner</string>
+    <string name="app_name" translatable="false">BarCode_scanner</string>
+    <string name="create_new_account" translatable="false">Create new account</string>
+    <string name="control_your_choices" translatable="false">Control your choices</string>
+    <string name="sign_in" translatable="false">Sign in</string>
+    <string name="next_step">Next step</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="password">Password</string>
+    <string name="e_mail_address">E-mail address</string>
+    <string name="full_name">Full name</string>
+    <string name="sign_in_to_your_account">Sign in to your account</string>
+    <string name="forgot_password">Forgot password ?</string>
 </resources>

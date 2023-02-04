@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.qr_scanner.Class.CaptureAct;
 import com.example.qr_scanner.Class.Friend;
+import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.Messenger;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -77,7 +78,7 @@ public class Scanner extends AppCompatActivity implements View.OnClickListener{
         mStorageRef = FirebaseStorage.getInstance().getReference("ImageDB");
 
         //////////
-        User.EMAIL_CONVERT = convertor(User.EMAIL);
+        User.EMAIL_CONVERT = Function.convertor(User.EMAIL);
         Intent intent = getIntent();
         if (intent != null) {
             email_txt = intent.getStringExtra("email");
@@ -122,9 +123,9 @@ public class Scanner extends AppCompatActivity implements View.OnClickListener{
                 List<String> friends = new ArrayList<>();
                 friends.add(User.EMAIL);
                 Messenger messenger = new Messenger(email_txt, text.getText().toString(), bareCode, "0");
-                reference = FirebaseDatabase.getInstance().getReference("Product").child(bareCode).child(convertor(email_txt));
+                reference = FirebaseDatabase.getInstance().getReference("Product").child(bareCode).child(Function.convertor(email_txt));
                 reference.setValue(messenger);
-                friendReference = FirebaseDatabase.getInstance().getReference("Friends").child(bareCode).child(convertor(email_txt));
+                friendReference = FirebaseDatabase.getInstance().getReference("Friends").child(bareCode).child(Function.convertor(email_txt));
                 friendReference.setValue(friends);
                 Toast.makeText(Scanner.this, "Your comment send", Toast.LENGTH_SHORT).show();
             }
@@ -210,10 +211,6 @@ public class Scanner extends AppCompatActivity implements View.OnClickListener{
 
     }
 
-
-    public String convertor(String a){
-        return a.replace(".", "|");
-    }
 
     @Override
     public void onClick(View view) {

@@ -1,17 +1,26 @@
 package com.example.qr_scanner;
 
 public class User {
-    private String id,email,password;
+    private String id,name,email,password;
     public static String EMAIL;
     public static String EMAIL_CONVERT;
 
-    public User(String id, String email, String password) {
+    public User(String id, String name, String email, String password) {
         this.id = id;
+        this.name = name;
         this.email = email;
         this.password = password;
     }
 
     public User() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getId() {
