@@ -1,10 +1,13 @@
 package com.example.qr_scanner.Activity;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,19 +20,24 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Login extends AppCompatActivity {
     private TextInputLayout email,password;
     private TextView forgotPassword;
     private Button signIn;
-    private String email_txt,password_txt;
+    private String emailToString, passwordToString;
     private FirebaseAuth mAuth;
-
+    private DatabaseReference reference;
+    private FirebaseDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         init();
     }
     public void init(){
@@ -38,24 +46,22 @@ public class Login extends AppCompatActivity {
         forgotPassword = findViewById(R.id.forgot_password);
         signIn = findViewById(R.id.signIn);
         mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        reference = database.getReference("User");
     }
     public void onClickSignIn(View view){
-        email_txt = email.getEditText().getText().toString();
-        password_txt = password.getEditText().getText().toString();
-        if(email_txt.isEmpty() || password_txt.isEmpty() || password_txt.length() < 8){
+        emailToString = email.getEditText().getText().toString();
+        passwordToString = password.getEditText().getText().toString();
+        if(emailToString.isEmpty() || passwordToString.isEmpty() || passwordToString.length() < 8){
             Toast.makeText(Login.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
         }
         else{
-            mAuth.signInWithEmailAndPassword(email_txt,password_txt).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            mAuth.signInWithEmailAndPassword(emailToString, passwordToString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
-                        User.EMAIL = email_txt;
-                        Toast.makeText(Login.this, "Okay", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(Login.this,HomeActivity.class);
-                        intent.putExtra("email",email_txt);
-                        intent.putExtra("password",password_txt);
-                        startActivity(intent);
+                        readUser();
+                        nextActivity();
                     }
                     else{
                         Toast.makeText(Login.this, "You have some errors", Toast.LENGTH_SHORT).show();
@@ -64,8 +70,30 @@ public class Login extends AppCompatActivity {
             });
         }
     }
+    public void nextActivity(){
+        Toast.makeText(Login.this, "Okay", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(Login.this,HomeActivity.class);
+        startActivity(intent);
+    }
+    public void readUser(){
+        reference.child(emailToString);
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                User.PASSWORD=user.getPassword();
+                User.NAME=user.getName();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.i("RTRRT", "loadPost:onCancelled", databaseError.toException());
+            }
+        };
+        reference.addValueEventListener(postListener);
+    }
     public void onClickForgotPassword(View view){
-        mAuth.sendPasswordResetEmail(email_txt).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mAuth.sendPasswordResetEmail(emailToString).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {

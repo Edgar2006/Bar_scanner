@@ -27,10 +27,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class View_Adapter extends RecyclerView.Adapter<View_Adapter.ViewHolder> {
+public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
     private LayoutInflater inflater;
     private ArrayList<Friend> friends;
-    public View_Adapter(Context context, ArrayList<Friend> friends) {
+    public ViewAdapter(Context context, ArrayList<Friend> friends) {
         this.friends = friends;
         this.inflater = LayoutInflater.from(context);
     }
@@ -45,8 +45,8 @@ public class View_Adapter extends RecyclerView.Adapter<View_Adapter.ViewHolder> 
         holder.mAuth = FirebaseAuth.getInstance();
         holder.database = FirebaseDatabase.getInstance();
         holder.reference  = FirebaseDatabase.getInstance().getReference("Product").child(holder.address).child(holder.email.getText().toString().replace(".", "|"));
-        holder.friend_ref  = FirebaseDatabase.getInstance().getReference("Friends").child(holder.address).child(holder.email.getText().toString().replace(".", "|"));
-        holder.like_ref = FirebaseDatabase.getInstance().getReference("Friends").child(holder.address).child(holder.email.getText().toString().replace(".", "|"));
+        holder.friendRef = FirebaseDatabase.getInstance().getReference("Friends").child(holder.address).child(holder.email.getText().toString().replace(".", "|"));
+        holder.likeRef = FirebaseDatabase.getInstance().getReference("Friends").child(holder.address).child(holder.email.getText().toString().replace(".", "|"));
     }
 
     @Override
@@ -60,7 +60,7 @@ public class View_Adapter extends RecyclerView.Adapter<View_Adapter.ViewHolder> 
         ImageButton like;
         String address;
         FirebaseAuth mAuth;
-        DatabaseReference reference,friend_ref,like_ref;
+        DatabaseReference reference, friendRef, likeRef;
         FirebaseDatabase database;
         int size;
         public ViewHolder(View view) {
@@ -69,22 +69,21 @@ public class View_Adapter extends RecyclerView.Adapter<View_Adapter.ViewHolder> 
             comment = view.findViewById(R.id.comment);
             count = view.findViewById(R.id.count);
             like = view.findViewById(R.id.like);
-            like_ref = friend_ref;
+            likeRef = friendRef;
             size = 0;
             like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    friend_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    friendRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             boolean b = false;
                             for(DataSnapshot data: dataSnapshot.getChildren()){
-                                Toast.makeText(view.getContext(), "_-_" + data.getKey().toString(), Toast.LENGTH_SHORT).show();
                                 if(data.getKey().toString().equals(User.EMAIL_CONVERT)){
                                     b=true;
                                     MyBool isLike = data.getValue(MyBool.class);
                                     boolean isOk = isLike.isLike();
-                                    like_ref.child(User.EMAIL_CONVERT).setValue(new MyBool(!isOk));
+                                    likeRef.child(User.EMAIL_CONVERT).setValue(new MyBool(!isOk));
                                     int second = Integer.parseInt(count.getText().toString());
                                     if(!isOk){
                                         second++;
@@ -94,16 +93,16 @@ public class View_Adapter extends RecyclerView.Adapter<View_Adapter.ViewHolder> 
                                         second--;
                                     }
                                     count.setText(Integer.toString(second));
-                                    add_messenger();
+                                    addMessenger();
 
                                 }
                             }
                             if(!b){
-                                like_ref.child(User.EMAIL_CONVERT).setValue(new MyBool(true));
+                                likeRef.child(User.EMAIL_CONVERT).setValue(new MyBool(true));
                                 int second = Integer.parseInt(count.getText().toString());
                                 second++;
                                 count.setText(Integer.toString(second));
-                                add_messenger();
+                                addMessenger();
 
                             }
                         }
@@ -114,7 +113,7 @@ public class View_Adapter extends RecyclerView.Adapter<View_Adapter.ViewHolder> 
                 }
             });
         }
-        private void add_messenger(){
+        private void addMessenger(){
             Messenger newMessenger = new Messenger(email.getText().toString(),comment.getText().toString(),address,count.getText().toString());
             Map<String,Object> map = new HashMap<>();
             map.put("email",newMessenger.getEmail());

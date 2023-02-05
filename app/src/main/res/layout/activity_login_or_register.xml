@@ -20,27 +20,24 @@
         app:srcCompat="@drawable/u_mail" />
 
     <TextView
-        android:textStyle="bold"
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView"
         android:layout_alignStart="@+id/imageView"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="-4dp"
+        android:layout_marginTop="22dp"
         android:text="@string/be_in_control_of_your_something"
         android:textColor="@color/black"
-        android:textSize="43dp" />
+        android:textSize="43dp"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="317dp"
         android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="37dp"
-        android:layout_marginEnd="0dp"
         app:srcCompat="@drawable/scan_icon" />
 
     <Button

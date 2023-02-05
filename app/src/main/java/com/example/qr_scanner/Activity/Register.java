@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,12 +21,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class Register extends AppCompatActivity {
-    private TextInputLayout name,email,password,copy_password;
+    private TextInputLayout name,email,password, copyPassword;
     private Button register;
     private FirebaseAuth mAuth;
     private DatabaseReference reference;
     private FirebaseDatabase database;
-    private String name_txt,email_txt,password_txt,copy_password_txt;
+    private String nameToString, emailToString, passwordToString, copyPasswordToString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,25 +38,25 @@ public class Register extends AppCompatActivity {
         name = (TextInputLayout)findViewById(R.id.name);
         email = (TextInputLayout)findViewById(R.id.email);
         password = (TextInputLayout)findViewById(R.id.password);
-        copy_password = (TextInputLayout)findViewById(R.id.copy_password);
+        copyPassword = (TextInputLayout)findViewById(R.id.copy_password);
         register = findViewById(R.id.register);
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         reference = database.getReference("User");
-        email_txt = email.getEditText().getText().toString();
-        password_txt = password.getEditText().getText().toString();
+        emailToString = email.getEditText().getText().toString();
+        passwordToString = password.getEditText().getText().toString();
     }
     public void onCLickNextStep(View view){
-        name_txt = name.getEditText().getText().toString();
-        email_txt = email.getEditText().getText().toString();
-        password_txt = password.getEditText().getText().toString();
-        copy_password_txt = copy_password.getEditText().getText().toString();
-        if(name_txt.isEmpty() || email_txt.isEmpty() || password_txt.isEmpty() || copy_password_txt.isEmpty()){
+        nameToString = name.getEditText().getText().toString();
+        emailToString = email.getEditText().getText().toString();
+        passwordToString = password.getEditText().getText().toString();
+        copyPasswordToString = copyPassword.getEditText().getText().toString();
+        if(nameToString.isEmpty() || emailToString.isEmpty() || passwordToString.isEmpty() || copyPasswordToString.isEmpty()){
             Toast.makeText(Register.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
         }
         else {
-            if(password.getEditText().getText().toString().equals(copy_password.getEditText().getText().toString())){
-                mAuth.createUserWithEmailAndPassword(email_txt,password_txt)
+            if(password.getEditText().getText().toString().equals(copyPassword.getEditText().getText().toString())){
+                mAuth.createUserWithEmailAndPassword(emailToString, passwordToString)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -75,13 +76,13 @@ public class Register extends AppCompatActivity {
 
     }
     public void nextActivity(){
-        User.EMAIL=email_txt;
-        User user = new User(reference.getKey(),name_txt,email_txt,password_txt);
-        reference.push().setValue(user);
-        Intent intent = new Intent(Register.this,Scanner.class);
-        intent.putExtra("name",name_txt);
-        intent.putExtra("email",email_txt);
-        intent.putExtra("password",password_txt);
+        User.EMAIL= emailToString;
+        User.PASSWORD = passwordToString;
+        User.NAME = nameToString;
+        User.EMAIL_CONVERT = Function.convertor(emailToString);
+        User user = new User(reference.getRef().getKey(), nameToString, emailToString, passwordToString);
+        reference.child(User.EMAIL_CONVERT).setValue(user);
+        Intent intent = new Intent(Register.this,HomeActivity.class);
         startActivity(intent);
     }
 }

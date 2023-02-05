@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.qr_scanner.DataBase_Class.Friend;
 import com.example.qr_scanner.DataBase_Class.Messenger;
-import com.example.qr_scanner.Adapter.View_Adapter;
+import com.example.qr_scanner.Adapter.ViewAdapter;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,13 +28,13 @@ import java.util.Comparator;
 
 public class Read extends AppCompatActivity {
     private RecyclerView listView;
-    private View_Adapter view_adapter;
+    private ViewAdapter viewAdapter;
     private ArrayList<Friend> listData;
     private String bareCode;
     private FirebaseAuth mAuth;
     private DatabaseReference reference,friendsReference;
     private FirebaseDatabase database;
-    private TextView name_user;
+    private TextView nameUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +46,13 @@ public class Read extends AppCompatActivity {
     }
     private void init(){
         Toast.makeText(this, User.EMAIL, Toast.LENGTH_SHORT).show();
-        name_user = findViewById(R.id.name_user);
-        name_user.setText(User.EMAIL);
+        nameUser = findViewById(R.id.name_user);
+        nameUser.setText(User.EMAIL);
         listView = findViewById(R.id.recView);
         listData = new ArrayList<Friend>();
-        view_adapter = new View_Adapter(this,listData);
+        viewAdapter = new ViewAdapter(this,listData);
         listView.setLayoutManager(new LinearLayoutManager(this));
-        listView.setAdapter(view_adapter);
+        listView.setAdapter(viewAdapter);
         Intent intent = getIntent();
         if(intent!=null){
             bareCode = intent.getStringExtra("bareCode");
@@ -72,12 +72,12 @@ public class Read extends AppCompatActivity {
                 for(DataSnapshot ds : snapshot.getChildren()){
                     Messenger messenger = ds.getValue(Messenger.class);
                     assert  messenger != null;
-                    String email_txt = messenger.getEmail();
-                    friendsReference.child(convertor(email_txt));
+                    String emailToString = messenger.getEmail();
+                    friendsReference.child(convertor(emailToString));
                     listData.add(new Friend(new Messenger(messenger.getEmail(),messenger.getComment(),messenger.getAddress(),messenger.getCount()),friendsReference));
                 }
                 Collections.sort(listData,new LexicographicComparator());
-                listView.setAdapter(view_adapter);
+                listView.setAdapter(viewAdapter);
             }
 
             @Override

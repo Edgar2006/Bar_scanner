@@ -17,7 +17,6 @@ import java.io.IOException;
 
 public class HomeActivity extends AppCompatActivity {
     private Button nextStep;
-    private String email_txt,password_txt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,20 +30,15 @@ public class HomeActivity extends AppCompatActivity {
     }
     public void addLocalData(){
         User.EMAIL_CONVERT = Function.convertor(User.EMAIL);
-        Intent intent = getIntent();
-        if (intent != null) {
-            email_txt = intent.getStringExtra("email");
-            password_txt = email_txt + "\n" + intent.getStringExtra("password");
-            User.EMAIL = email_txt;
-            try {
-                FileOutputStream fileOutputStream = openFileOutput("Authentication.txt", MODE_PRIVATE);
-                fileOutputStream.write(password_txt.getBytes());
-                fileOutputStream.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            String newUser = User.EMAIL + "\n" + User.PASSWORD + "\n" + User.NAME;
+            FileOutputStream fileOutputStream = openFileOutput("Authentication.txt", MODE_PRIVATE);
+            fileOutputStream.write(newUser.getBytes());
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }

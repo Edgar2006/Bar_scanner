@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Window;
 import android.widget.Toast;
 
 import com.example.qr_scanner.Class.Function;
@@ -25,7 +24,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,18 +38,15 @@ public class MainActivity extends AppCompatActivity {
             while ((lines = buffer.readLine()) != null){
                 list.add(lines);
             }
-            if(list.size() == 2){
-                String email_txt = list.get(0);
-                String password_txt = list.get(1);
-                mAuth.signInWithEmailAndPassword(email_txt,password_txt)
+            if(list.size() == 3){
+                String emailToString = list.get(0);
+                String passwordToString = list.get(1);
+                mAuth.signInWithEmailAndPassword(emailToString, passwordToString)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()){
-                                    User.EMAIL = Function.convertor(email_txt);
                                     Intent intent = new Intent(MainActivity.this,HomeActivity.class);
-                                    intent.putExtra("email",email_txt);
-                                    intent.putExtra("password",password_txt);
                                     startActivity(intent);
                                 }
                                 else{

@@ -68,18 +68,4 @@
         android:textAllCaps="false"
         android:textStyle="bold" />
 
-    <TextView
-        android:textStyle="bold"
-        android:id="@+id/forgot_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/start_activity_read"
-        android:layout_centerHorizontal="true"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="32dp"
-        android:onClick="onClickForgotPassword"
-        android:text="@string/i_ll_do_it_later"
-        android:textColor="@color/black"
-        android:textSize="20dp" />
-
 </RelativeLayout>

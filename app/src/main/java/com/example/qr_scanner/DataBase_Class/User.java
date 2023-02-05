@@ -2,7 +2,7 @@ package com.example.qr_scanner.DataBase_Class;
 
 public class User {
     private String id,name,email,password;
-    public static String EMAIL,PASSWORD;
+    public static String EMAIL, PASSWORD, NAME;
     public static String EMAIL_CONVERT;
 
     public User(String id, String name, String email, String password) {

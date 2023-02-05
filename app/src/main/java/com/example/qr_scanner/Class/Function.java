@@ -4,7 +4,11 @@ public class Function {
 
 
     public static String convertor(String a){
-        return a.replace(".", "|");
+        try {
+            return a.replace(".", "|");
+        }catch (Exception e){
+            return a;
+        }
     }
 
 }

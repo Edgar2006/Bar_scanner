@@ -46,7 +46,7 @@ public class Scanner extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth mAuth;
     private DatabaseReference reference,friendReference;
     private FirebaseDatabase database;
-    private String email_txt,password_txt;
+    private String emailToString, passwordToString;
     private String bareCode;
     private EditText text;
     private Button submit,read,input;
@@ -78,12 +78,12 @@ public class Scanner extends AppCompatActivity implements View.OnClickListener{
         User.EMAIL_CONVERT = Function.convertor(User.EMAIL);
         Intent intent = getIntent();
         if (intent != null) {
-            email_txt = intent.getStringExtra("email");
-            password_txt = email_txt + "\n" + intent.getStringExtra("password");
-            User.EMAIL = email_txt;
+            emailToString = intent.getStringExtra("email");
+            passwordToString = emailToString + "\n" + intent.getStringExtra("password");
+            User.EMAIL = emailToString;
             try {
                 FileOutputStream fileOutputStream = openFileOutput("Authentication.txt", MODE_PRIVATE);
-                fileOutputStream.write(password_txt.getBytes());
+                fileOutputStream.write(passwordToString.getBytes());
                 fileOutputStream.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -119,10 +119,10 @@ public class Scanner extends AppCompatActivity implements View.OnClickListener{
             public void onClick(View view) {
                 List<String> friends = new ArrayList<>();
                 friends.add(User.EMAIL);
-                Messenger messenger = new Messenger(email_txt, text.getText().toString(), bareCode, "0");
-                reference = FirebaseDatabase.getInstance().getReference("Product").child(bareCode).child(Function.convertor(email_txt));
+                Messenger messenger = new Messenger(emailToString, text.getText().toString(), bareCode, "0");
+                reference = FirebaseDatabase.getInstance().getReference("Product").child(bareCode).child(Function.convertor(emailToString));
                 reference.setValue(messenger);
-                friendReference = FirebaseDatabase.getInstance().getReference("Friends").child(bareCode).child(Function.convertor(email_txt));
+                friendReference = FirebaseDatabase.getInstance().getReference("Friends").child(bareCode).child(Function.convertor(emailToString));
                 friendReference.setValue(friends);
                 Toast.makeText(Scanner.this, "Your comment send", Toast.LENGTH_SHORT).show();
             }
