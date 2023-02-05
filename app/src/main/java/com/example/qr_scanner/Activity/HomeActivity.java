@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.DataBase_Class.User;
@@ -17,6 +18,7 @@ import java.io.IOException;
 
 public class HomeActivity extends AppCompatActivity {
     private Button nextStep;
+    private String emailToString,passwordToString;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,17 +31,24 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void addLocalData(){
-        User.EMAIL_CONVERT = Function.convertor(User.EMAIL);
-        try {
-            String newUser = User.EMAIL + "\n" + User.PASSWORD + "\n" + User.NAME;
-            FileOutputStream fileOutputStream = openFileOutput("Authentication.txt", MODE_PRIVATE);
-            fileOutputStream.write(newUser.getBytes());
-            fileOutputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        Intent intent = getIntent();
+        if (intent != null) {
+            emailToString = intent.getStringExtra("email");
+            passwordToString = intent.getStringExtra("password");
+            User.EMAIL = emailToString;
+            User.PASSWORD = passwordToString;
+            User.EMAIL_CONVERT = Function.convertor(User.EMAIL);
+            try {
+                String newUser = emailToString + "\n" + passwordToString;
+                Toast.makeText(this, newUser, Toast.LENGTH_SHORT).show();
+                FileOutputStream fileOutputStream = openFileOutput("Authentication.txt", MODE_PRIVATE);
+                fileOutputStream.write(newUser.getBytes());
+                fileOutputStream.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
     }
 }

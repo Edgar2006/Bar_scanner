@@ -76,13 +76,12 @@ public class Register extends AppCompatActivity {
 
     }
     public void nextActivity(){
-        User.EMAIL= emailToString;
-        User.PASSWORD = passwordToString;
-        User.NAME = nameToString;
-        User.EMAIL_CONVERT = Function.convertor(emailToString);
         User user = new User(reference.getRef().getKey(), nameToString, emailToString, passwordToString);
+        User.EMAIL_CONVERT = Function.convertor(emailToString);
         reference.child(User.EMAIL_CONVERT).setValue(user);
         Intent intent = new Intent(Register.this,HomeActivity.class);
+        intent.putExtra("email",emailToString);
+        intent.putExtra("password",passwordToString);
         startActivity(intent);
     }
 }

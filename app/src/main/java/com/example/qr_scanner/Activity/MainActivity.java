@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
             while ((lines = buffer.readLine()) != null){
                 list.add(lines);
             }
-            if(list.size() == 3){
+            if(list.size() == 2){
+                Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
                 String emailToString = list.get(0);
                 String passwordToString = list.get(1);
                 mAuth.signInWithEmailAndPassword(emailToString, passwordToString)
@@ -46,7 +47,10 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()){
+                                    Toast.makeText(MainActivity.this, "2", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(MainActivity.this,HomeActivity.class);
+                                    intent.putExtra("email",emailToString);
+                                    intent.putExtra("password",passwordToString);
                                     startActivity(intent);
                                 }
                                 else{

@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -60,7 +61,6 @@ public class Login extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
-                        readUser();
                         nextActivity();
                     }
                     else{
@@ -71,26 +71,10 @@ public class Login extends AppCompatActivity {
         }
     }
     public void nextActivity(){
-        Toast.makeText(Login.this, "Okay", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(Login.this,HomeActivity.class);
+        intent.putExtra("email",emailToString);
+        intent.putExtra("password",passwordToString);
         startActivity(intent);
-    }
-    public void readUser(){
-        reference.child(emailToString);
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                User.PASSWORD=user.getPassword();
-                User.NAME=user.getName();
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.i("RTRRT", "loadPost:onCancelled", databaseError.toException());
-            }
-        };
-        reference.addValueEventListener(postListener);
     }
     public void onClickForgotPassword(View view){
         mAuth.sendPasswordResetEmail(emailToString).addOnCompleteListener(new OnCompleteListener<Void>() {
