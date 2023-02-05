@@ -29,7 +29,7 @@
         android:layout_marginTop="129dp"
         android:backgroundTint="@color/Second_color"
         android:onClick="onCLickScanNow"
-        android:text="Scan barcode automaticaly"
+        android:text="Scan barcode automatically"
         android:textAllCaps="false"
         android:textColor="@color/Base_color"
         android:textSize="18dp"

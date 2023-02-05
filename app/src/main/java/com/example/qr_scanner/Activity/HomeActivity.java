@@ -17,17 +17,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class HomeActivity extends AppCompatActivity {
-    private Button nextStep;
     private String emailToString,passwordToString;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        nextStep = findViewById(R.id.start_activity_read);
         addLocalData();
     }
     public void onCLickNextStep(View view){
         Intent intent = new Intent(HomeActivity.this,ScanActivity.class);
+        startActivity(intent);
+    }
+    public void onCLickSetting(View view){
+        Intent intent = new Intent(HomeActivity.this,SettingsActivity.class);
         startActivity(intent);
     }
     public void addLocalData(){
