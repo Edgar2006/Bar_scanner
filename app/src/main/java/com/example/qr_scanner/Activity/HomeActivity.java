@@ -29,8 +29,8 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void onCLickSetting(View view){
-        Intent intent = new Intent(HomeActivity.this,SettingsActivity.class);
-        startActivity(intent);
+        Intent intent1 = new Intent(HomeActivity.this,SettingsActivity.class);
+        startActivity(intent1);
     }
     public void addLocalData(){
         Intent intent = getIntent();

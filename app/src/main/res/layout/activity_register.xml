@@ -61,29 +61,13 @@
             />
 
     </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/copy_password"
-        style="@style/LoginTextInputLayoutStyle"
-        app:startIconDrawable="@drawable/u_lock"
-        app:endIconMode="password_toggle"
-        android:layout_below="@+id/password"
-        android:hint="@string/confirm_password">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
     <Button
         android:id="@+id/register"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_below="@+id/copy_password"
+        android:layout_below="@+id/password"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="111dp"
+        android:layout_marginTop="222dp"
         android:backgroundTint="@color/Base_color"
         android:onClick="onCLickNextStep"
         android:text="@string/next_step"
@@ -91,5 +75,15 @@
         android:textSize="15dp"
         android:textStyle="bold" />
 
+
+    <CheckBox
+        android:buttonTint="@color/Base_color"
+        android:id="@+id/checkBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="42dp"
+        android:text="@string/i_agree_with_terms_and_privacy_policy" />
 
 </RelativeLayout>
