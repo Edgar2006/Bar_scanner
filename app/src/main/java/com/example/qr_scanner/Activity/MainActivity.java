@@ -42,23 +42,22 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
                 String emailToString = list.get(0);
                 String passwordToString = list.get(1);
-                mAuth.signInWithEmailAndPassword(emailToString, passwordToString)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if(task.isSuccessful()){
-                                    Toast.makeText(MainActivity.this, "2", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(MainActivity.this,HomeActivity.class);
-                                    intent.putExtra("email",emailToString);
-                                    intent.putExtra("password",passwordToString);
-                                    startActivity(intent);
-                                }
-                                else{
-                                    Intent intent = new Intent(MainActivity.this,Login_or_register.class);
-                                    startActivity(intent);
-                                }
-                            }
-                        });
+                mAuth.signInWithEmailAndPassword(emailToString, passwordToString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(MainActivity.this, "2", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(MainActivity.this,HomeActivity.class);
+                            intent.putExtra("email",emailToString);
+                            intent.putExtra("password",passwordToString);
+                            startActivity(intent);
+                        }
+                        else{
+                            Intent intent = new Intent(MainActivity.this,Login_or_register.class);
+                            startActivity(intent);
+                        }
+                    }
+                });
             }
             else{
                 Intent intent = new Intent(MainActivity.this,Login_or_register.class);

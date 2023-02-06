@@ -14,8 +14,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.util.Objects;
+
 public class ScanActivity extends AppCompatActivity {
-    private String bareCode;
+    private String bareCode = "";
     private TextInputLayout barCodeEditText;
     private Intent intent;
     @Override
@@ -28,7 +30,16 @@ public class ScanActivity extends AppCompatActivity {
         scanCode();
     }
     public void onCLickNextStep(View view){
-
+        String barCodeText = barCodeEditText.getEditText().getText().toString();
+        if(barCodeText.isEmpty() && bareCode.isEmpty()){
+            Toast.makeText(this, "place scan barcode", Toast.LENGTH_SHORT).show();
+        }
+        else if(bareCode.isEmpty()){
+            bareCode = barCodeText;
+        }
+        Intent intent = new Intent(ScanActivity.this, Read.class);
+        intent.putExtra("bareCode", bareCode);
+        startActivity(intent);
     }
 
 
