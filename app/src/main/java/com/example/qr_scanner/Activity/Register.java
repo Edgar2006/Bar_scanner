@@ -29,6 +29,7 @@ public class Register extends AppCompatActivity {
     private FirebaseDatabase database;
     private String nameToString, emailToString, passwordToString;
     private CheckBox checkBox;
+    private boolean checkBoxState;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +47,13 @@ public class Register extends AppCompatActivity {
         emailToString = email.getEditText().getText().toString();
         passwordToString = password.getEditText().getText().toString();
         checkBox = (CheckBox) findViewById(R.id.checkBox);
+
     }
     public void onCLickNextStep(View view){
         nameToString = name.getEditText().getText().toString();
         emailToString = email.getEditText().getText().toString();
         passwordToString = password.getEditText().getText().toString();
-        if(nameToString.isEmpty() || emailToString.isEmpty() || passwordToString.isEmpty() || !checkBox.isChecked()){
+        if(nameToString.isEmpty() || emailToString.isEmpty() || passwordToString.isEmpty()){
             Toast.makeText(Register.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
         }
         else {

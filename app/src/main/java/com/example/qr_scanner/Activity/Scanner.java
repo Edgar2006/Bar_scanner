@@ -131,9 +131,9 @@ public class Scanner extends AppCompatActivity implements View.OnClickListener{
         read.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Scanner.this, Read.class);
-                intent.putExtra("bareCode", bareCode);
-                startActivity(intent);
+//                Intent intent = new Intent(Scanner.this, Read.class);
+//                intent.putExtra("bareCode", bareCode);
+//                startActivity(intent);
             }
         });
 

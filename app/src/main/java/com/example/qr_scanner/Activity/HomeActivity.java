@@ -42,7 +42,6 @@ public class HomeActivity extends AppCompatActivity {
             User.EMAIL_CONVERT = Function.convertor(User.EMAIL);
             try {
                 String newUser = emailToString + "\n" + passwordToString;
-                Toast.makeText(this, newUser, Toast.LENGTH_SHORT).show();
                 FileOutputStream fileOutputStream = openFileOutput("Authentication.txt", MODE_PRIVATE);
                 fileOutputStream.write(newUser.getBytes());
                 fileOutputStream.close();
