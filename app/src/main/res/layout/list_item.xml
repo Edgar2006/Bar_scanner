@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/Base_color"
@@ -30,13 +31,25 @@
         android:layout_toEndOf="@+id/like"
         android:hint="Comment"
         android:textSize="18dp" />
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/comment"
+        android:layout_marginHorizontal="70dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/like"
+        android:hint="Time"
+        android:textSize="18dp" />
 
     <ImageButton
+        android:backgroundTint="@color/Second_color"
         android:id="@+id/like"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        app:srcCompat="@android:drawable/ic_media_play" />
+        />
 
     <TextView
         android:id="@+id/count"
@@ -48,5 +61,16 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="-1dp"
         android:hint="0"/>
+
+    <ImageView
+        android:id="@+id/imageDataBase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="225dp"
+        android:layout_marginEnd="58dp"
+        tools:srcCompat="@tools:sample/avatars" />
 
 </RelativeLayout>

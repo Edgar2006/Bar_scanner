@@ -5,13 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.qr_scanner.DataBase_Class.Friend;
+import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.DataBase_Class.MyBool;
 import com.example.qr_scanner.R;
@@ -22,43 +22,83 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
     private LayoutInflater inflater;
-    private ArrayList<Friend> friends;
-    public ViewAdapter(Context context, ArrayList<Friend> friends) {
-        this.friends = friends;
+    private ArrayList<Messenger> messengers;
+    public ViewAdapter(Context context, ArrayList<Messenger> messengers) {
+        this.messengers = messengers;
         this.inflater = LayoutInflater.from(context);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Friend friend = friends.get(position);
-        holder.address = friend.getMessenger().getAddress();
-        holder.email.setText(friend.getMessenger().getEmail());
-        holder.comment.setText(friend.getMessenger().getComment());
-        holder.count.setText(friend.getMessenger().getCount());
+        Messenger messenger = messengers.get(position);
+        holder.address = messenger.getAddress();
+        holder.email.setText(messenger.getName());
+        holder.emailToString = messenger.getEmail();
+        String temp = Function.convertor(holder.emailToString);
+        holder.name = messenger.getName();
+        holder.comment.setText(messenger.getComment());
+        holder.count.setText(messenger.getCount());
         holder.mAuth = FirebaseAuth.getInstance();
         holder.database = FirebaseDatabase.getInstance();
-        holder.reference  = FirebaseDatabase.getInstance().getReference("Product").child(holder.address).child(holder.email.getText().toString().replace(".", "|"));
-        holder.friendRef = FirebaseDatabase.getInstance().getReference("Friends").child(holder.address).child(holder.email.getText().toString().replace(".", "|"));
-        holder.likeRef = FirebaseDatabase.getInstance().getReference("Friends").child(holder.address).child(holder.email.getText().toString().replace(".", "|"));
+        holder.time = messenger.getTime();
+        holder.reference  = FirebaseDatabase.getInstance().getReference("Product").child(holder.address).child(temp);
+        holder.friendRef = FirebaseDatabase.getInstance().getReference("Friends").child(holder.address).child(temp);
+        holder.likeRef = FirebaseDatabase.getInstance().getReference("Friends").child(holder.address).child(temp);
+        holder.uploadUri = messenger.getImageRef();
+        holder.friendRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot data: dataSnapshot.getChildren()){
+                    if(data.getKey().toString().equals(User.EMAIL_CONVERT)){
+                        MyBool isLike = data.getValue(MyBool.class);
+                        boolean isOk = isLike.isLike();
+                        if(!isOk){
+                            holder.like.setImageResource(R.drawable.u_mail);
+                        }
+                        else{
+                            holder.like.setImageResource(R.drawable.u_lock);
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+        if(!Objects.equals(holder.uploadUri, "noImage")) {
+            Picasso.get().load(messenger.getImageRef()).into(holder.imageDataBase);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return friends.size();
+        return messengers.size();
     }
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        TextView email,comment,count;
+        TextView email,comment,count,time_text;
+        //
+            String emailToString;
+            String name;
+            long time;
+        //
         ImageButton like;
+        ImageView imageDataBase;
         String address;
+        String uploadUri;
         FirebaseAuth mAuth;
         DatabaseReference reference, friendRef, likeRef;
         FirebaseDatabase database;
@@ -69,7 +109,10 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
             comment = view.findViewById(R.id.comment);
             count = view.findViewById(R.id.count);
             like = view.findViewById(R.id.like);
-            likeRef = friendRef;
+            time_text = view.findViewById(R.id.time);
+            String date = new SimpleDateFormat("yyyy_MM_dd", Locale.getDefault()).format(new Date());
+            time_text.setText(date);
+            imageDataBase = view.findViewById(R.id.imageDataBase);
             size = 0;
             like.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -114,24 +157,18 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
             });
         }
         private void addMessenger(){
-            Messenger newMessenger = new Messenger(email.getText().toString(),comment.getText().toString(),address,count.getText().toString());
+            Messenger newMessenger = new Messenger(emailToString,name.toString(),comment.getText().toString(),address,count.getText().toString(),uploadUri,time);
             Map<String,Object> map = new HashMap<>();
             map.put("email",newMessenger.getEmail());
+            map.put("name",newMessenger.getName());
             map.put("comment",newMessenger.getComment());
             map.put("address",newMessenger.getAddress());
             map.put("count",newMessenger.getCount());
+            map.put("imageRef",newMessenger.getImageRef());
             reference.updateChildren(map);
         }
-        private int find(int size,ArrayList<String> friends,String email){
-            for(int i=0;i<size;i++){
-                if(friends.get(i) == email){
-                    return i;
-                }
-            }
-            return -1;
-        }
-    }
 
+    }
 
 
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

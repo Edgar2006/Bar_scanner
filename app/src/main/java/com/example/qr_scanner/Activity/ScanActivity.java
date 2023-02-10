@@ -8,8 +8,11 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.qr_scanner.Adapter.CaptureAct;
+import com.example.qr_scanner.DataBase_Class.History;
+import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -20,6 +23,7 @@ public class ScanActivity extends AppCompatActivity {
     private String bareCode = "";
     private TextInputLayout barCodeEditText;
     private Intent intent;
+    private DatabaseReference referenceHistory;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,12 +38,10 @@ public class ScanActivity extends AppCompatActivity {
         if(barCodeText.isEmpty() && bareCode.isEmpty()){
             Toast.makeText(this, "place scan barcode", Toast.LENGTH_SHORT).show();
         }
-        else if(bareCode.isEmpty()){
+        else if(bareCode.isEmpty() || !barCodeText.equals(bareCode)){
             bareCode = barCodeText;
+            push_activity();
         }
-        Intent intent = new Intent(ScanActivity.this, Read.class);
-        intent.putExtra("bareCode", bareCode);
-        startActivity(intent);
     }
 
 
@@ -79,5 +81,12 @@ public class ScanActivity extends AppCompatActivity {
     public void init(){
         barCodeEditText = findViewById(R.id.barCode_editText);
         intent = new Intent(ScanActivity.this,Read.class);
+        referenceHistory = FirebaseDatabase.getInstance().getReference("History").child(User.EMAIL_CONVERT);
+    }
+    public void push_activity(){
+        referenceHistory.child(bareCode).setValue(new History(bareCode,System.currentTimeMillis()));
+        Intent intent = new Intent(ScanActivity.this, Read.class);
+        intent.putExtra("bareCode", bareCode);
+        startActivity(intent);
     }
 }

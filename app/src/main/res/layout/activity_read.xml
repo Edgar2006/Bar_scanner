@@ -7,7 +7,33 @@
     android:layout_height="match_parent"
     tools:context=".Activity.Read">
 
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggleButton"
+        app:singleSelection="true"
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:onClick="onClickSortByLike"
+            style="?attr/materialButtonOutlinedStyle"
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sort by like"
+            />
+        <Button
+            android:onClick="onClickSortByTime"
+            style="?attr/materialButtonOutlinedStyle"
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sort by Time"
+            />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="70dp"
         android:id="@+id/recView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

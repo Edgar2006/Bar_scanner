@@ -24,9 +24,9 @@
         android:id="@+id/start_activity_read"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_below="@+id/imageView3"
+        android:layout_below="@+id/recView"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="32dp"
         android:backgroundTint="@color/Base_color"
         android:onClick="onCLickNextStep"
         android:text="@string/get_started_scan"
@@ -46,7 +46,7 @@
         android:textAllCaps="false"
         android:textStyle="bold"
         app:strokeColor="@color/Base_color" />
-
+<!--
     <ImageView
 
         android:id="@+id/imageView3"
@@ -54,7 +54,18 @@
         android:layout_height="400dp"
         android:layout_alignParentTop="true"
         android:layout_marginTop="115dp"
-        app:srcCompat="@drawable/scan_icon" />
+        app:srcCompat="@drawable/scan_icon" />-->
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="158dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"

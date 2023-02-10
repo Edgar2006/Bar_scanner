@@ -1,28 +1,60 @@
 package com.example.qr_scanner.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.qr_scanner.Adapter.ViewAdapter;
+import com.example.qr_scanner.Adapter.ViewAdapterHome;
 import com.example.qr_scanner.Class.Function;
+import com.example.qr_scanner.DataBase_Class.History;
+import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class HomeActivity extends AppCompatActivity {
     private String emailToString,passwordToString;
+    private RecyclerView listView;
+    private ViewAdapterHome viewAdapter;
+    private ArrayList<History> listData;
+    private DatabaseReference referenceHistory;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         addLocalData();
+        init();
+        getDataFromDataBase();
+    }
+
+    public void init(){
+        listView = findViewById(R.id.recView);
+        listData = new ArrayList<>();
+        viewAdapter = new ViewAdapterHome(this,listData);
+        listView.setLayoutManager(new LinearLayoutManager(this));
+        listView.setAdapter(viewAdapter);
+        referenceHistory = FirebaseDatabase.getInstance().getReference("History").child(User.EMAIL_CONVERT);
+
     }
     public void onCLickNextStep(View view){
         Intent intent = new Intent(HomeActivity.this,ScanActivity.class);
@@ -32,6 +64,7 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent1 = new Intent(HomeActivity.this,SettingsActivity.class);
         startActivity(intent1);
     }
+
     public void addLocalData(){
         Intent intent = getIntent();
         if (intent != null) {
@@ -52,4 +85,44 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     }
+
+
+    private  void  getDataFromDataBase(){
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(listData.size() > 0){
+                    listData.clear();
+                }
+                for(DataSnapshot ds : snapshot.getChildren()){
+                    Toast.makeText(HomeActivity.this, ds.getRef().toString(), Toast.LENGTH_SHORT).show();
+                    Log.d("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Q" , ds.getRef().toString());
+                    History history = ds.getValue(History.class);
+                    assert  history != null;
+                    listData.add(history);
+                }
+                sortMethod();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        referenceHistory.addValueEventListener(eventListener);
+
+    }
+    public void sortMethod(){
+        Collections.sort(listData, new TimeComparator());
+        listView.setAdapter(viewAdapter);
+    }
+    private static class TimeComparator implements Comparator<History> {
+        @Override
+        public int compare(History a, History b) {
+            long a1 = a.getTime();
+            long b1 = b.getTime();
+            return a1 > b1 ? -1 : a1 == b1 ? 0 : 1;
+        }
+    }
+
 }

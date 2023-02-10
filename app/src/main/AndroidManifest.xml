@@ -19,6 +19,13 @@
         android:theme="@style/Theme.QR_scanner"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.NewCommentActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Activity.SettingsActivity"
             android:exported="false">
             <meta-data
