@@ -35,11 +35,15 @@ public class ScanActivity extends AppCompatActivity {
     }
     public void onCLickNextStep(View view){
         String barCodeText = barCodeEditText.getEditText().getText().toString();
+        boolean b=false;
         if(barCodeText.isEmpty() && bareCode.isEmpty()){
+            b=true;
             Toast.makeText(this, "place scan barcode", Toast.LENGTH_SHORT).show();
         }
         else if(bareCode.isEmpty() || !barCodeText.equals(bareCode)){
             bareCode = barCodeText;
+        }
+        if(!b){
             push_activity();
         }
     }

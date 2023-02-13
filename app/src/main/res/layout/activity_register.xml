@@ -61,20 +61,23 @@
             />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+
     <Button
         android:id="@+id/register"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_below="@+id/password"
+        android:layout_below="@+id/checkBox"
+        android:layout_alignParentBottom="true"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="222dp"
+        android:layout_marginTop="54dp"
+        android:layout_marginBottom="228dp"
         android:backgroundTint="@color/Base_color"
         android:onClick="onCLickNextStep"
         android:text="@string/next_step"
         android:textAllCaps="false"
         android:textSize="15dp"
         android:textStyle="bold" />
-
 
     <CheckBox
         android:buttonTint="@color/Base_color"

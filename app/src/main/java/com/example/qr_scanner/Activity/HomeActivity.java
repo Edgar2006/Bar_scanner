@@ -95,8 +95,6 @@ public class HomeActivity extends AppCompatActivity {
                     listData.clear();
                 }
                 for(DataSnapshot ds : snapshot.getChildren()){
-                    Toast.makeText(HomeActivity.this, ds.getRef().toString(), Toast.LENGTH_SHORT).show();
-                    Log.d("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Q" , ds.getRef().toString());
                     History history = ds.getValue(History.class);
                     assert  history != null;
                     listData.add(history);

@@ -1,11 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
 
     android:layout_height="match_parent"
     tools:context=".Activity.Read">
+
+    <RelativeLayout
+        android:id="@+id/bio"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/productName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="product name"
+            />
+
+
+        <ImageView
+            android:layout_below="@+id/productName"
+            android:id="@+id/productImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:id="@+id/bioShort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_toEndOf="@+id/productImageView"
+            android:text="@string/Sh" />
+
+        <TextView
+            android:onClick="onClickShowMore"
+            android:id="@+id/showMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bioShort"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/productImageView"
+            android:text="show more"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_below="@+id/bio"
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/toggleButton"
@@ -41,16 +92,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/bottom_app_bar"
-        android:onClick="onClickComment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_gravity="bottom|end"
-        android:contentDescription="@string/get_started_scan"
-        android:text="@string/get_started_scan"
-        app:icon="@drawable/ic_baseline_menu_24"/>
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foregroundGravity="bottom">
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/bottom_app_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="16dp"
+                android:onClick="onClickComment"
+                android:text="add comment"
+                app:icon="@drawable/ic_baseline_add_24" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/bottom_app_bar1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="80dp"
+                android:onClick="onClickEditProduct"
+                android:text="edit product bio"
+                app:icon="@drawable/ic_baseline_add_24" />
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
