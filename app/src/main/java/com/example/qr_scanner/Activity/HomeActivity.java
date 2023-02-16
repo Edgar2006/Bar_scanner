@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.qr_scanner.Adapter.ViewAdapter;
@@ -24,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -31,6 +33,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends AppCompatActivity {
     private String emailToString,passwordToString;
@@ -38,6 +43,8 @@ public class HomeActivity extends AppCompatActivity {
     private ViewAdapterHome viewAdapter;
     private ArrayList<History> listData;
     private DatabaseReference referenceHistory;
+    private String uploadUri;
+    private ImageView imageDataBase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,14 +55,38 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void init(){
+        imageDataBase = findViewById(R.id.profile_image);
         listView = findViewById(R.id.recView);
         listData = new ArrayList<>();
         viewAdapter = new ViewAdapterHome(this,listData);
         listView.setLayoutManager(new LinearLayoutManager(this));
         listView.setAdapter(viewAdapter);
         referenceHistory = FirebaseDatabase.getInstance().getReference("History").child(User.EMAIL_CONVERT);
+        readUser();
 
     }
+    public void readUser(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myUserRef = database.getReference("User").child(User.EMAIL_CONVERT);
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                User.NAME = user.getName();
+                User.URL = user.getImageRef();
+                uploadUri = user.getImageRef();
+                if(!Objects.equals(uploadUri, "noImage")) {
+                    Picasso.get().load(uploadUri).into(imageDataBase);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        myUserRef.addValueEventListener(postListener);
+    }
+
     public void onCLickNextStep(View view){
         Intent intent = new Intent(HomeActivity.this,ScanActivity.class);
         startActivity(intent);
@@ -71,7 +102,6 @@ public class HomeActivity extends AppCompatActivity {
             emailToString = intent.getStringExtra("email");
             passwordToString = intent.getStringExtra("password");
             User.EMAIL = emailToString;
-            User.PASSWORD = passwordToString;
             User.EMAIL_CONVERT = Function.convertor(User.EMAIL);
             try {
                 String newUser = emailToString + "\n" + passwordToString;

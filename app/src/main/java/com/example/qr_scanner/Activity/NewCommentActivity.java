@@ -51,27 +51,8 @@ public class NewCommentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_comment);
         init();
-        readUser();
-
     }
 
-    public void readUser(){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myUserRef = database.getReference("User").child(User.EMAIL_CONVERT);
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                User.NAME = user.getName();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-            }
-        };
-        myUserRef.addValueEventListener(postListener);
-    }
 
     public void init(){
         comment = findViewById(R.id.comment);
@@ -89,13 +70,12 @@ public class NewCommentActivity extends AppCompatActivity {
         List<String> friends = new ArrayList<>();
         friends.add(User.EMAIL);
         Messenger messenger;
-        String uri;
-        if(uploadUri == null){
-            messenger = new Messenger(User.EMAIL, User.NAME, comment.getText().toString(), bareCode, "0","noImage",time);
+        messenger = new Messenger(User.EMAIL, User.NAME, comment.getText().toString(), bareCode, "0","noImage","noImage",time);
+        if(uploadUri != null){
+            messenger.setImageRef(uploadUri.toString());
         }
-        else{
-            uri = uploadUri.toString();
-            messenger = new Messenger(User.EMAIL, User.NAME, comment.getText().toString(), bareCode, "0",uri,time);
+        if(User.URL != null){
+            messenger.setImageRef(User.URL);
         }
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Product").child(bareCode).child(User.EMAIL_CONVERT);
         reference.setValue(messenger);
@@ -112,7 +92,7 @@ public class NewCommentActivity extends AppCompatActivity {
     private void uploadImage(){
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG,50,byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
         StorageReference mRef = mStorageRef.child(bareCode + User.EMAIL_CONVERT + "my_image");
         final UploadTask uploadTask = mRef.putBytes(byteArray);

@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.qr_scanner.Class.LexicographicComparator;
 import com.example.qr_scanner.Class.TimeComparator;
 import com.example.qr_scanner.DataBase_Class.Messenger;
@@ -45,10 +45,14 @@ public class Read extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read);
-
         init();
         getDataFromDataBase();
-        getDataProductDataBase();
+        try {
+            getDataProductDataBase();
+
+        }catch (Exception e){
+            Log.d("F",e.toString());
+        }
     }
     private void init(){
         sortMethod = false;
@@ -112,6 +116,7 @@ public class Read extends AppCompatActivity {
     }
 
     private void getDataFromDataBase(){
+
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -132,20 +137,26 @@ public class Read extends AppCompatActivity {
             }
         };
         referenceComment.addValueEventListener(eventListener);
+
     }
     private void getDataProductDataBase(){
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ProductBio productBio = snapshot.getValue(ProductBio.class);
-                assert  productBio != null;
-                productName.setText(productBio.getProductName());
-                longText = productBio.getBioLong();
-                shortText = productBio.getBioShort();
-                bioText.setText(shortText);
-                if(!Objects.equals(productBio.getImageRef(), "noImage")) {
-                    Picasso.get().load(productBio.getImageRef()).into(productImageView);
+                try {
+                    ProductBio productBio = snapshot.getValue(ProductBio.class);
+                    productName.setText(productBio.getProductName());
+                    longText = productBio.getBioLong();
+                    shortText = productBio.getBioShort();
+                    bioText.setText(shortText);
+                    if(!Objects.equals(productBio.getImageRef(), "noImage")) {
+                        Picasso.get().load(productBio.getImageRef()).into(productImageView);
+                    }
                 }
+                catch (Exception e){
+                    Log.d("F",e.toString());
+                }
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -153,7 +164,9 @@ public class Read extends AppCompatActivity {
             }
         };
         referenceProduct.addValueEventListener(eventListener);
+
     }
+
 
 
 

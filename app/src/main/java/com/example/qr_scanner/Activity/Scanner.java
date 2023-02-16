@@ -119,7 +119,7 @@ public class Scanner extends AppCompatActivity implements View.OnClickListener{
             public void onClick(View view) {
                 List<String> friends = new ArrayList<>();
                 friends.add(User.EMAIL);
-                Messenger messenger = new Messenger(emailToString,"_",text.getText().toString(), bareCode, "0","",5);
+                Messenger messenger = new Messenger(emailToString,"_",text.getText().toString(), bareCode, "0","","",0);
                 reference = FirebaseDatabase.getInstance().getReference("Product").child(bareCode).child(Function.convertor(emailToString));
                 reference.setValue(messenger);
                 friendReference = FirebaseDatabase.getInstance().getReference("Friends").child(bareCode).child(Function.convertor(emailToString));

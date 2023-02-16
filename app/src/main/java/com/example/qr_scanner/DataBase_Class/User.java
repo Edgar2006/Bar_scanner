@@ -1,18 +1,24 @@
 package com.example.qr_scanner.DataBase_Class;
 
 public class User {
-    private String id,name,email,password;
-    public static String EMAIL, PASSWORD, NAME;
-    public static String EMAIL_CONVERT;
+    private String name,email,imageRef;
+    public static String EMAIL, NAME, EMAIL_CONVERT, URL;
 
-    public User(String id, String name, String email, String password) {
-        this.id = id;
+    public User(String name, String email,String imageRef) {
         this.name = name;
         this.email = email;
-        this.password = password;
+        this.imageRef = imageRef;
     }
 
     public User() {
+    }
+
+    public String getImageRef() {
+        return imageRef;
+    }
+
+    public void setImageRef(String imageRef) {
+        this.imageRef = imageRef;
     }
 
     public String getName() {
@@ -23,27 +29,11 @@ public class User {
         this.name = name;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

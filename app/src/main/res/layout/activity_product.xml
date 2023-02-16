@@ -5,20 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.Product_activity">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/productName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="82dp"
-            android:hint="your product name"
-            android:minHeight="48dp"
-            tools:ignore="TouchTargetSizeCheck" />
+    <EditText
+        android:id="@+id/productName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="82dp"
+        android:hint="your product name" />
 
     <EditText
         android:id="@+id/bio"
@@ -69,5 +64,5 @@
             android:textSize="30dp" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    </ScrollView>
+
 </RelativeLayout>

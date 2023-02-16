@@ -4,20 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Messenger {
-    private String email, name, comment, address, count, imageRef;
+    private String email, name, comment, address, count, imageRef, userRef;
     private long time;
 
-    public Messenger(String email, String name, String comment, String address, String count, String imageRef,long time) {
+    public Messenger(String email, String name, String comment, String address, String count, String imageRef, String userRef,long time) {
         this.email = email;
         this.name = name;
         this.comment = comment;
         this.address = address;
         this.count = count;
         this.imageRef = imageRef;
+        this.userRef = userRef;
         this.time = time;
     }
 
     public Messenger() {
+    }
+
+    public String getUserRef() {
+        return userRef;
+    }
+
+    public void setUserRef(String userRef) {
+        this.userRef = userRef;
     }
 
     public long getTime() {

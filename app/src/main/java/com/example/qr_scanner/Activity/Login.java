@@ -29,12 +29,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Login extends AppCompatActivity {
     private TextInputLayout email,password;
-    private TextView forgotPassword;
-    private Button signIn;
     private String emailToString, passwordToString;
     private FirebaseAuth mAuth;
-    private DatabaseReference reference;
-    private FirebaseDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,11 +40,7 @@ public class Login extends AppCompatActivity {
     public void init(){
         email = findViewById(R.id.email);
         password =findViewById(R.id.password);
-        forgotPassword = findViewById(R.id.forgot_password);
-        signIn = findViewById(R.id.signIn);
         mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        reference = database.getReference("User");
     }
     public void onClickSignIn(View view){
         emailToString = email.getEditText().getText().toString();

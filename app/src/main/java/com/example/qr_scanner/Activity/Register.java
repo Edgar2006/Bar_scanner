@@ -78,7 +78,7 @@ public class Register extends AppCompatActivity {
 
     }
     public void nextActivity(){
-        User user = new User(reference.getRef().getKey(), nameToString, emailToString, passwordToString);
+        User user = new User(nameToString, emailToString,"noImage");
         User.EMAIL_CONVERT = Function.convertor(emailToString);
         reference.child(User.EMAIL_CONVERT).setValue(user);
         Intent intent = new Intent(Register.this,HomeActivity.class);

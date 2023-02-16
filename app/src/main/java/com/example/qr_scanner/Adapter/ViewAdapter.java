@@ -65,10 +65,10 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
                         MyBool isLike = data.getValue(MyBool.class);
                         boolean isOk = isLike.isLike();
                         if(!isOk){
-                            holder.like.setImageResource(R.drawable.u_mail);
+                            holder.like.setImageResource(R.drawable.dislike);
                         }
                         else{
-                            holder.like.setImageResource(R.drawable.u_lock);
+                            holder.like.setImageResource(R.drawable.like);
                         }
                     }
                 }
@@ -80,6 +80,14 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         if(!Objects.equals(holder.uploadUri, "noImage")) {
             Picasso.get().load(messenger.getImageRef()).into(holder.imageDataBase);
         }
+        if(!Objects.equals(User.URL, "noImage")) {
+            Picasso.get().load(User.URL).into(holder.userImage);
+        }
+
+        SimpleDateFormat formatter = new SimpleDateFormat("MMMM d, yyyy");
+        holder.dateString = formatter.format(new Date(messenger.getTime()));
+        holder.time_text.setText(holder.dateString);
+
     }
 
     @Override
@@ -89,6 +97,8 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
+        String dateString;
+
         TextView email,comment,count,time_text;
         //
             String emailToString;
@@ -96,7 +106,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
             long time;
         //
         ImageButton like;
-        ImageView imageDataBase;
+        ImageView imageDataBase,userImage;
         String address;
         String uploadUri;
         FirebaseAuth mAuth;
@@ -110,9 +120,8 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
             count = view.findViewById(R.id.count);
             like = view.findViewById(R.id.like);
             time_text = view.findViewById(R.id.time);
-            String date = new SimpleDateFormat("yyyy_MM_dd", Locale.getDefault()).format(new Date());
-            time_text.setText(date);
             imageDataBase = view.findViewById(R.id.imageDataBase);
+            userImage = view.findViewById(R.id.user_image);
             size = 0;
             like.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -157,7 +166,10 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
             });
         }
         private void addMessenger(){
-            Messenger newMessenger = new Messenger(emailToString,name.toString(),comment.getText().toString(),address,count.getText().toString(),uploadUri,time);
+            Messenger newMessenger = new Messenger(emailToString,name.toString(),comment.getText().toString(),address,count.getText().toString(),"notImage","notImage",time);
+            if(User.URL != null){
+                newMessenger.setUserRef(User.URL);
+            }
             Map<String,Object> map = new HashMap<>();
             map.put("email",newMessenger.getEmail());
             map.put("name",newMessenger.getName());
@@ -169,7 +181,6 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         }
 
     }
-
 
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.list_item,parent,false);
