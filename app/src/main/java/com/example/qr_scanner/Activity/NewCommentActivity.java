@@ -75,7 +75,7 @@ public class NewCommentActivity extends AppCompatActivity {
             messenger.setImageRef(uploadUri.toString());
         }
         if(User.URL != null){
-            messenger.setImageRef(User.URL);
+            messenger.setUserRef(User.URL);
         }
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Product").child(bareCode).child(User.EMAIL_CONVERT);
         reference.setValue(messenger);

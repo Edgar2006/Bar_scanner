@@ -72,6 +72,10 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
+                if(user == null){
+                    Intent intent1 = new Intent(HomeActivity.this,Login_or_register.class);
+                    startActivity(intent1);
+                }
                 User.NAME = user.getName();
                 User.URL = user.getImageRef();
                 uploadUri = user.getImageRef();

@@ -57,6 +57,8 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         holder.friendRef = FirebaseDatabase.getInstance().getReference("Friends").child(holder.address).child(temp);
         holder.likeRef = FirebaseDatabase.getInstance().getReference("Friends").child(holder.address).child(temp);
         holder.uploadUri = messenger.getImageRef();
+        holder.userImageUrl = messenger.getUserRef();
+
         holder.friendRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -80,8 +82,8 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         if(!Objects.equals(holder.uploadUri, "noImage")) {
             Picasso.get().load(messenger.getImageRef()).into(holder.imageDataBase);
         }
-        if(!Objects.equals(User.URL, "noImage")) {
-            Picasso.get().load(User.URL).into(holder.userImage);
+        if(!Objects.equals(holder.userImageUrl, "noImage")) {
+            Picasso.get().load(holder.userImageUrl).into(holder.userImage);
         }
 
         SimpleDateFormat formatter = new SimpleDateFormat("MMMM d, yyyy");
@@ -109,6 +111,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         ImageView imageDataBase,userImage;
         String address;
         String uploadUri;
+        String userImageUrl;
         FirebaseAuth mAuth;
         DatabaseReference reference, friendRef, likeRef;
         FirebaseDatabase database;
@@ -167,17 +170,13 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         }
         private void addMessenger(){
             Messenger newMessenger = new Messenger(emailToString,name.toString(),comment.getText().toString(),address,count.getText().toString(),"notImage","notImage",time);
-            if(User.URL != null){
-                newMessenger.setUserRef(User.URL);
+            if(userImageUrl != null){
+                newMessenger.setUserRef(userImageUrl);
             }
-            Map<String,Object> map = new HashMap<>();
-            map.put("email",newMessenger.getEmail());
-            map.put("name",newMessenger.getName());
-            map.put("comment",newMessenger.getComment());
-            map.put("address",newMessenger.getAddress());
-            map.put("count",newMessenger.getCount());
-            map.put("imageRef",newMessenger.getImageRef());
-            reference.updateChildren(map);
+            if(uploadUri != null){
+                newMessenger.setImageRef(uploadUri);
+            }
+            reference.setValue(newMessenger);
         }
 
     }

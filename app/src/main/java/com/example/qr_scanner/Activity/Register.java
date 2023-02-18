@@ -1,5 +1,4 @@
 package com.example.qr_scanner.Activity;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.example.qr_scanner.Class.Function;
@@ -23,13 +21,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Register extends AppCompatActivity {
     private TextInputLayout name,email,password;
-    private Button register;
-    private FirebaseAuth mAuth;
+    private Button register,verification;
+    private FirebaseAuth firebaseAuth;
     private DatabaseReference reference;
     private FirebaseDatabase database;
     private String nameToString, emailToString, passwordToString;
-    private CheckBox checkBox;
-    private boolean checkBoxState;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,15 +37,17 @@ public class Register extends AppCompatActivity {
         email = (TextInputLayout)findViewById(R.id.email);
         password = (TextInputLayout)findViewById(R.id.password);
         register = findViewById(R.id.register);
-        mAuth = FirebaseAuth.getInstance();
+        verification = findViewById(R.id.verification);
+        firebaseAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         reference = database.getReference("User");
         emailToString = email.getEditText().getText().toString();
         passwordToString = password.getEditText().getText().toString();
-        checkBox = (CheckBox) findViewById(R.id.checkBox);
 
     }
-    public void onCLickNextStep(View view){
+    public void onCLickVerification(View view){
+        register.setVisibility(View.VISIBLE);
+        verification.setVisibility(View.GONE);
         nameToString = name.getEditText().getText().toString();
         emailToString = email.getEditText().getText().toString();
         passwordToString = password.getEditText().getText().toString();
@@ -58,24 +56,32 @@ public class Register extends AppCompatActivity {
         }
         else {
             if(passwordToString.length() > 7){
-                mAuth.createUserWithEmailAndPassword(emailToString, passwordToString)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if(task.isSuccessful()){
-                                    nextActivity();
-                                }
-                                else{
-                                    Toast.makeText(Register.this, "You have some errors ", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                createUser();
             }
             else{
                 Toast.makeText(Register.this, "Password incorrect", Toast.LENGTH_SHORT).show();
             }
         }
+    }
 
+    public void onCLickNextStep(View view){
+        firebaseAuth.signInWithEmailAndPassword(emailToString,passwordToString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    if (firebaseAuth.getCurrentUser().isEmailVerified()){
+                        nextActivity();
+                    }
+                    else{
+                        Toast.makeText(Register.this, "Please verify your email address", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    verification.setVisibility(View.VISIBLE);
+                    Toast.makeText(Register.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
     public void nextActivity(){
         User user = new User(nameToString, emailToString,"noImage");
@@ -85,5 +91,28 @@ public class Register extends AppCompatActivity {
         intent.putExtra("email",emailToString);
         intent.putExtra("password",passwordToString);
         startActivity(intent);
+    }
+    public void createUser(){
+        firebaseAuth.createUserWithEmailAndPassword(emailToString, passwordToString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(Register.this, "Please check your email for verification", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                Toast.makeText(Register.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+                else{
+                    Toast.makeText(Register.this, "You have some errors ", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

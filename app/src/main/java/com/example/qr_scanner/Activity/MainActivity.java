@@ -62,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Intent intent = new Intent(MainActivity.this,Login_or_register.class);
+            startActivity(intent);
         } catch (IOException e) {
             e.printStackTrace();
         }

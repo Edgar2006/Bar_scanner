@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/Base_color"
+    android:background="@color/Second_color"
     android:layout_marginVertical="10dp">
 
 
@@ -16,7 +16,6 @@
         android:layout_marginHorizontal="70dp"
         android:layout_marginStart="11dp"
         android:layout_marginTop="17dp"
-        android:layout_toEndOf="@+id/like"
         android:hint="Name"
         android:textSize="18dp" />
 
@@ -28,19 +27,21 @@
         android:layout_marginHorizontal="70dp"
         android:layout_marginStart="11dp"
         android:layout_marginTop="20dp"
-        android:layout_toEndOf="@+id/like"
         android:hint="Comment"
         android:textSize="18dp" />
 
 
     <ImageButton
-        android:src="@drawable/dislike"
-        android:backgroundTint="@color/Second_color"
+        android:layout_marginStart="11dp"
+
+
         android:id="@+id/like"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        />
+        android:layout_below="@+id/imageDataBase"
+        android:layout_marginTop="7dp"
+        android:backgroundTint="@color/Second_color"
+        android:src="@drawable/dislike" />
 
     <TextView
         android:id="@+id/count"
@@ -49,40 +50,41 @@
         android:layout_below="@+id/like"
         android:layout_alignParentStart="true"
         android:layout_marginHorizontal="18dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="-1dp"
+        android:layout_marginStart="30dp"
         android:hint="0"/>
 
     <ImageView
-        android:adjustViewBounds="true"
         android:id="@+id/imageDataBase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/comment"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="225dp"
-        android:layout_marginEnd="58dp"
+        android:layout_marginStart="135dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="148dp"
+        android:adjustViewBounds="true"
         tools:srcCompat="@tools:sample/avatars" />
+
     <TextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/comment"
+        android:layout_below="@+id/imageDataBase"
         android:layout_marginHorizontal="70dp"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="16dp"
         android:layout_toEndOf="@+id/like"
         android:hint="Time"
         android:textSize="18dp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/user_image"
-        android:layout_width="58dp"
-        android:layout_height="39dp"
-        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_height="57dp"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="152dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/a" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="44dp"
+        android:src="@drawable/ic_baseline_account_circle_24" />
 </RelativeLayout>

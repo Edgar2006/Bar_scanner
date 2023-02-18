@@ -62,11 +62,13 @@ public class Login extends AppCompatActivity {
             });
         }
     }
-    public void nextActivity(){
-        Intent intent = new Intent(Login.this,HomeActivity.class);
-        intent.putExtra("email",emailToString);
-        intent.putExtra("password",passwordToString);
+    public void nextActivity() {
+        Intent intent = new Intent(Login.this, HomeActivity.class);
+        intent.putExtra("email", emailToString);
+        intent.putExtra("password", passwordToString);
         startActivity(intent);
+
+
     }
     public void onClickForgotPassword(View view){
         mAuth.sendPasswordResetEmail(emailToString).addOnCompleteListener(new OnCompleteListener<Void>() {

@@ -1,23 +1,33 @@
 package com.example.qr_scanner.Activity;
 
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.LexicographicComparator;
 import com.example.qr_scanner.Class.TimeComparator;
 import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.Adapter.ViewAdapter;
 import com.example.qr_scanner.DataBase_Class.ProductBio;
+import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
+import com.example.qr_scanner.databinding.ActivityReadBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +50,8 @@ public class Read extends AppCompatActivity {
     private TextView productName, bioText,showMore;
     private ImageView productImageView;
     private boolean ifMore;
+    private RelativeLayout relativeLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +59,10 @@ public class Read extends AppCompatActivity {
         setContentView(R.layout.activity_read);
         init();
         getDataFromDataBase();
-        try {
-            getDataProductDataBase();
-
-        }catch (Exception e){
-            Log.d("F",e.toString());
-        }
+        getDataProductDataBase();
     }
     private void init(){
+        relativeLayout = findViewById(R.id.bio);
         sortMethod = false;
         listView = findViewById(R.id.recView);
         listData = new ArrayList<Messenger>();
@@ -126,7 +134,8 @@ public class Read extends AppCompatActivity {
                 for(DataSnapshot ds : snapshot.getChildren()){
                     Messenger messenger = ds.getValue(Messenger.class);
                     assert  messenger != null;
-                    listData.add(messenger);
+                    Messenger a = getCommentUserNameAndUserImage(messenger);
+                    listData.add(a);
                 }
                 sortMethod();
             }
@@ -154,17 +163,39 @@ public class Read extends AppCompatActivity {
                     }
                 }
                 catch (Exception e){
+                    relativeLayout.setVisibility(View.GONE);
+
                     Log.d("F",e.toString());
                 }
 
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                relativeLayout.setVisibility(View.GONE);
             }
         };
         referenceProduct.addValueEventListener(eventListener);
 
+    }
+
+    private Messenger getCommentUserNameAndUserImage(Messenger messenger){
+        Messenger a = messenger;
+        DatabaseReference referenceUser = FirebaseDatabase.getInstance().getReference("User").child(Function.convertor(a.getEmail()));
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                a.setUserRef(user.getImageRef());
+                a.setName(user.getName());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        referenceUser.addValueEventListener(eventListener);
+        return  a;
     }
 
 
