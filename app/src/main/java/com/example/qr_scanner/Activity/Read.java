@@ -7,7 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationChannelGroup;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.renderscript.ScriptGroup;
@@ -21,6 +27,7 @@ import android.widget.Toast;
 
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.LexicographicComparator;
+import com.example.qr_scanner.Class.ReminderBroadcast;
 import com.example.qr_scanner.Class.TimeComparator;
 import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.Adapter.ViewAdapter;
@@ -34,6 +41,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,6 +69,8 @@ public class Read extends AppCompatActivity {
         init();
         getDataFromDataBase();
         getDataProductDataBase();
+        createNotificationChannel();
+        addNotification();
     }
     private void init(){
         relativeLayout = findViewById(R.id.bio);
@@ -209,6 +220,39 @@ public class Read extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.bottom_app_bar_menu,menu);
         return true;
+    }
+
+
+
+    private void createNotificationChannel(){
+        CharSequence name = "ReminderChannel";
+        String description = "Channel for Reminder";
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel channel = new NotificationChannel("notification", name, importance);
+        channel.setDescription(description);
+        channel.setGroup("array");
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
+    }
+    private void addNotification(){
+        Intent intent1 = new Intent(this, NewCommentActivity.class);
+        intent1.putExtra("barCode", bareCode);
+        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent1 = PendingIntent.getActivity(this, 0, intent1, PendingIntent.FLAG_IMMUTABLE);
+        ReminderBroadcast.pendingIntent = pendingIntent1;
+        ReminderBroadcast.barCode = bareCode;
+
+        Toast.makeText(this, "Good", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(Read.this, ReminderBroadcast.class);
+        intent.putExtra("barCode", bareCode);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(Read.this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        long timeAtButtonClick = System.currentTimeMillis();
+        long tenSecondsInMillis = 1000 * 5;
+        alarmManager.set(AlarmManager.RTC_WAKEUP,timeAtButtonClick + tenSecondsInMillis,pendingIntent);
     }
 
 }

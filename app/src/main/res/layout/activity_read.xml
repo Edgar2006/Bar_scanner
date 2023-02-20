@@ -34,8 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
-            android:layout_toEndOf="@+id/productImageView"
-            android:text="@string/Sh" />
+            android:layout_toEndOf="@+id/productImageView" />
 
         <TextView
             android:onClick="onClickShowMore"

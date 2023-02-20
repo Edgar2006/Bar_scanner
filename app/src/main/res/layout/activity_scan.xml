@@ -64,7 +64,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="194dp"
         android:backgroundTint="@color/Base_color"
-        android:onClick="onCLickNextStep"
+        android:onClick="onCLickRead"
         android:text="@string/next_step"
         android:textAllCaps="false"
         android:textStyle="bold"

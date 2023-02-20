@@ -2,12 +2,19 @@ package com.example.qr_scanner.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.qr_scanner.Adapter.CaptureAct;
+import com.example.qr_scanner.Class.ReminderBroadcast;
 import com.example.qr_scanner.DataBase_Class.History;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
@@ -33,7 +40,7 @@ public class ScanActivity extends AppCompatActivity {
     public void onCLickScanNow(View view){
         scanCode();
     }
-    public void onCLickNextStep(View view){
+    public void onCLickRead(View view){
         String barCodeText = barCodeEditText.getEditText().getText().toString();
         boolean b=false;
         if(barCodeText.isEmpty() && bareCode.isEmpty()){
@@ -47,8 +54,6 @@ public class ScanActivity extends AppCompatActivity {
             push_activity();
         }
     }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
@@ -69,8 +74,6 @@ public class ScanActivity extends AppCompatActivity {
         }
 
     }
-
-
     private void scanCode(){
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setCaptureActivity(CaptureAct.class);
@@ -79,9 +82,6 @@ public class ScanActivity extends AppCompatActivity {
         integrator.setPrompt("Scanning Code");
         integrator.initiateScan();
     }
-
-
-
     public void init(){
         barCodeEditText = findViewById(R.id.barCode_editText);
         intent = new Intent(ScanActivity.this,Read.class);
@@ -93,4 +93,7 @@ public class ScanActivity extends AppCompatActivity {
         intent.putExtra("bareCode", bareCode);
         startActivity(intent);
     }
+
+
+
 }

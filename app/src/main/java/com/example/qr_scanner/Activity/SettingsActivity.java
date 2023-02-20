@@ -74,11 +74,11 @@ public class SettingsActivity extends AppCompatActivity {
         User user;
         String uri;
         if(uploadUri == null){
-            user = new User(name.getText().toString(), User.EMAIL,"noImage");
+            user = new User(name.getText().toString(), User.EMAIL,"noImage",false);
         }
         else{
             uri = uploadUri.toString();
-            user = new User(name.getText().toString(), User.EMAIL,uri);
+            user = new User(name.getText().toString(), User.EMAIL,uri,false);
         }
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User").child(User.EMAIL_CONVERT);
         reference.setValue(user);

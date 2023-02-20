@@ -65,7 +65,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this,Login_or_register.class);
             startActivity(intent);
         } catch (IOException e) {
+            Intent intent = new Intent(MainActivity.this,Login_or_register.class);
             e.printStackTrace();
+        }
+        finally {
+            Intent intent = new Intent(MainActivity.this,Login_or_register.class);
         }
     }
 }

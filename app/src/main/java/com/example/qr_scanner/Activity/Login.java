@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.qr_scanner.Class.Function;
+import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,6 +27,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
 
 public class Login extends AppCompatActivity {
     private TextInputLayout email,password;
@@ -53,7 +56,7 @@ public class Login extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
-                        nextActivity();
+                        checkIfCompany();
                     }
                     else{
                         Toast.makeText(Login.this, "You have some errors", Toast.LENGTH_SHORT).show();
@@ -62,6 +65,32 @@ public class Login extends AppCompatActivity {
             });
         }
     }
+
+    private void checkIfCompany(){
+        DatabaseReference referenceUser = FirebaseDatabase.getInstance().getReference("Company").child(Function.convertor(emailToString));
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                if(user != null){
+                    if(Objects.equals(user.getImageRef(), "1")){
+                        Toast.makeText(Login.this, "Your account is not verified by Admin", Toast.LENGTH_SHORT).show();
+                        nextActivity();
+                    }
+                    else{
+                        Toast.makeText(Login.this, "Your account is not verified by Admin", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                nextActivity();
+            }
+        };
+        referenceUser.addValueEventListener(eventListener);
+
+    }
+
     public void nextActivity() {
         Intent intent = new Intent(Login.this, HomeActivity.class);
         intent.putExtra("email", emailToString);

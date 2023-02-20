@@ -51,6 +51,11 @@ public class NewCommentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_comment);
         init();
+        Bundle extras = getIntent().getExtras();
+        String deviceID = "!";
+        String quote = (String)getIntent().getExtras().getString("barCode");
+        Toast.makeText(this, quote.toString(), Toast.LENGTH_SHORT).show();
+
     }
 
 

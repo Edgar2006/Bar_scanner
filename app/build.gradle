@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.qr_scanner"
-        minSdk 26
+        minSdk 27
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -34,6 +34,8 @@ android {
 }
 
 dependencies {
+
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
     implementation 'jp.wasabeef:picasso-transformations:2.4.0'
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'com.google.firebase:firebase-firestore'

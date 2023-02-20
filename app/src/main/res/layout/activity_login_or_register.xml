@@ -7,24 +7,12 @@
     android:onClick="@string/sign_in"
     tools:context=".Activity.Login_or_register">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="46dp"
-        android:layout_height="49dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="58dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        app:srcCompat="@drawable/u_mail" />
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView"
-        android:layout_alignStart="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginStart="-4dp"
         android:layout_marginTop="22dp"
         android:text="@string/be_in_control_of_your_something"
@@ -32,12 +20,14 @@
         android:textSize="43dp"
         android:textStyle="bold" />
 
+
     <ImageView
+
         android:id="@+id/imageView1"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="317dp"
         android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
+        android:layout_marginTop="26dp"
         app:srcCompat="@drawable/scan_icon" />
 
     <Button
@@ -45,25 +35,43 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_below="@+id/imageView1"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="57dp"
+        android:layout_marginHorizontal="@dimen/side"
+        android:layout_marginTop="15dp"
         android:backgroundTint="@color/Base_color"
         android:onClick="create_new_account"
         android:text="@string/create_new_account"
         android:textAllCaps="false"
         android:textStyle="bold" />
 
-    <TextView
-        android:textStyle="bold"
-        android:id="@+id/logIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <Button
+
+        android:id="@+id/create_new_account_company"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
         android:layout_below="@+id/create_new_account"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="@dimen/side"
+        android:layout_marginTop="25dp"
+        android:backgroundTint="@color/Base_color"
+        android:onClick="create_new_account_company"
+        android:text="Create new account for company"
+        android:textAllCaps="false"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/logIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/create_new_account_company"
+        android:layout_marginHorizontal="@dimen/side"
+        android:layout_marginTop="11dp"
         android:onClick="sign_in"
+        android:outlineSpotShadowColor="@color/white"
         android:text="@string/sign_in"
         android:textColor="@color/black"
-        android:textSize="16dp" />
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:backgroundTint="@android:color/transparent"
+        app:strokeColor="@color/Base_color"
+        app:strokeWidth="2dp" />
 
 </RelativeLayout>

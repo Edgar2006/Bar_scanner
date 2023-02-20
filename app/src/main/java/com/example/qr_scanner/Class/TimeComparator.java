@@ -1,5 +1,6 @@
 package com.example.qr_scanner.Class;
 
+import com.example.qr_scanner.DataBase_Class.History;
 import com.example.qr_scanner.DataBase_Class.Messenger;
 
 import java.util.Comparator;
