@@ -233,6 +233,7 @@ public class Read extends AppCompatActivity {
         channel.setGroup("array");
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(channel);
+
     }
     private void addNotification(){
         Intent intent1 = new Intent(this, NewCommentActivity.class);
