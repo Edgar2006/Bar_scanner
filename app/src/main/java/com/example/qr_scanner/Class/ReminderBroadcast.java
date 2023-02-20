@@ -24,7 +24,8 @@ public class ReminderBroadcast extends BroadcastReceiver {
                 .setContentText("Hey you bought this product" + barCode)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(pendingIntent)
-                .setGroup("array");
+                .setGroup("array")
+                .setAutoCancel(true);
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
         notificationManagerCompat.notify((int) System.currentTimeMillis(),builder.build());

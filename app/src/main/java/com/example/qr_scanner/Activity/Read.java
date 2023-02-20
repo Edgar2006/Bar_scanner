@@ -1,22 +1,20 @@
 package com.example.qr_scanner.Activity;
 
 
+import static com.google.common.primitives.UnsignedInts.max;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
-import android.app.NotificationChannelGroup;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.renderscript.ScriptGroup;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -32,17 +30,15 @@ import com.example.qr_scanner.Class.TimeComparator;
 import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.Adapter.ViewAdapter;
 import com.example.qr_scanner.DataBase_Class.ProductBio;
+import com.example.qr_scanner.DataBase_Class.StatisticsProduct;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
-import com.example.qr_scanner.databinding.ActivityReadBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,7 +56,7 @@ public class Read extends AppCompatActivity {
     private ImageView productImageView;
     private boolean ifMore;
     private RelativeLayout relativeLayout;
-
+    private DatabaseReference productNotification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +67,11 @@ public class Read extends AppCompatActivity {
         getDataProductDataBase();
         createNotificationChannel();
         addNotification();
+        readCountPeople();
     }
     private void init(){
+        StatisticsProduct.COUNT=0;
+        StatisticsProduct.COUNT_BUY_PEOPLE=0;
         relativeLayout = findViewById(R.id.bio);
         sortMethod = false;
         listView = findViewById(R.id.recView);
@@ -84,6 +83,7 @@ public class Read extends AppCompatActivity {
         if(intent!=null){
             bareCode = intent.getStringExtra("bareCode");
         }
+        productNotification = FirebaseDatabase.getInstance().getReference("Company_statistics").child(bareCode);
         referenceComment = FirebaseDatabase.getInstance().getReference("Product").child(bareCode);
         referenceProduct = FirebaseDatabase.getInstance().getReference("Product_bio").child(bareCode);
         productName = findViewById(R.id.productName);
@@ -223,22 +223,10 @@ public class Read extends AppCompatActivity {
     }
 
 
-
-    private void createNotificationChannel(){
-        CharSequence name = "ReminderChannel";
-        String description = "Channel for Reminder";
-        int importance = NotificationManager.IMPORTANCE_DEFAULT;
-        NotificationChannel channel = new NotificationChannel("notification", name, importance);
-        channel.setDescription(description);
-        channel.setGroup("array");
-        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-        notificationManager.createNotificationChannel(channel);
-
-    }
     private void addNotification(){
         Intent intent1 = new Intent(this, NewCommentActivity.class);
         intent1.putExtra("barCode", bareCode);
-        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent1.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent1 = PendingIntent.getActivity(this, 0, intent1, PendingIntent.FLAG_IMMUTABLE);
         ReminderBroadcast.pendingIntent = pendingIntent1;
         ReminderBroadcast.barCode = bareCode;
@@ -252,8 +240,52 @@ public class Read extends AppCompatActivity {
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         long timeAtButtonClick = System.currentTimeMillis();
-        long tenSecondsInMillis = 1000 * 5;
+        long tenSecondsInMillis = 1000 * 3;
         alarmManager.set(AlarmManager.RTC_WAKEUP,timeAtButtonClick + tenSecondsInMillis,pendingIntent);
+    }
+
+
+
+
+    private void createNotificationChannel(){
+        CharSequence name = "ReminderChannel";
+        String description = "Channel for Reminder";
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel channel = new NotificationChannel("notification", name, importance);
+        channel.setDescription(description);
+        channel.setGroup("array");
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
+
+    }
+    private void readCountPeople(){
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                StatisticsProduct unit = snapshot.getValue(StatisticsProduct.class);
+                assert unit != null;
+                StatisticsProduct.COUNT = max(unit.getCount(),StatisticsProduct.COUNT);
+                StatisticsProduct.COUNT_BUY_PEOPLE = unit.getCountBuyPeople();
+                Log.d("________________________" +System.currentTimeMillis() +" ____" , String.valueOf(StatisticsProduct.COUNT));
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Read.this, "@", Toast.LENGTH_SHORT).show();
+            }
+        };
+        productNotification.addValueEventListener(eventListener);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.d("________________________@@" +System.currentTimeMillis() +" ____" , String.valueOf(StatisticsProduct.COUNT));
+
+                StatisticsProduct.COUNT++;
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Company_statistics").child(bareCode);
+                databaseReference.setValue(new StatisticsProduct(StatisticsProduct.COUNT,StatisticsProduct.COUNT_BUY_PEOPLE));
+
+            }
+        }, 1 * 1000);
+
     }
 
 }

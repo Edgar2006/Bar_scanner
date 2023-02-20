@@ -1,7 +1,5 @@
 package com.example.qr_scanner.Activity;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,25 +8,19 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -51,11 +43,8 @@ public class NewCommentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_comment);
         init();
-        Bundle extras = getIntent().getExtras();
-        String deviceID = "!";
-        String quote = (String)getIntent().getExtras().getString("barCode");
-        Toast.makeText(this, quote.toString(), Toast.LENGTH_SHORT).show();
-
+        String notificationMessage = savedInstanceState.getString("barCode");
+        Toast.makeText(this, notificationMessage, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -147,4 +136,5 @@ public class NewCommentActivity extends AppCompatActivity {
         }
 
     }
+
 }
