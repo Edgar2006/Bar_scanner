@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.qr_scanner.Activity.Company.CompanyRegisterActivity;
 import com.example.qr_scanner.R;
 
 public class Login_or_register extends AppCompatActivity {
@@ -31,7 +32,7 @@ public class Login_or_register extends AppCompatActivity {
         startActivity(intent);
     }
     public void create_new_account_company(View view){
-        Intent intent = new Intent(Login_or_register.this,CompanyRegisterActivity.class);
+        Intent intent = new Intent(Login_or_register.this, CompanyRegisterActivity.class);
         startActivity(intent);
     }
     public void sign_in(View view){

@@ -1,20 +1,14 @@
-package com.example.qr_scanner.Activity;
+package com.example.qr_scanner.Activity.User;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.qr_scanner.Activity.Read;
 import com.example.qr_scanner.Adapter.CaptureAct;
-import com.example.qr_scanner.Class.ReminderBroadcast;
 import com.example.qr_scanner.DataBase_Class.History;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
@@ -23,8 +17,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-
-import java.util.Objects;
 
 public class ScanActivity extends AppCompatActivity {
     private String bareCode = "";
@@ -84,7 +76,7 @@ public class ScanActivity extends AppCompatActivity {
     }
     public void init(){
         barCodeEditText = findViewById(R.id.barCode_editText);
-        intent = new Intent(ScanActivity.this,Read.class);
+        intent = new Intent(ScanActivity.this, Read.class);
         referenceHistory = FirebaseDatabase.getInstance().getReference("History").child(User.EMAIL_CONVERT);
     }
     public void push_activity(){

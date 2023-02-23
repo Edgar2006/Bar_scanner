@@ -1,4 +1,4 @@
-package com.example.qr_scanner.Activity;
+package com.example.qr_scanner.Activity.Company;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,8 +20,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import org.checkerframework.checker.units.qual.C;
 
 public class CompanyRegisterActivity extends AppCompatActivity {
     private RelativeLayout relativeLayoutAnnotation,relativeLayoutReg;

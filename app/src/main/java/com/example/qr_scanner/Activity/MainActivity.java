@@ -5,10 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
-import com.example.qr_scanner.Class.Function;
-import com.example.qr_scanner.DataBase_Class.User;
+import com.example.qr_scanner.Activity.User.HomeActivity;
 import com.example.qr_scanner.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -45,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Intent intent = new Intent(MainActivity.this,HomeActivity.class);
+                            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                             intent.putExtra("email",emailToString);
                             intent.putExtra("password",passwordToString);
                             startActivity(intent);

@@ -5,8 +5,9 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
-    <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -21,28 +22,42 @@
         android:theme="@style/Theme.QR_scanner"
         tools:targetApi="31">
         <activity
-            android:name=".Activity.CompanyHomeActivity"
+            android:name=".Activity.Company.CompanyEditActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity.CompanyRegisterActivity"
+            android:name=".Activity.Company.ProductPageActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity.Product_activity"
+            android:name=".Activity.Company.Product_activityBioEdit"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity.NewCommentActivity"
+            android:name=".Activity.Company.CompanyHomeActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Activity.Company.CompanyRegisterActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Activity.User.NewCommentActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -56,14 +71,14 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity.HomeActivity"
+            android:name=".Activity.User.HomeActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity.ScanActivity"
+            android:name=".Activity.User.ScanActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -85,13 +100,6 @@
         </activity>
         <activity
             android:name=".Activity.Read"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".Activity.Scanner"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -123,7 +131,7 @@
             android:stateNotNeeded="true"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
-        <receiver android:name=".Class.ReminderBroadcast"/>
+        <receiver android:name=".Class.ReminderBroadcast" />
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.qr_scanner.Activity.User.HomeActivity;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
@@ -87,7 +88,7 @@ public class Register extends AppCompatActivity {
         User user = new User(nameToString, emailToString,"noImage",false);
         User.EMAIL_CONVERT = Function.convertor(emailToString);
         reference.child(User.EMAIL_CONVERT).setValue(user);
-        Intent intent = new Intent(Register.this,HomeActivity.class);
+        Intent intent = new Intent(Register.this, HomeActivity.class);
         intent.putExtra("email",emailToString);
         intent.putExtra("password",passwordToString);
         startActivity(intent);

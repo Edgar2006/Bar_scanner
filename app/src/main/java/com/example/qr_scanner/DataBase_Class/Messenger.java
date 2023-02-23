@@ -5,9 +5,10 @@ import java.util.List;
 
 public class Messenger {
     private String email, name, comment, address, count, imageRef, userRef;
+    private float ratingBarScore;
     private long time;
 
-    public Messenger(String email, String name, String comment, String address, String count, String imageRef, String userRef,long time) {
+    public Messenger(String email, String name, String comment, String address, String count, String imageRef, String userRef,long time,float ratingBarScore) {
         this.email = email;
         this.name = name;
         this.comment = comment;
@@ -16,9 +17,18 @@ public class Messenger {
         this.imageRef = imageRef;
         this.userRef = userRef;
         this.time = time;
+        this.ratingBarScore = ratingBarScore;
     }
 
     public Messenger() {
+    }
+
+    public float getRatingBarScore() {
+        return ratingBarScore;
+    }
+
+    public void setRatingBarScore(float ratingBarScore) {
+        this.ratingBarScore = ratingBarScore;
     }
 
     public String getUserRef() {

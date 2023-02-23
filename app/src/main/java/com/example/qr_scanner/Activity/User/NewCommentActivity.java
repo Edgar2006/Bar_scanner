@@ -1,4 +1,4 @@
-package com.example.qr_scanner.Activity;
+package com.example.qr_scanner.Activity.User;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.example.qr_scanner.DataBase_Class.Messenger;
@@ -38,13 +39,13 @@ public class NewCommentActivity extends AppCompatActivity {
     private ImageView imageView;
     private Uri uploadUri;
     private StorageReference mStorageRef;
+    private RatingBar ratingBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_comment);
         init();
-        String notificationMessage = savedInstanceState.getString("barCode");
-        Toast.makeText(this, notificationMessage, Toast.LENGTH_SHORT).show();
+
     }
 
 
@@ -56,15 +57,49 @@ public class NewCommentActivity extends AppCompatActivity {
         if (intent != null) {
             bareCode = intent.getStringExtra("barCode");
         }
+        ratingBar = findViewById(R.id.ratingBar);
+    }
+    public void onClickSubmit(View view){
+        uploadImage();
+
     }
 
+    public void onClickChooseImage(View view){
+        getImage();
+    }
 
-    public void onClickSubmit(View view){
+    private void uploadImage(){
+        try {
+            Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,50,byteArrayOutputStream);
+            byte[] byteArray = byteArrayOutputStream.toByteArray();
+            StorageReference mRef = mStorageRef.child(bareCode + User.EMAIL_CONVERT + "my_image");
+            final UploadTask uploadTask = mRef.putBytes(byteArray);
+            Task<Uri> task = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    return mRef.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    uploadUri = task.getResult();
+                    Toast.makeText(NewCommentActivity.this, "Loading is complete", Toast.LENGTH_SHORT).show();
+                    sendToData();
+                }
+            });
+        }catch (Exception e){
+            sendToData();
+        }
+
+    }
+    public void sendToData(){
         time = System.currentTimeMillis();
         List<String> friends = new ArrayList<>();
         friends.add(User.EMAIL);
         Messenger messenger;
-        messenger = new Messenger(User.EMAIL, User.NAME, comment.getText().toString(), bareCode, "0","noImage","noImage",time);
+        messenger = new Messenger(User.EMAIL, User.NAME, comment.getText().toString(), bareCode, "0","noImage","noImage",time,ratingBar.getRating());
         if(uploadUri != null){
             messenger.setImageRef(uploadUri.toString());
         }
@@ -77,33 +112,6 @@ public class NewCommentActivity extends AppCompatActivity {
         friendReference.setValue(friends);
         Toast.makeText(NewCommentActivity.this, "Your comment send", Toast.LENGTH_SHORT).show();
     }
-
-
-    public void onClickChooseImage(View view){
-        getImage();
-    }
-
-    private void uploadImage(){
-        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,50,byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
-        StorageReference mRef = mStorageRef.child(bareCode + User.EMAIL_CONVERT + "my_image");
-        final UploadTask uploadTask = mRef.putBytes(byteArray);
-        Task<Uri> task = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                return mRef.getDownloadUrl();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                uploadUri = task.getResult();
-                Toast.makeText(NewCommentActivity.this, "Loading is complete", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
 
     private void getImage(){
         Intent intent = new Intent();
@@ -119,7 +127,6 @@ public class NewCommentActivity extends AppCompatActivity {
         if (requestCode == 1 && data != null && data.getData() != null){
             if(resultCode == RESULT_OK){
                 imageView.setImageURI(data.getData());
-                uploadImage();
             }
         }
         IntentResult  result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);

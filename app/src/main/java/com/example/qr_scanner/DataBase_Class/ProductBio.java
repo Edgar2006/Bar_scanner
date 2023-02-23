@@ -1,16 +1,35 @@
 package com.example.qr_scanner.DataBase_Class;
 
 public class ProductBio {
-    private String productName, imageRef, bioShort,bioLong;
+    private String companyName, productName, imageRef, companyRef, bioShort, bioLong;
 
-    public ProductBio(String productName, String imageRef, String bioShort, String bioLong) {
+    public ProductBio(String companyName, String productName, String imageRef, String companyRef, String bioShort, String bioLong) {
+        this.companyName = companyName;
         this.productName = productName;
         this.imageRef = imageRef;
+        this.companyRef = companyRef;
         this.bioShort = bioShort;
         this.bioLong = bioLong;
     }
 
     public ProductBio() {
+    }
+
+
+    public String getCompanyRef() {
+        return companyRef;
+    }
+
+    public void setCompanyRef(String companyRef) {
+        this.companyRef = companyRef;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public String getProductName() {

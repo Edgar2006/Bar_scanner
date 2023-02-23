@@ -1,11 +1,14 @@
 package com.example.qr_scanner.Adapter;
 
 import android.content.Context;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -58,7 +61,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         holder.likeRef = FirebaseDatabase.getInstance().getReference("Friends").child(holder.address).child(temp);
         holder.uploadUri = messenger.getImageRef();
         holder.userImageUrl = messenger.getUserRef();
-
+        holder.ratingBar.setRating(messenger.getRatingBarScore());
         holder.friendRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -82,6 +85,11 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         if(!Objects.equals(holder.uploadUri, "noImage")) {
             Picasso.get().load(messenger.getImageRef()).into(holder.imageDataBase);
         }
+        else{
+            holder.imageDataBase.setVisibility(View.GONE);
+            holder.comment.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+        }
         if(!Objects.equals(holder.userImageUrl, "noImage")) {
             Picasso.get().load(holder.userImageUrl).into(holder.userImage);
         }
@@ -100,7 +108,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         String dateString;
-
+        RatingBar ratingBar;
         TextView email,comment,count,time_text;
         //
             String emailToString;
@@ -118,6 +126,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         int size;
         public ViewHolder(View view) {
             super(view);
+            ratingBar = view.findViewById(R.id.ratingBar);
             email = view.findViewById(R.id.name);
             comment = view.findViewById(R.id.comment);
             count = view.findViewById(R.id.count);
@@ -169,7 +178,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
             });
         }
         private void addMessenger(){
-            Messenger newMessenger = new Messenger(emailToString,name.toString(),comment.getText().toString(),address,count.getText().toString(),"notImage","notImage",time);
+            Messenger newMessenger = new Messenger(emailToString,name.toString(),comment.getText().toString(),address,count.getText().toString(),"notImage","notImage",time,ratingBar.getRating());
             if(userImageUrl != null){
                 newMessenger.setUserRef(userImageUrl);
             }

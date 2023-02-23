@@ -7,89 +7,159 @@
     android:layout_height="match_parent"
     tools:context=".Activity.Read">
 
+
     <RelativeLayout
+
         android:id="@+id/bio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp">
 
-        <TextView
-            android:id="@+id/productName"
+        <RelativeLayout
+            android:onClick="onClickProduct"
+            android:id="@+id/company"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/companyName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="15dp"
+                android:layout_toEndOf="@+id/company_image"
+                android:text="Company name" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/company_image"
+                android:layout_width="72dp"
+                android:layout_height="60dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="9dp"
+                android:layout_marginTop="3dp"
+                android:src="@drawable/ic_baseline_account_circle_24" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="product name"
-            />
+            android:layout_below="@+id/bio1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp">
 
+            <RatingBar
+                android:id="@+id/ratingBar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:isIndicator="true"
+                android:progressTint="@color/Base_color"
+                android:secondaryProgressTint="@color/zxing_transparent" />
 
-        <ImageView
-            android:layout_below="@+id/productName"
-            android:id="@+id/productImageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            tools:srcCompat="@tools:sample/avatars" />
+            <TextView
+                android:id="@+id/ratingBarScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/ratingBar"
+                android:text="2.5"
+                android:textColor="@color/Second_color" />
+        </RelativeLayout>
 
-        <TextView
-            android:layout_marginTop="20dp"
-            android:id="@+id/bioShort"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/bio1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_toEndOf="@+id/productImageView" />
+            android:layout_below="@+id/company"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="37dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp">
 
-        <TextView
-            android:onClick="onClickShowMore"
-            android:id="@+id/showMore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/bioShort"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="10dp"
-            android:layout_toEndOf="@+id/productImageView"
-            android:text="show more"
-            android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/productName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="product name" />
+
+            <ImageView
+                android:id="@+id/productImageView"
+
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_below="@+id/productName"
+                android:foreground="@drawable/corner1"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/bioShort"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@+id/productImageView" />
+
+            <TextView
+                android:id="@+id/showMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bioShort"
+                android:layout_margin="15dp"
+                android:layout_toEndOf="@+id/productImageView"
+                android:onClick="onClickShowMore"
+                android:text="show more"
+                android:textStyle="bold" />
+        </RelativeLayout>
 
     </RelativeLayout>
 
-
     <RelativeLayout
-        android:layout_below="@+id/bio"
-        android:layout_marginTop="50dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-    <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/toggleButton"
-        app:singleSelection="true"
-        android:layout_marginHorizontal="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <Button
-            android:onClick="onClickSortByLike"
-            style="?attr/materialButtonOutlinedStyle"
-            android:id="@+id/button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sort by like"
-            />
-        <Button
-            android:onClick="onClickSortByTime"
-            style="?attr/materialButtonOutlinedStyle"
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sort by Time"
-            />
-    </com.google.android.material.button.MaterialButtonToggleGroup>
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="70dp"
-        android:id="@+id/recView"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_below="@+id/bio"
+        android:layout_marginTop="71dp">
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/toggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            app:singleSelection="true">
+
+            <Button
+                android:id="@+id/button1"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClickSortByLike"
+                android:text="Sort by like" />
+
+            <Button
+                android:id="@+id/button2"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClickSortByTime"
+                android:text="Sort by Time" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
@@ -115,8 +185,6 @@
                 android:onClick="onClickEditProduct"
                 android:text="edit product bio"
                 app:icon="@drawable/ic_baseline_add_24" />
-
-
 
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

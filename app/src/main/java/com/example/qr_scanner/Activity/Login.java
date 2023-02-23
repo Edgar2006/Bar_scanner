@@ -1,20 +1,16 @@
 package com.example.qr_scanner.Activity;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.qr_scanner.Activity.Company.CompanyEditActivity;
+import com.example.qr_scanner.Activity.User.HomeActivity;
 import com.example.qr_scanner.Class.Function;
-import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -73,31 +69,43 @@ public class Login extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 if(user != null){
-                    if(Objects.equals(user.getImageRef(), "1")){
-                        Toast.makeText(Login.this, "Your account is not verified by Admin", Toast.LENGTH_SHORT).show();
-                        nextActivity();
+                    if(!Objects.equals(user.getImageRef(), "0")){
+                        Toast.makeText(Login.this, "Your account is verified by Admin", Toast.LENGTH_SHORT).show();
+                        if(Objects.equals(user.getImageRef(), "1")) {
+                            nextActivityCompany();
+                        }
+                        else{
+                            nextActivityUser();
+
+                        }
                     }
                     else{
                         Toast.makeText(Login.this, "Your account is not verified by Admin", Toast.LENGTH_SHORT).show();
                     }
                 }
+                else{
+                    nextActivityUser();
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                nextActivity();
+                nextActivityUser();
             }
         };
         referenceUser.addValueEventListener(eventListener);
 
     }
-
-    public void nextActivity() {
+    public void nextActivityCompany() {
+        Intent intent = new Intent(Login.this, CompanyEditActivity.class);
+        intent.putExtra("email", emailToString);
+        intent.putExtra("password", passwordToString);
+        startActivity(intent);
+    }
+    public void nextActivityUser() {
         Intent intent = new Intent(Login.this, HomeActivity.class);
         intent.putExtra("email", emailToString);
         intent.putExtra("password", passwordToString);
         startActivity(intent);
-
-
     }
     public void onClickForgotPassword(View view){
         mAuth.sendPasswordResetEmail(emailToString).addOnCompleteListener(new OnCompleteListener<Void>() {

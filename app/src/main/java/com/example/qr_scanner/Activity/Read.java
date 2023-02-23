@@ -8,10 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlarmManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,13 +15,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.qr_scanner.Activity.Company.Product_activityBioEdit;
+import com.example.qr_scanner.Activity.User.NewCommentActivity;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.LexicographicComparator;
-import com.example.qr_scanner.Class.ReminderBroadcast;
 import com.example.qr_scanner.Class.TimeComparator;
 import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.Adapter.ViewAdapter;
@@ -52,12 +50,14 @@ public class Read extends AppCompatActivity {
     private String bareCode;
     private DatabaseReference referenceComment,referenceProduct;
     private String shortText,longText;
-    private TextView productName, bioText,showMore;
-    private ImageView productImageView;
+    private TextView productName,bioText,showMore,ratingBarScore,companyName;
+    private ImageView productImageView,companyImageView;
     private boolean ifMore;
     private RelativeLayout relativeLayout;
     private DatabaseReference productNotification;
-
+    private RatingBar ratingBar;
+    public static float SUM;
+    public static int COUNT;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,11 +65,20 @@ public class Read extends AppCompatActivity {
         init();
         getDataFromDataBase();
         getDataProductDataBase();
-        createNotificationChannel();
-        addNotification();
         readCountPeople();
+
+
     }
+
+
+
     private void init(){
+        Read.SUM = 0;
+        Read.COUNT = 0;
+        companyImageView = findViewById(R.id.company_image);
+        companyName = findViewById(R.id.companyName);
+        ratingBarScore = findViewById(R.id.ratingBarScore);
+        ratingBar = findViewById(R.id.ratingBar);
         StatisticsProduct.COUNT=0;
         StatisticsProduct.COUNT_BUY_PEOPLE=0;
         relativeLayout = findViewById(R.id.bio);
@@ -83,6 +92,7 @@ public class Read extends AppCompatActivity {
         if(intent!=null){
             bareCode = intent.getStringExtra("bareCode");
         }
+
         productNotification = FirebaseDatabase.getInstance().getReference("Company_statistics").child(bareCode);
         referenceComment = FirebaseDatabase.getInstance().getReference("Product").child(bareCode);
         referenceProduct = FirebaseDatabase.getInstance().getReference("Product_bio").child(bareCode);
@@ -106,12 +116,12 @@ public class Read extends AppCompatActivity {
         }
     }
     public void onClickComment(View view){
-        Intent intent = new Intent(Read.this,NewCommentActivity.class);
+        Intent intent = new Intent(Read.this, NewCommentActivity.class);
         intent.putExtra("barCode", bareCode);
         startActivity(intent);
     }
     public void onClickEditProduct(View view){
-        Intent intent = new Intent(Read.this, Product_activity.class);
+        Intent intent = new Intent(Read.this, Product_activityBioEdit.class);
         intent.putExtra("barCode", bareCode);
         startActivity(intent);
     }
@@ -135,20 +145,28 @@ public class Read extends AppCompatActivity {
     }
 
     private void getDataFromDataBase(){
-
+        Read.SUM = 0;
+        Read.COUNT = 0;
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(listData.size() > 0){
                     listData.clear();
+                    Read.SUM = 0;
+                    Read.COUNT = 0;
                 }
                 for(DataSnapshot ds : snapshot.getChildren()){
                     Messenger messenger = ds.getValue(Messenger.class);
                     assert  messenger != null;
                     Messenger a = getCommentUserNameAndUserImage(messenger);
                     listData.add(a);
+                    Read.SUM += messenger.getRatingBarScore();
+                    Read.COUNT++;
                 }
                 sortMethod();
+                float a = Read.SUM / Read.COUNT;
+                ratingBar.setRating(a);
+                ratingBarScore.setText(String.valueOf(a));
             }
 
             @Override
@@ -165,12 +183,16 @@ public class Read extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
                     ProductBio productBio = snapshot.getValue(ProductBio.class);
+                    companyName.setText(productBio.getCompanyName());
                     productName.setText(productBio.getProductName());
                     longText = productBio.getBioLong();
                     shortText = productBio.getBioShort();
                     bioText.setText(shortText);
                     if(!Objects.equals(productBio.getImageRef(), "noImage")) {
                         Picasso.get().load(productBio.getImageRef()).into(productImageView);
+                    }
+                    if(!Objects.equals(productBio.getCompanyRef(), "noImage")) {
+                        Picasso.get().load(productBio.getCompanyRef()).into(companyImageView);
                     }
                 }
                 catch (Exception e){
@@ -210,11 +232,6 @@ public class Read extends AppCompatActivity {
     }
 
 
-
-
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -223,41 +240,7 @@ public class Read extends AppCompatActivity {
     }
 
 
-    private void addNotification(){
-        Intent intent1 = new Intent(this, NewCommentActivity.class);
-        intent1.putExtra("barCode", bareCode);
-        intent1.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent1 = PendingIntent.getActivity(this, 0, intent1, PendingIntent.FLAG_IMMUTABLE);
-        ReminderBroadcast.pendingIntent = pendingIntent1;
-        ReminderBroadcast.barCode = bareCode;
 
-        Toast.makeText(this, "Good", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(Read.this, ReminderBroadcast.class);
-        intent.putExtra("barCode", bareCode);
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(Read.this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        long timeAtButtonClick = System.currentTimeMillis();
-        long tenSecondsInMillis = 1000 * 3;
-        alarmManager.set(AlarmManager.RTC_WAKEUP,timeAtButtonClick + tenSecondsInMillis,pendingIntent);
-    }
-
-
-
-
-    private void createNotificationChannel(){
-        CharSequence name = "ReminderChannel";
-        String description = "Channel for Reminder";
-        int importance = NotificationManager.IMPORTANCE_DEFAULT;
-        NotificationChannel channel = new NotificationChannel("notification", name, importance);
-        channel.setDescription(description);
-        channel.setGroup("array");
-        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-        notificationManager.createNotificationChannel(channel);
-
-    }
     private void readCountPeople(){
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
@@ -288,4 +271,7 @@ public class Read extends AppCompatActivity {
 
     }
 
+    public void onClickProduct(View view) {
+        //Intent intent = new Intent(Read.this,);
+    }
 }
