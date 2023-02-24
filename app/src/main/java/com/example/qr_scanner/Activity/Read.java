@@ -65,9 +65,7 @@ public class Read extends AppCompatActivity {
         init();
         getDataFromDataBase();
         getDataProductDataBase();
-        readCountPeople();
-
-
+        writeCountPeople();
     }
 
 
@@ -241,7 +239,7 @@ public class Read extends AppCompatActivity {
 
 
 
-    private void readCountPeople(){
+    private void writeCountPeople(){
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

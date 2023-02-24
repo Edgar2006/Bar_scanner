@@ -99,8 +99,24 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void addLocalData(){
-        Function function = new Function();
-        function.addLocalData(getIntent());
+        Intent intent = getIntent();
+        if (intent != null) {
+            String emailToString = intent.getStringExtra("email");
+            String passwordToString = intent.getStringExtra("password");
+            User.EMAIL = emailToString;
+            User.EMAIL_CONVERT = Function.convertor(User.EMAIL);
+            String type = "User";
+            try {
+                String newUser = emailToString + "\n" + passwordToString + "\n" + type;
+                FileOutputStream fileOutputStream = openFileOutput("Authentication.txt", MODE_PRIVATE);
+                fileOutputStream.write(newUser.getBytes());
+                fileOutputStream.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 

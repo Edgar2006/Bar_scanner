@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.qr_scanner.Activity.Company.CompanyEditActivity;
+import com.example.qr_scanner.Activity.Company.CompanyHomeActivity;
 import com.example.qr_scanner.Activity.User.HomeActivity;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.DataBase_Class.User;
@@ -63,16 +64,22 @@ public class Login extends AppCompatActivity {
     }
 
     private void checkIfCompany(){
+
         DatabaseReference referenceUser = FirebaseDatabase.getInstance().getReference("Company").child(Function.convertor(emailToString));
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 if(user != null){
-                    if(!Objects.equals(user.getImageRef(), "0")){
+                    if(!Objects.equals(user.getImageRef(), "noImage")){
                         Toast.makeText(Login.this, "Your account is verified by Admin", Toast.LENGTH_SHORT).show();
-                        if(Objects.equals(user.getImageRef(), "1")) {
-                            nextActivityCompany();
+                        if(Objects.equals(user.getImageRef(), "1") || Objects.equals(user.getImageRef(), "0")) {
+                            if(Objects.equals(user.getImageRef(), "1")){
+                                nextActivityCompanyEdit();
+                            }
+                            else{
+                                nextActivityCompanyHome();
+                            }
                         }
                         else{
                             nextActivityUser();
@@ -95,8 +102,14 @@ public class Login extends AppCompatActivity {
         referenceUser.addValueEventListener(eventListener);
 
     }
-    public void nextActivityCompany() {
+    public void nextActivityCompanyEdit() {
         Intent intent = new Intent(Login.this, CompanyEditActivity.class);
+        intent.putExtra("email", emailToString);
+        intent.putExtra("password", passwordToString);
+        startActivity(intent);
+    }
+    public void nextActivityCompanyHome() {
+        Intent intent = new Intent(Login.this, CompanyHomeActivity.class);
         intent.putExtra("email", emailToString);
         intent.putExtra("password", passwordToString);
         startActivity(intent);

@@ -29,13 +29,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity.Company.ProductPageActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".Activity.Company.Product_activityBioEdit"
             android:exported="false">
             <meta-data

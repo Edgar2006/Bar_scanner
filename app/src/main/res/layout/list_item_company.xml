@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@drawable/round_rect_shape">
+
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+
+    <ImageView
+        android:layout_margin="20dp"
+        android:id="@+id/imageDataBase"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:layout_below="@+id/textView3"
+        android:foreground="@drawable/corner"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_baseline_menu_24" />
+
+    <Button
+        android:id="@+id/editProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="15dp"
+        android:layout_toEndOf="@+id/imageDataBase"
+        android:text="Button" />
+</RelativeLayout>
