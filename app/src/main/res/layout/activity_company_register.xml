@@ -7,6 +7,7 @@
     tools:context=".Activity.Company.CompanyRegisterActivity">
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/annotationRead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,10 +34,21 @@
             android:backgroundTint="@color/Base_color"
             android:text="@string/next_step" />
 
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/agree"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginBottom="-24dp"
+            android:layout_toStartOf="@+id/agree"
+            android:text="CheckBox" />
+
     </RelativeLayout>
 
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/registerRelativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
@@ -104,29 +116,14 @@
 
 
         <Button
-            android:id="@+id/verification"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginHorizontal="@dimen/side"
-            android:layout_marginBottom="33dp"
-            android:backgroundTint="@color/Base_color"
-            android:onClick="onCLickVerification"
-            android:text="@string/verification"
-            android:textAllCaps="false"
-            android:textSize="15dp"
-            android:textStyle="bold" />
-
-        <Button
-            android:visibility="gone"
             android:id="@+id/register"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layout_below="@+id/verification"
+            android:layout_below="@+id/password"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="36dp"
             android:backgroundTint="@color/Base_color"
-            android:onClick="onCLickNextStep"
+            android:onClick="onCLickRegister"
             android:text="@string/register"
             android:textAllCaps="false"
             android:textSize="15dp"

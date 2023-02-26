@@ -30,7 +30,7 @@ import com.google.zxing.integration.android.IntentResult;
 import java.io.ByteArrayOutputStream;
 
 public class Product_activityBioEdit extends AppCompatActivity {
-    private String bareCode;
+    private String barCode;
     private EditText productName,bio;
     private ImageView imageView;
     private Uri uploadUri;
@@ -49,7 +49,7 @@ public class Product_activityBioEdit extends AppCompatActivity {
         mStorageRef = FirebaseStorage.getInstance().getReference("ImageProduct");
         Intent intent = getIntent();
         if (intent != null) {
-            bareCode = intent.getStringExtra("barCode");
+            barCode = intent.getStringExtra("barCode");
         }
     }
 
@@ -68,13 +68,13 @@ public class Product_activityBioEdit extends AppCompatActivity {
         ProductBio productBio;
         String uri;
         if(uploadUri == null){
-            productBio = new ProductBio(User.NAME,productName.getText().toString(),"noImage","noImage",bioShort,bioLong);
+            productBio = new ProductBio(User.NAME,productName.getText().toString(),"noImage","noImage",bioShort,bioLong,barCode);
         }
         else{
             uri = uploadUri.toString();
-            productBio = new ProductBio(User.NAME,productName.getText().toString(),uri,"noImage",bioShort,bioLong);
+            productBio = new ProductBio(User.NAME,productName.getText().toString(),uri,"noImage",bioShort,bioLong,barCode);
         }
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Product_bio").child(bareCode);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Product_bio").child(barCode);
         reference.setValue(productBio);
         Toast.makeText(Product_activityBioEdit.this, "Your comment send", Toast.LENGTH_SHORT).show();
     }
@@ -89,7 +89,7 @@ public class Product_activityBioEdit extends AppCompatActivity {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG,50,byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
-        StorageReference mRef = mStorageRef.child(bareCode + "my_image");
+        StorageReference mRef = mStorageRef.child(barCode + "my_image");
         final UploadTask uploadTask = mRef.putBytes(byteArray);
         Task<Uri> task = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override

@@ -76,7 +76,7 @@ public class HomeActivity extends AppCompatActivity {
                 User.NAME = user.getName();
                 User.URL = user.getImageRef();
                 uploadUri = user.getImageRef();
-                yourName.setText(R.string.welcome_home + user.getName());
+                yourName.setText(user.getName());
                 if(!Objects.equals(uploadUri, "noImage")) {
                     Picasso.get().load(uploadUri).into(imageDataBase);
                 }

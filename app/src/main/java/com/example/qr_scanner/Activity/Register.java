@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -22,11 +23,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Register extends AppCompatActivity {
     private TextInputLayout name,email,password;
-    private Button register,verification;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference reference;
-    private FirebaseDatabase database;
     private String nameToString, emailToString, passwordToString;
+    private boolean registerOrVerification;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,21 +34,39 @@ public class Register extends AppCompatActivity {
         init();
     }
     public void init(){
+        registerOrVerification = false;
         name = (TextInputLayout)findViewById(R.id.name);
         email = (TextInputLayout)findViewById(R.id.email);
         password = (TextInputLayout)findViewById(R.id.password);
-        register = findViewById(R.id.register);
-        verification = findViewById(R.id.verification);
         firebaseAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        reference = database.getReference("User");
+        reference = FirebaseDatabase.getInstance().getReference("User");
         emailToString = email.getEditText().getText().toString();
         passwordToString = password.getEditText().getText().toString();
-
     }
-    public void onCLickVerification(View view){
-        register.setVisibility(View.VISIBLE);
-        verification.setVisibility(View.GONE);
+
+    public void register(){
+        nameToString = name.getEditText().getText().toString();
+        emailToString = email.getEditText().getText().toString();
+        passwordToString = password.getEditText().getText().toString();
+        firebaseAuth.signInWithEmailAndPassword(emailToString,passwordToString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    if (firebaseAuth.getCurrentUser().isEmailVerified()){
+                        nextActivity();
+                    }
+                    else{
+                        Toast.makeText(Register.this, "Please verify your email address", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    registerOrVerification = false;
+                    Log.e("_____", task.getException().getMessage());
+                }
+            }
+        });
+    }
+    public void verification(){
         nameToString = name.getEditText().getText().toString();
         emailToString = email.getEditText().getText().toString();
         passwordToString = password.getEditText().getText().toString();
@@ -65,25 +83,6 @@ public class Register extends AppCompatActivity {
         }
     }
 
-    public void onCLickNextStep(View view){
-        firebaseAuth.signInWithEmailAndPassword(emailToString,passwordToString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    if (firebaseAuth.getCurrentUser().isEmailVerified()){
-                        nextActivity();
-                    }
-                    else{
-                        Toast.makeText(Register.this, "Please verify your email address", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else{
-                    verification.setVisibility(View.VISIBLE);
-                    Toast.makeText(Register.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
     public void nextActivity(){
         User user = new User(nameToString, emailToString,"noImage",false);
         User.EMAIL_CONVERT = Function.convertor(emailToString);
@@ -115,5 +114,18 @@ public class Register extends AppCompatActivity {
                 }
             }
         });
+    }
+
+
+    public void onCLickRegister(View view) {
+        if(registerOrVerification){
+            verification();
+            register();
+        }
+        else{
+            verification();
+            register();
+            registerOrVerification=!registerOrVerification;
+        }
     }
 }

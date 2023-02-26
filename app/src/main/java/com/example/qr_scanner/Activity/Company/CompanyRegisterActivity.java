@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.qr_scanner.Activity.Register;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
@@ -24,11 +26,12 @@ import com.google.firebase.database.FirebaseDatabase;
 public class CompanyRegisterActivity extends AppCompatActivity {
     private RelativeLayout relativeLayoutAnnotation,relativeLayoutReg;
     private TextInputLayout name,email,password;
-    private Button register,verification;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference reference;
-    private FirebaseDatabase database;
+    private CheckBox checkBox;
     private String nameToString, emailToString, passwordToString;
+    private boolean registerOrVerification;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,23 +39,46 @@ public class CompanyRegisterActivity extends AppCompatActivity {
         init();
     }
     public void init(){
+        checkBox = (CheckBox) findViewById(R.id.checkBox);
         relativeLayoutAnnotation = findViewById(R.id.annotationRead);
         relativeLayoutReg = findViewById(R.id.registerRelativeLayout);
         name = (TextInputLayout)findViewById(R.id.name);
         email = (TextInputLayout)findViewById(R.id.email);
         password = (TextInputLayout)findViewById(R.id.password);
-        register = findViewById(R.id.register);
-        verification = findViewById(R.id.verification);
         firebaseAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        reference = database.getReference("Company");
+        reference = FirebaseDatabase.getInstance().getReference("Company");
         emailToString = email.getEditText().getText().toString();
         passwordToString = password.getEditText().getText().toString();
 
     }
-    public void onCLickVerification(View view){
-        register.setVisibility(View.VISIBLE);
-        verification.setVisibility(View.GONE);
+
+    public void onClickReg(View view){
+        Boolean checkBoxState = checkBox.isChecked();
+        if(checkBoxState){
+            relativeLayoutAnnotation.setVisibility(View.GONE);
+            relativeLayoutReg.setVisibility(View.VISIBLE);
+        }
+    }
+    public void register(){
+        firebaseAuth.signInWithEmailAndPassword(emailToString,passwordToString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    if (firebaseAuth.getCurrentUser().isEmailVerified()){
+                        nextActivity();
+                    }
+                    else{
+                        Toast.makeText(CompanyRegisterActivity.this, "Please verify your email address", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    registerOrVerification = false;
+                    Toast.makeText(CompanyRegisterActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+    public void verification(){
         nameToString = name.getEditText().getText().toString();
         emailToString = email.getEditText().getText().toString();
         passwordToString = password.getEditText().getText().toString();
@@ -68,26 +94,29 @@ public class CompanyRegisterActivity extends AppCompatActivity {
             }
         }
     }
-//
-    public void onClickReg(View view){
-        relativeLayoutAnnotation.setVisibility(View.GONE);
-        relativeLayoutReg.setVisibility(View.VISIBLE);
-    }
-    public void onCLickNextStep(View view){
-        firebaseAuth.signInWithEmailAndPassword(emailToString,passwordToString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+    public void createUser(){
+        nameToString = name.getEditText().getText().toString();
+        emailToString = email.getEditText().getText().toString();
+        passwordToString = password.getEditText().getText().toString();
+        firebaseAuth.createUserWithEmailAndPassword(emailToString, passwordToString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    if (firebaseAuth.getCurrentUser().isEmailVerified()){
-                        nextActivity();
-                    }
-                    else{
-                        Toast.makeText(CompanyRegisterActivity.this, "Please verify your email address", Toast.LENGTH_SHORT).show();
-                    }
+                    firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(CompanyRegisterActivity.this, "Please check your email for verification", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                register();
+                            }
+                        }
+                    });
                 }
                 else{
-                    verification.setVisibility(View.VISIBLE);
-                    Toast.makeText(CompanyRegisterActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CompanyRegisterActivity.this, "Please check your email for verification or register again", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -100,30 +129,17 @@ public class CompanyRegisterActivity extends AppCompatActivity {
         emailIntent.setType("plain/text");
         emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { "edgar.bezhanyan@gmail.com" });
         emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Email Subject");
-        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Email Body");
+        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "send a verification company");
         startActivity(Intent.createChooser(emailIntent, "Send mail..."));
     }
-    public void createUser(){
-        firebaseAuth.createUserWithEmailAndPassword(emailToString, passwordToString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(CompanyRegisterActivity.this, "Please check your email for verification", Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                Toast.makeText(CompanyRegisterActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                }
-                else{
-                    Toast.makeText(CompanyRegisterActivity.this, "You have some errors ", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+
+    public void onCLickRegister(View view) {
+        if(registerOrVerification){
+            register();
+        }
+        else{
+            verification();
+            registerOrVerification=!registerOrVerification;
+        }
     }
 }

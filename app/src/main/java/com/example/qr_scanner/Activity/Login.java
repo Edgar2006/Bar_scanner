@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -53,7 +54,12 @@ public class Login extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
-                        checkIfCompany();
+                        if (mAuth.getCurrentUser().isEmailVerified()){
+                            checkIfCompany();
+                        }
+                        else{
+                            Toast.makeText(Login.this, "Please verify your email address", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     else{
                         Toast.makeText(Login.this, "You have some errors", Toast.LENGTH_SHORT).show();
@@ -64,7 +70,6 @@ public class Login extends AppCompatActivity {
     }
 
     private void checkIfCompany(){
-
         DatabaseReference referenceUser = FirebaseDatabase.getInstance().getReference("Company").child(Function.convertor(emailToString));
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
@@ -83,7 +88,6 @@ public class Login extends AppCompatActivity {
                         }
                         else{
                             nextActivityUser();
-
                         }
                     }
                     else{

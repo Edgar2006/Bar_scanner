@@ -24,11 +24,11 @@ import com.example.qr_scanner.Activity.Company.Product_activityBioEdit;
 import com.example.qr_scanner.Activity.User.NewCommentActivity;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.LexicographicComparator;
+import com.example.qr_scanner.Class.Rating;
 import com.example.qr_scanner.Class.TimeComparator;
 import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.Adapter.ViewAdapter;
 import com.example.qr_scanner.DataBase_Class.ProductBio;
-import com.example.qr_scanner.DataBase_Class.StatisticsProduct;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
 import com.google.firebase.database.DataSnapshot;
@@ -54,10 +54,9 @@ public class Read extends AppCompatActivity {
     private ImageView productImageView,companyImageView;
     private boolean ifMore;
     private RelativeLayout relativeLayout;
-    private DatabaseReference productNotification;
+    private DatabaseReference productRating;
     private RatingBar ratingBar;
-    public static float SUM;
-    public static int COUNT;
+    private Rating rating;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,14 +70,11 @@ public class Read extends AppCompatActivity {
 
 
     private void init(){
-        Read.SUM = 0;
-        Read.COUNT = 0;
+        rating = new Rating(0,0,0);
         companyImageView = findViewById(R.id.company_image);
         companyName = findViewById(R.id.companyName);
         ratingBarScore = findViewById(R.id.ratingBarScore);
         ratingBar = findViewById(R.id.ratingBar);
-        StatisticsProduct.COUNT=0;
-        StatisticsProduct.COUNT_BUY_PEOPLE=0;
         relativeLayout = findViewById(R.id.bio);
         sortMethod = false;
         listView = findViewById(R.id.recView);
@@ -91,7 +87,7 @@ public class Read extends AppCompatActivity {
             bareCode = intent.getStringExtra("bareCode");
         }
 
-        productNotification = FirebaseDatabase.getInstance().getReference("Company_statistics").child(bareCode);
+        productRating = FirebaseDatabase.getInstance().getReference("ProductRating").child(bareCode);
         referenceComment = FirebaseDatabase.getInstance().getReference("Product").child(bareCode);
         referenceProduct = FirebaseDatabase.getInstance().getReference("Product_bio").child(bareCode);
         productName = findViewById(R.id.productName);
@@ -143,28 +139,26 @@ public class Read extends AppCompatActivity {
     }
 
     private void getDataFromDataBase(){
-        Read.SUM = 0;
-        Read.COUNT = 0;
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(listData.size() > 0){
                     listData.clear();
-                    Read.SUM = 0;
-                    Read.COUNT = 0;
+                    rating.rating = 0;
+                    rating.countRating = 0;
                 }
                 for(DataSnapshot ds : snapshot.getChildren()){
                     Messenger messenger = ds.getValue(Messenger.class);
                     assert  messenger != null;
                     Messenger a = getCommentUserNameAndUserImage(messenger);
                     listData.add(a);
-                    Read.SUM += messenger.getRatingBarScore();
-                    Read.COUNT++;
+                    rating.rating += messenger.getRatingBarScore();
+                    rating.countRating++;
                 }
                 sortMethod();
-                float a = Read.SUM / Read.COUNT;
-                ratingBar.setRating(a);
-                ratingBarScore.setText(String.valueOf(a));
+                float rating_ = rating.rating / rating.countRating;
+                ratingBar.setRating(rating_);
+                ratingBarScore.setText(String.valueOf(rating));
             }
 
             @Override
@@ -243,29 +237,24 @@ public class Read extends AppCompatActivity {
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                StatisticsProduct unit = snapshot.getValue(StatisticsProduct.class);
-                assert unit != null;
-                StatisticsProduct.COUNT = max(unit.getCount(),StatisticsProduct.COUNT);
-                StatisticsProduct.COUNT_BUY_PEOPLE = unit.getCountBuyPeople();
-                Log.d("________________________" +System.currentTimeMillis() +" ____" , String.valueOf(StatisticsProduct.COUNT));
+                Rating unit = snapshot.getValue(Rating.class);
+                rating.countView = max(unit.countView,rating.countView);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(Read.this, "@", Toast.LENGTH_SHORT).show();
             }
         };
-        productNotification.addValueEventListener(eventListener);
+        productRating.addValueEventListener(eventListener);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Log.d("________________________@@" +System.currentTimeMillis() +" ____" , String.valueOf(StatisticsProduct.COUNT));
-
-                StatisticsProduct.COUNT++;
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Company_statistics").child(bareCode);
-                databaseReference.setValue(new StatisticsProduct(StatisticsProduct.COUNT,StatisticsProduct.COUNT_BUY_PEOPLE));
-
+                rating.countView++;
+                Toast.makeText(Read.this, rating.countView + "__" + bareCode, Toast.LENGTH_SHORT).show();
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("ProductRating").child(bareCode);
+                databaseReference.setValue(rating);
             }
-        }, 1 * 1000);
+        }, 2 * 1000);
 
     }
 

@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,11 +43,10 @@ public class CompanyHomeActivity extends AppCompatActivity {
     private ImageView companyImage;
     private TextView companyName;
 
-
-    private RecyclerView listView;
-    private ViewAdapterCompany viewAdapter;
-    private ArrayList<ProductBio> listData;
-
+    public RecyclerView listView;
+    public ViewAdapterCompany viewAdapter;
+    public ArrayList<ProductBio> listData;
+    public RelativeLayout relativeLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,16 +54,28 @@ public class CompanyHomeActivity extends AppCompatActivity {
         addLocalData();
         init();
         readUser();
+        getDataFromDataBase();
+
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CompanyHomeActivity.this,CheckBarCodeActivity.class);
+                intent.putExtra("name",companyName.getText().toString());
+                startActivity(intent);
+            }
+        });
 
     }
     private void init(){
+        relativeLayout = findViewById(R.id.add);
         companyImage = findViewById(R.id.company_image);
         companyName = findViewById(R.id.company_name);
-
+        listView = findViewById(R.id.recView);
         listData = new ArrayList<>();
         viewAdapter = new ViewAdapterCompany(this,listData);
         listView.setLayoutManager(new LinearLayoutManager(this));
         listView.setAdapter(viewAdapter);
+
     }
     private void readUser(){
         DatabaseReference myUserRef = FirebaseDatabase.getInstance().getReference("Company_Information").child(User.EMAIL_CONVERT);
@@ -89,7 +102,6 @@ public class CompanyHomeActivity extends AppCompatActivity {
         };
         myUserRef.addValueEventListener(postListener);
     }
-
     private void addLocalData(){
         Intent intent = getIntent();
         if (intent != null) {
@@ -98,7 +110,6 @@ public class CompanyHomeActivity extends AppCompatActivity {
             String type = "Company";
             User.EMAIL = emailToString;
             User.EMAIL_CONVERT = Function.convertor(User.EMAIL);
-            Log.e("TAG___________________________",User.EMAIL_CONVERT);
             try {
                 String newUser = emailToString + "\n" + passwordToString + "\n" + type;
                 FileOutputStream fileOutputStream = openFileOutput("Authentication.txt", MODE_PRIVATE);
@@ -111,13 +122,8 @@ public class CompanyHomeActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
-    private void getDataFromDataBase(){
+    public void getDataFromDataBase(){
         DatabaseReference referenceProduct = FirebaseDatabase.getInstance().getReference().child("Product_bio");
-        Read.SUM = 0;
-        Read.COUNT = 0;
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -125,12 +131,12 @@ public class CompanyHomeActivity extends AppCompatActivity {
                     listData.clear();
                 }
                 for(DataSnapshot ds : snapshot.getChildren()){
-                    ProductBio messenger = ds.getValue(ProductBio.class);
-                    assert  messenger != null;
-                    listData.add(messenger);
+                    ProductBio productBio = ds.getValue(ProductBio.class);
+                    assert  productBio != null;
+                    listData.add(productBio);
                 }
+                listView.setAdapter(viewAdapter);
             }
-            listView.setAdapter(viewAdapter);
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
