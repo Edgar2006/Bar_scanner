@@ -110,6 +110,7 @@ public class CompanyRegisterActivity extends AppCompatActivity {
                                 Toast.makeText(CompanyRegisterActivity.this, "Please check your email for verification", Toast.LENGTH_SHORT).show();
                             }
 
+
                             else{
                                 register();
                             }
