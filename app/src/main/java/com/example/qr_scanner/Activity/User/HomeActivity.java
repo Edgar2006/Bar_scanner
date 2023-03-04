@@ -11,11 +11,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.qr_scanner.Activity.Login_or_register;
-import com.example.qr_scanner.Activity.SettingsActivity;
-import com.example.qr_scanner.Adapter.ViewAdapterHome;
+import com.example.qr_scanner.Activity.All.Login_or_register;
+import com.example.qr_scanner.Activity.All.SettingsActivity;
+import com.example.qr_scanner.Adapter.ViewAdapterCompanyByUser;
 import com.example.qr_scanner.Class.Function;
-import com.example.qr_scanner.DataBase_Class.History;
+import com.example.qr_scanner.Class.StaticString;
+import com.example.qr_scanner.DataBase_Class.GenRemoteDataSource;
+import com.example.qr_scanner.DataBase_Class.ProductBio;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
 import com.google.firebase.database.DataSnapshot;
@@ -29,15 +31,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
     private RecyclerView listView;
-    private ViewAdapterHome viewAdapter;
-    private ArrayList<History> listData;
-    private DatabaseReference referenceHistory;
+    private RecyclerView.Adapter viewAdapter;
+    private ArrayList<ProductBio> listData;
     private String uploadUri;
     private ImageView imageDataBase;
     private TextView yourName;
@@ -51,20 +50,19 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void init(){
-        yourName = findViewById(R.id.yourName);
+        yourName = findViewById(R.id.your_name);
         imageDataBase = findViewById(R.id.profile_image);
-        listView = findViewById(R.id.recView);
+        listView = findViewById(R.id.rec_view);
         listData = new ArrayList<>();
-        viewAdapter = new ViewAdapterHome(this,listData);
+        viewAdapter = new ViewAdapterCompanyByUser(this,listData);
         listView.setLayoutManager(new LinearLayoutManager(this));
         listView.setAdapter(viewAdapter);
-        referenceHistory = FirebaseDatabase.getInstance().getReference("History").child(User.EMAIL_CONVERT);
         readUser();
 
     }
     public void readUser(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myUserRef = database.getReference("User").child(User.EMAIL_CONVERT);
+        DatabaseReference myUserRef = database.getReference(StaticString.user).child(User.EMAIL_CONVERT);
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -75,9 +73,9 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 User.NAME = user.getName();
                 User.URL = user.getImageRef();
-                uploadUri = user.getImageRef();
                 yourName.setText(user.getName());
-                if(!Objects.equals(uploadUri, "noImage")) {
+                if(!Objects.equals(uploadUri, StaticString.noImage)) {
+                    uploadUri = user.getImageRef();
                     Picasso.get().load(uploadUri).into(imageDataBase);
                 }
             }
@@ -94,66 +92,38 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void onCLickSetting(View view){
-        Intent intent1 = new Intent(HomeActivity.this, SettingsActivity.class);
-        startActivity(intent1);
+        Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
+        startActivity(intent);
     }
 
     public void addLocalData(){
         Intent intent = getIntent();
         if (intent != null) {
-            String emailToString = intent.getStringExtra("email");
-            String passwordToString = intent.getStringExtra("password");
-            User.EMAIL = emailToString;
-            User.EMAIL_CONVERT = Function.convertor(User.EMAIL);
-            String type = "User";
-            try {
-                String newUser = emailToString + "\n" + passwordToString + "\n" + type;
-                FileOutputStream fileOutputStream = openFileOutput("Authentication.txt", MODE_PRIVATE);
-                fileOutputStream.write(newUser.getBytes());
-                fileOutputStream.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            String emailToString = intent.getStringExtra(StaticString.email);
+            if(emailToString != null){
+                String passwordToString = intent.getStringExtra(StaticString.password);
+                User.EMAIL = emailToString;
+                User.EMAIL_CONVERT = Function.convertor(User.EMAIL);
+                String type = StaticString.user;
+                try {
+                    String newUser = emailToString + "\n" + passwordToString + "\n" + type;
+                    FileOutputStream fileOutputStream = openFileOutput(StaticString.Authentication, MODE_PRIVATE);
+                    fileOutputStream.write(newUser.getBytes());
+                    fileOutputStream.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
 
     private  void  getDataFromDataBase(){
-        ValueEventListener eventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(listData.size() > 0){
-                    listData.clear();
-                }
-                for(DataSnapshot ds : snapshot.getChildren()){
-                    History history = ds.getValue(History.class);
-                    assert  history != null;
-                    listData.add(history);
-                }
-                sortMethod();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        };
-        referenceHistory.addValueEventListener(eventListener);
-
-    }
-    public void sortMethod(){
-        Collections.sort(listData, new TimeComparator());
-        listView.setAdapter(viewAdapter);
-    }
-    private static class TimeComparator implements Comparator<History> {
-        @Override
-        public int compare(History a, History b) {
-            long a1 = a.getTime();
-            long b1 = b.getTime();
-            return a1 > b1 ? -1 : a1 == b1 ? 0 : 1;
-        }
+        DatabaseReference referenceHistory = FirebaseDatabase.getInstance().getReference("History").child(User.EMAIL_CONVERT);
+        GenRemoteDataSource genRemoteDataSource = new GenRemoteDataSource(ProductBio.class);
+        genRemoteDataSource.getDataFromDataBase(listView,viewAdapter,listData,referenceHistory);
     }
 
 }

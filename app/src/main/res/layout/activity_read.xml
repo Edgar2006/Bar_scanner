@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
 
     android:layout_height="match_parent"
-    tools:context=".Activity.Read">
+    tools:context=".Activity.User.Read">
 
 
     <RelativeLayout
@@ -19,13 +19,13 @@
         android:layout_marginBottom="20dp">
 
         <RelativeLayout
-            android:onClick="onClickProduct"
             android:id="@+id/company"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:onClick="onClickProduct">
 
             <TextView
-                android:id="@+id/companyName"
+                android:id="@+id/company_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -46,33 +46,6 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/bio1"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="12dp">
-
-            <RatingBar
-                android:id="@+id/ratingBar"
-                style="?android:attr/ratingBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:isIndicator="true"
-                android:progressTint="@color/Base_color"
-                android:secondaryProgressTint="@color/zxing_transparent" />
-
-            <TextView
-                android:id="@+id/ratingBarScore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/ratingBar"
-                android:text="2.5"
-                android:textColor="@color/Second_color" />
-        </RelativeLayout>
-
-        <RelativeLayout
             android:id="@+id/bio1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,17 +57,17 @@
 
 
             <TextView
-                android:id="@+id/productName"
+                android:id="@+id/product_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="product name" />
 
             <ImageView
-                android:id="@+id/productImageView"
+                android:id="@+id/product_image_view"
 
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_below="@+id/productName"
+                android:layout_below="@+id/product_name"
                 android:foreground="@drawable/corner1"
                 android:scaleType="centerCrop"
                 tools:srcCompat="@tools:sample/avatars" />
@@ -105,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="14dp"
                 android:layout_marginTop="20dp"
-                android:layout_toEndOf="@+id/productImageView" />
+                android:layout_toEndOf="@+id/product_image_view" />
 
             <TextView
                 android:id="@+id/showMore"
@@ -113,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/bioShort"
                 android:layout_margin="15dp"
-                android:layout_toEndOf="@+id/productImageView"
+                android:layout_toEndOf="@+id/product_image_view"
                 android:onClick="onClickShowMore"
                 android:text="show more"
                 android:textStyle="bold" />
@@ -122,9 +95,40 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/ratingLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bio"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="7dp">
+
+        <RatingBar
+            android:id="@+id/rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:isIndicator="false"
+            android:progressTint="@color/Base_color"
+            android:secondaryProgressTint="@color/zxing_transparent" />
+
+        <TextView
+            android:id="@+id/rating_bar_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/rating_bar"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="0dp"
+            android:layout_toEndOf="@+id/rating_bar"
+            android:text="0.0"
+            android:textColor="@color/Second_color"
+            android:textSize="40dp" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ratingLayout"
         android:layout_marginTop="71dp">
 
         <com.google.android.material.button.MaterialButtonToggleGroup
@@ -153,7 +157,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recView"
+            android:id="@+id/rec_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="70dp"
@@ -175,18 +179,6 @@
                 android:onClick="onClickComment"
                 android:text="add comment"
                 app:icon="@drawable/ic_baseline_add_24" />
-
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:id="@+id/bottom_app_bar1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="80dp"
-                android:onClick="onClickEditProduct"
-                android:text="edit product bio"
-                app:icon="@drawable/ic_baseline_add_24" />
-
-
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </RelativeLayout>

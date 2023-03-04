@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:onClick="@string/sign_in"
-    tools:context=".Activity.Login_or_register">
+    tools:context=".Activity.All.Login_or_register">
 
     <TextView
         android:id="@+id/textView"
@@ -58,7 +58,7 @@
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/logIn"
+        android:id="@+id/log_in"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/create_new_account_company"

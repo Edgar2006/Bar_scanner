@@ -9,16 +9,17 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.ProductBio;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -31,7 +32,7 @@ import java.io.ByteArrayOutputStream;
 
 public class Product_activityBioEdit extends AppCompatActivity {
     private String barCode;
-    private EditText productName,bio;
+    private TextInputLayout productName,bio;
     private ImageView imageView;
     private Uri uploadUri;
     private StorageReference mStorageRef;
@@ -43,13 +44,13 @@ public class Product_activityBioEdit extends AppCompatActivity {
     }
 
     public void init(){
-        productName = findViewById(R.id.productName);
+        productName = findViewById(R.id.product_name);
         bio = findViewById(R.id.bio);
         imageView = findViewById(R.id.image);
-        mStorageRef = FirebaseStorage.getInstance().getReference("ImageProduct");
+        mStorageRef = FirebaseStorage.getInstance().getReference(StaticString.imageProduct);
         Intent intent = getIntent();
         if (intent != null) {
-            barCode = intent.getStringExtra("barCode");
+            barCode = intent.getStringExtra(StaticString.barCode);
         }
     }
 
@@ -63,20 +64,9 @@ public class Product_activityBioEdit extends AppCompatActivity {
     }
 
     public void onClickSubmit(View view){
-        String bioLong=bio.getText().toString();
-        String bioShort=bioShortGeneration(bioLong);
-        ProductBio productBio;
-        String uri;
-        if(uploadUri == null){
-            productBio = new ProductBio(User.NAME,productName.getText().toString(),"noImage","noImage",bioShort,bioLong,barCode);
-        }
-        else{
-            uri = uploadUri.toString();
-            productBio = new ProductBio(User.NAME,productName.getText().toString(),uri,"noImage",bioShort,bioLong,barCode);
-        }
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Product_bio").child(barCode);
-        reference.setValue(productBio);
-        Toast.makeText(Product_activityBioEdit.this, "Your comment send", Toast.LENGTH_SHORT).show();
+        uploadImage();
+        Intent intent = new Intent(Product_activityBioEdit.this, CompanyHomeActivity.class);
+        startActivity(intent);
     }
 
 
@@ -84,25 +74,38 @@ public class Product_activityBioEdit extends AppCompatActivity {
         getImage();
     }
 
+    private void sendToData(){
+        String bioLong=bio.getEditText().getText().toString();
+        String bioShort=bioShortGeneration(bioLong);
+        ProductBio productBio;
+        String uri;
+        if(uploadUri == null){
+            productBio = new ProductBio(User.EMAIL_CONVERT ,User.NAME,productName.getEditText().getText().toString(),StaticString.noImage,StaticString.noImage,bioShort,bioLong,barCode);
+        }
+        else{
+            uri = uploadUri.toString();
+            productBio = new ProductBio(User.EMAIL_CONVERT ,User.NAME,productName.getEditText().getText().toString(),uri,StaticString.noImage,bioShort,bioLong,barCode);
+        }
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.productBio).child(barCode);
+        reference.setValue(productBio);
+        Toast.makeText(Product_activityBioEdit.this, "Your comment send", Toast.LENGTH_SHORT).show();
+    }
     private void uploadImage(){
+        try {
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG,50,byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
-        StorageReference mRef = mStorageRef.child(barCode + "my_image");
+        StorageReference mRef = mStorageRef.child(barCode);
         final UploadTask uploadTask = mRef.putBytes(byteArray);
-        Task<Uri> task = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                return mRef.getDownloadUrl();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                uploadUri = task.getResult();
-                Toast.makeText(Product_activityBioEdit.this, "Loading is complete", Toast.LENGTH_SHORT).show();
-            }
+        Task<Uri> task = uploadTask.continueWithTask(task1 -> mRef.getDownloadUrl()).addOnCompleteListener(task12 -> {
+            uploadUri = task12.getResult();
+            Toast.makeText(Product_activityBioEdit.this, "Loading is complete", Toast.LENGTH_SHORT).show();
+            sendToData();
         });
+        }catch (Exception e){
+            sendToData();
+        }
     }
 
 
@@ -120,13 +123,12 @@ public class Product_activityBioEdit extends AppCompatActivity {
         if (requestCode == 1 && data != null && data.getData() != null){
             if(resultCode == RESULT_OK){
                 imageView.setImageURI(data.getData());
-                uploadImage();
             }
         }
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
         if(result != null){
             if(result.getContents() != null) {
-                Toast.makeText(this, result.getContents().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, result.getContents(), Toast.LENGTH_SHORT).show();
 
             }
             else{

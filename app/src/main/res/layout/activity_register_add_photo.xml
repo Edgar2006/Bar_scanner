@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.User.RegisterAddPhotoActivity">
+
+
+    <TextView
+        android:onClick="onCLickSkip"
+        android:id="@+id/skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="412dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/round_rect_shape"
+        android:paddingHorizontal="20dp"
+        android:text="Skip"
+        android:textSize="30dp"
+        tools:layout_editor_absoluteX="545dp"
+        tools:layout_editor_absoluteY="31dp" />
+
+    <TextView
+        android:onClick="onCLickNext"
+        android:id="@+id/next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/skip"
+        android:layout_marginStart="22dp"
+        android:layout_toEndOf="@+id/skip"
+        android:background="@drawable/round_rect"
+        android:paddingHorizontal="20dp"
+        android:text="Next"
+        android:textSize="30dp"
+        tools:layout_editor_absoluteX="545dp"
+        tools:layout_editor_absoluteY="31dp" />
+
+    <TextView
+        android:id="@+id/idk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Add image or continue"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:onClick="onClickChooseImage"
+        android:id="@+id/image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/skip"
+        android:layout_below="@+id/idk"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="80dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_baseline_add_photo_alternate_24" />
+</RelativeLayout>

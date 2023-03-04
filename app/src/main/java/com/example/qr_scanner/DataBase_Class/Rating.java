@@ -1,4 +1,4 @@
-package com.example.qr_scanner.Class;
+package com.example.qr_scanner.DataBase_Class;
 
 public class Rating {
     public float rating;

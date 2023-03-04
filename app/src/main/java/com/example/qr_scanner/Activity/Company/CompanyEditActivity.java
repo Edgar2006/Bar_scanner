@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.qr_scanner.Activity.User.NewCommentActivity;
 import com.example.qr_scanner.Class.Function;
+import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.Company;
 import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.DataBase_Class.User;
@@ -23,8 +24,11 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -51,7 +55,7 @@ public class CompanyEditActivity extends AppCompatActivity {
         name = findViewById(R.id.name);
         description = findViewById(R.id.description);
         companyImage = findViewById(R.id.company_image);
-        storageRef = FirebaseStorage.getInstance().getReference("ImageCompanyLogo");
+        storageRef = FirebaseStorage.getInstance().getReference(StaticString.imageCompanyLogo);
     }
 
 
@@ -70,20 +74,12 @@ public class CompanyEditActivity extends AppCompatActivity {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG,50,byteArrayOutputStream);
             byte[] byteArray = byteArrayOutputStream.toByteArray();
-            StorageReference mRef = storageRef.child(User.EMAIL_CONVERT + "_" + name.getEditText().getText() + "my_image");
+            StorageReference mRef = storageRef.child(User.EMAIL_CONVERT + "_" + name.getEditText().getText());
             final UploadTask uploadTask = mRef.putBytes(byteArray);
-            Task<Uri> task = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    return mRef.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    uploadUri = task.getResult();
-                    Toast.makeText(CompanyEditActivity.this, "Loading is complete", Toast.LENGTH_SHORT).show();
-                    sendToData();
-                }
+            Task<Uri> task = uploadTask.continueWithTask(task1 -> mRef.getDownloadUrl()).addOnCompleteListener(task12 -> {
+                uploadUri = task12.getResult();
+                Toast.makeText(CompanyEditActivity.this, "Loading is complete", Toast.LENGTH_SHORT).show();
+                sendToData();
             });
         }catch (Exception e){
             sendToData();
@@ -92,20 +88,32 @@ public class CompanyEditActivity extends AppCompatActivity {
     }
     public void sendToData(){
         Intent dataGet = getIntent();
-        String emailToString = Function.convertor(dataGet.getStringExtra("email"));
-        String passwordToString = dataGet.getStringExtra("password");
+        String emailToString, passwordToString;
+        emailToString = Function.convertor(dataGet.getStringExtra(StaticString.email));
+        passwordToString = dataGet.getStringExtra(StaticString.password);
+        User user = new User("","","",false);
+        try {
+            user = (User)dataGet.getSerializableExtra(StaticString.user);
+            user.setImageRef("0");
+        }catch (Exception e){
+
+        }
+        DatabaseReference boolRef = FirebaseDatabase.getInstance().getReference(StaticString.company).child(emailToString);
+        boolRef.setValue(user);
+
+        ///////////////////////////////////////
 
         Company company;
-        company = new Company(emailToString, name.getEditText().getText().toString(), description.getEditText().getText().toString(), "noImage");
+        company = new Company(emailToString, name.getEditText().getText().toString(), description.getEditText().getText().toString(), StaticString.noImage);
         if(uploadUri != null){
             company.setImageRef(uploadUri.toString());
         }
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Company_Information").child(emailToString);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.companyInformation).child(emailToString);
         reference.setValue(company);
         Toast.makeText(CompanyEditActivity.this, "Your comment send", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(CompanyEditActivity.this,CompanyHomeActivity.class);
-        intent.putExtra("email",emailToString);
-        intent.putExtra("password",passwordToString);
+        intent.putExtra(StaticString.email,emailToString);
+        intent.putExtra(StaticString.password,passwordToString);
         startActivity(intent);
     }
 

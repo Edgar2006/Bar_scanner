@@ -6,74 +6,64 @@
     android:layout_height="match_parent"
     tools:context=".Activity.Company.Product_activityBioEdit">
 
-
-    <EditText
-        android:id="@+id/barCode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/product_name"
+        style="@style/LoginTextInputLayoutStyle"
         android:layout_alignParentTop="true"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="22dp"
-        android:hint="your product barcode" />
+        android:layout_marginTop="50dp"
+        android:hint="Product name"
+        app:startIconDrawable="@drawable/u_user">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
 
-    <EditText
-        android:id="@+id/productName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/barCode"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="15dp"
-        android:hint="your product name" />
+            />
 
-    <EditText
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/bio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/productName"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:hint="your bio" />
+        style="@style/LoginTextInputLayoutStyle"
+        android:layout_below="@+id/product_name"
+        android:layout_marginTop="40dp"
+        android:hint="Description for product"
+        app:startIconDrawable="@drawable/ic_baseline_menu_24">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
-        android:layout_height="247dp"
-        android:layout_below="@+id/chooseImage"
-        android:layout_marginTop="20dp" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/submit"
+        android:layout_below="@+id/bio"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="40dp"
+        android:onClick="onClickChooseImage"
+        android:src="@drawable/ic_baseline_add_photo_alternate_24" />
 
     <Button
-
-        android:id="@+id/chooseImage"
+        android:id="@+id/submit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/bio"
-        android:layout_marginTop="22dp"
-        android:layout_marginBottom="1dp"
-        android:backgroundTint="#9C27B0"
-        android:onClick="onClickChooseImage"
-        android:text="Choose Image"
-        android:textColor="@color/black"
-        android:textSize="30dp" />
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_below="@+id/image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:foregroundGravity="bottom">
-
-        <Button
-
-            android:id="@+id/submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#9C27B0"
-            android:onClick="onClickSubmit"
-            android:text="Submit"
-            android:textColor="@color/black"
-            android:textSize="30dp" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="@dimen/side"
+        android:layout_marginBottom="33dp"
+        android:backgroundTint="@color/Base_color"
+        android:onClick="onClickSubmit"
+        android:text="Save"
+        android:textAllCaps="false"
+        android:textSize="15dp"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

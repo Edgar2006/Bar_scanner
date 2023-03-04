@@ -8,102 +8,136 @@
     android:layout_marginHorizontal="10dp"
     android:background="@drawable/round_rect_shape"
     >
-
-    <RatingBar
-        android:id="@+id/ratingBar"
+    <RelativeLayout
+        android:id="@+id/rel1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/name"
-        android:layout_toEndOf="@+id/user_image"
-        android:isIndicator="true"
-        android:progressTint="@color/Base_color"
-        android:secondaryProgressTint="@color/zxing_transparent" />
-
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginHorizontal="70dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="23dp"
-        android:layout_toEndOf="@+id/user_image"
-        android:hint="Soonershik"
-        android:textSize="18dp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/comment"
-        android:layout_width="205dp"
-        android:layout_height="247dp"
-        android:layout_below="@+id/user_image"
-        android:layout_marginHorizontal="70dp"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="38dp"
-        android:hint="@string/comment"
-        android:textSize="28dp" />
-
-    <ImageButton
-        android:id="@+id/like"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/comment"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="43dp"
-        android:backgroundTint="@color/Second_color"
-        android:src="@drawable/dislike" />
+        android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/user_image"
+            android:layout_width="85dp"
+            android:layout_height="76dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="18dp"
+            android:src="@drawable/ic_baseline_account_circle_24" />
 
 
-    <TextView
-        android:id="@+id/count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/like"
-        android:layout_alignParentEnd="true"
-        android:layout_marginHorizontal="18dp"
-        android:layout_marginTop="11dp"
-        android:layout_marginEnd="26dp"
-        android:hint="0" />
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginHorizontal="70dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_toEndOf="@+id/user_image"
+            android:hint="Soonershik"
+            android:textSize="18dp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/comment"
-        android:layout_alignParentStart="true"
-        android:layout_marginHorizontal="70dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginTop="25dp"
-        android:hint="Time"
-        android:textSize="18dp" />
-
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/user_image"
-        android:layout_width="85dp"
-        android:layout_height="76dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="18dp"
-        android:src="@drawable/ic_baseline_account_circle_24" />
+        <RatingBar
+            android:id="@+id/rating_bar"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:isIndicator="true"
+            android:progressTint="@color/Base_color"
+            android:secondaryProgressTint="@color/zxing_transparent" />
+    </RelativeLayout>
 
 
-    <ImageView
-        android:id="@+id/imageDataBase"
+    <RelativeLayout
+        android:id="@+id/mid"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignTop="@+id/comment"
-        android:layout_alignBottom="@+id/comment"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:layout_toEndOf="@+id/comment"
-        android:adjustViewBounds="true"
-        android:foreground="@drawable/corner"
-        android:scaleType="centerCrop"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rel1"
+        android:layout_marginTop="0dp">
+
+        <TextView
+            android:textSize="18dp"
+            android:id="@+id/comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginHorizontal="0dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_toStartOf="@+id/image_data_base"
+            android:hint="@string/comment" />
+
+        <ImageView
+
+            android:id="@+id/image_data_base"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:foreground="@drawable/corner"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@tools:sample/avatars" />
+
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:id="@+id/down1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mid"
+        android:layout_marginBottom="0dp">
+
+
+        <ImageButton
+            android:id="@+id/like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="43dp"
+            android:backgroundTint="@color/Second_color"
+            android:src="@drawable/dislike" />
+
+
+        <TextView
+            android:id="@+id/count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/like"
+            android:layout_alignParentEnd="true"
+            android:layout_marginHorizontal="18dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="26dp"
+            android:hint="0" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginHorizontal="70dp"
+            android:layout_marginStart="46dp"
+            android:layout_marginTop="25dp"
+            android:hint="Time"
+            android:textSize="18dp" />
+
+
+
+    </RelativeLayout>
+
+
+
+
 </RelativeLayout>

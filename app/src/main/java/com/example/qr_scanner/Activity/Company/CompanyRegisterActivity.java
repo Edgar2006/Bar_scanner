@@ -6,13 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.example.qr_scanner.Activity.Register;
 import com.example.qr_scanner.Class.Function;
+import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,14 +38,14 @@ public class CompanyRegisterActivity extends AppCompatActivity {
         init();
     }
     public void init(){
-        checkBox = (CheckBox) findViewById(R.id.checkBox);
-        relativeLayoutAnnotation = findViewById(R.id.annotationRead);
-        relativeLayoutReg = findViewById(R.id.registerRelativeLayout);
+        checkBox = (CheckBox) findViewById(R.id.check_box);
+        relativeLayoutAnnotation = findViewById(R.id.annotation_read);
+        relativeLayoutReg = findViewById(R.id.register_relative_layout);
         name = (TextInputLayout)findViewById(R.id.name);
         email = (TextInputLayout)findViewById(R.id.email);
         password = (TextInputLayout)findViewById(R.id.password);
         firebaseAuth = FirebaseAuth.getInstance();
-        reference = FirebaseDatabase.getInstance().getReference("Company");
+        reference = FirebaseDatabase.getInstance().getReference(StaticString.company);
         emailToString = email.getEditText().getText().toString();
         passwordToString = password.getEditText().getText().toString();
 
@@ -124,7 +123,7 @@ public class CompanyRegisterActivity extends AppCompatActivity {
         });
     }
     public void nextActivity(){
-        User user = new User(nameToString, emailToString,"noImage",false);
+        User user = new User(nameToString, emailToString,StaticString.noImage,false);
         User.EMAIL_CONVERT = Function.convertor(emailToString);
         reference.child(User.EMAIL_CONVERT).setValue(user);
         Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);

@@ -47,4 +47,14 @@ public class Company {
     public void setImageRef(String imageRef) {
         this.imageRef = imageRef;
     }
+
+    @Override
+    public String toString() {
+        return "Company{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", description='" + description + '\'' +
+                ", imageRef='" + imageRef + '\'' +
+                '}';
+    }
 }

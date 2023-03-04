@@ -1,4 +1,4 @@
-package com.example.qr_scanner.Activity;
+package com.example.qr_scanner.Activity.All;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.qr_scanner.Activity.Company.CompanyRegisterActivity;
+import com.example.qr_scanner.Activity.User.Register;
 import com.example.qr_scanner.R;
 
 public class Login_or_register extends AppCompatActivity {
@@ -25,10 +26,10 @@ public class Login_or_register extends AppCompatActivity {
 
     public void init() {
         createNewAccount = findViewById(R.id.create_new_account);
-        singIn = findViewById(R.id.logIn);
+        singIn = findViewById(R.id.log_in);
     }
     public void create_new_account(View view){
-        Intent intent = new Intent(Login_or_register.this,Register.class);
+        Intent intent = new Intent(Login_or_register.this, Register.class);
         startActivity(intent);
     }
     public void create_new_account_company(View view){

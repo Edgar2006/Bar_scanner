@@ -52,21 +52,21 @@
 
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:onClick="onClickChooseImage"
         android:id="@+id/company_image"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_above="@+id/verification"
+        android:layout_above="@+id/submit"
         android:layout_below="@+id/description"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="59dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="41dp"
+        android:onClick="onClickChooseImage"
         android:src="@drawable/ic_baseline_add_photo_alternate_24" />
 
     <Button
-        android:id="@+id/verification"
+        android:id="@+id/submit"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"

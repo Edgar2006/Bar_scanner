@@ -7,22 +7,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.qr_scanner.Activity.Read;
 import com.example.qr_scanner.Adapter.CaptureAct;
-import com.example.qr_scanner.DataBase_Class.History;
-import com.example.qr_scanner.DataBase_Class.User;
+import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.R;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 public class ScanActivity extends AppCompatActivity {
-    private String bareCode = "";
+    private String barCode = "";
     private TextInputLayout barCodeEditText;
-    private Intent intent;
-    private DatabaseReference referenceHistory;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,12 +29,12 @@ public class ScanActivity extends AppCompatActivity {
     public void onCLickRead(View view){
         String barCodeText = barCodeEditText.getEditText().getText().toString();
         boolean b=false;
-        if(barCodeText.isEmpty() && bareCode.isEmpty()){
+        if(barCodeText.isEmpty() && barCode.isEmpty()){
             b=true;
             Toast.makeText(this, "place scan barcode", Toast.LENGTH_SHORT).show();
         }
-        else if(bareCode.isEmpty() || !barCodeText.equals(bareCode)){
-            bareCode = barCodeText;
+        else if(barCode.isEmpty() || !barCodeText.equals(barCode)){
+            barCode = barCodeText;
         }
         if(!b){
             push_activity();
@@ -52,8 +46,8 @@ public class ScanActivity extends AppCompatActivity {
         if(result != null){
             if(result.getContents() != null){
                 try {
-                    bareCode = result.getContents().toString();
-                    barCodeEditText.getEditText().setText(bareCode);
+                    barCode = result.getContents().toString();
+                    barCodeEditText.getEditText().setText(barCode);
                 }catch (Exception e){
                     Toast.makeText(this, "place scan again or input barcode number manually", Toast.LENGTH_SHORT).show();
                 }
@@ -75,14 +69,11 @@ public class ScanActivity extends AppCompatActivity {
         integrator.initiateScan();
     }
     public void init(){
-        barCodeEditText = findViewById(R.id.barCode_editText);
-        intent = new Intent(ScanActivity.this, Read.class);
-        referenceHistory = FirebaseDatabase.getInstance().getReference("History").child(User.EMAIL_CONVERT);
+        barCodeEditText = findViewById(R.id.barCode_edit_text);
     }
     public void push_activity(){
-        referenceHistory.child(bareCode).setValue(new History(bareCode,System.currentTimeMillis()));
         Intent intent = new Intent(ScanActivity.this, Read.class);
-        intent.putExtra("bareCode", bareCode);
+        intent.putExtra(StaticString.barCode, barCode);
         startActivity(intent);
     }
 

@@ -1,4 +1,4 @@
-package com.example.qr_scanner.Activity;
+package com.example.qr_scanner.Activity.All;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.qr_scanner.DataBase_Class.Messenger;
+import com.example.qr_scanner.Activity.User.HomeActivity;
+import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
 import com.google.android.gms.tasks.Continuation;
@@ -27,21 +28,19 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
-    private FirebaseAuth mAuth;
-
+    private FirebaseAuth firebaseAuth;
     private EditText name;
     private ImageView imageView;
     private Uri uploadUri;
-    private StorageReference mStorageRef;
+    private StorageReference storageReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,15 +48,18 @@ public class SettingsActivity extends AppCompatActivity {
         init();
     }
     private void init(){
-        mAuth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         name = findViewById(R.id.name);
         imageView = findViewById(R.id.image);
-        mStorageRef = FirebaseStorage.getInstance().getReference("UserImage");
+        name.setText(User.NAME);
+        uploadUri = Uri.parse(User.URL);
+        Picasso.get().load(User.URL).into(imageView);
+        storageReference = FirebaseStorage.getInstance().getReference(StaticString.userImage);
     }
     public void onClickLogout(View view){
         try {
             String temp = "";
-            FileOutputStream fileOutputStream = openFileOutput("Authentication.txt", MODE_PRIVATE);
+            FileOutputStream fileOutputStream = openFileOutput(StaticString.Authentication, MODE_PRIVATE);
             fileOutputStream.write(temp.getBytes());
             fileOutputStream.close();
         } catch (FileNotFoundException e) {
@@ -65,24 +67,14 @@ public class SettingsActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mAuth.signOut();
+        firebaseAuth.signOut();
         Intent intent = new Intent(SettingsActivity.this, Login_or_register.class);
         startActivity(intent);
     }
 
     public void onClickSubmit(View view){
-        User user;
-        String uri;
-        if(uploadUri == null){
-            user = new User(name.getText().toString(), User.EMAIL,"noImage",false);
-        }
-        else{
-            uri = uploadUri.toString();
-            user = new User(name.getText().toString(), User.EMAIL,uri,false);
-        }
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User").child(User.EMAIL_CONVERT);
-        reference.setValue(user);
-        Toast.makeText(SettingsActivity.this, "Your comment send", Toast.LENGTH_SHORT).show();
+        uploadImage();
+
     }
 
 
@@ -95,19 +87,25 @@ public class SettingsActivity extends AppCompatActivity {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG,15,byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
-        StorageReference mRef = mStorageRef.child(User.EMAIL_CONVERT + "my_image");
+        StorageReference mRef = storageReference.child(User.EMAIL_CONVERT);
         final UploadTask uploadTask = mRef.putBytes(byteArray);
-        Task<Uri> task = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                return mRef.getDownloadUrl();
+        Task<Uri> task = uploadTask.continueWithTask(task1 -> mRef.getDownloadUrl()).addOnCompleteListener(task12 -> {
+            uploadUri = task12.getResult();
+            Toast.makeText(SettingsActivity.this, "Loading is complete", Toast.LENGTH_SHORT).show();
+            User user;
+            String uri;
+            if(uploadUri == null){
+                user = new User(name.getText().toString(), User.EMAIL,StaticString.noImage,false);
             }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                uploadUri = task.getResult();
-                Toast.makeText(SettingsActivity.this, "Loading is complete", Toast.LENGTH_SHORT).show();
+            else{
+                uri = uploadUri.toString();
+                user = new User(name.getText().toString(), User.EMAIL,uri,false);
             }
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.user).child(User.EMAIL_CONVERT);
+            reference.setValue(user);
+            Toast.makeText(SettingsActivity.this, "Your comment send", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(SettingsActivity.this, HomeActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -126,13 +124,12 @@ public class SettingsActivity extends AppCompatActivity {
         if (requestCode == 1 && data != null && data.getData() != null){
             if(resultCode == RESULT_OK){
                 imageView.setImageURI(data.getData());
-                uploadImage();
             }
         }
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
         if(result != null){
             if(result.getContents() != null) {
-                Toast.makeText(this, result.getContents().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, result.getContents(), Toast.LENGTH_SHORT).show();
 
             }
             else{
@@ -141,6 +138,5 @@ public class SettingsActivity extends AppCompatActivity {
         }else{
             super.onActivityResult(requestCode,resultCode,data);
         }
-
     }
 }

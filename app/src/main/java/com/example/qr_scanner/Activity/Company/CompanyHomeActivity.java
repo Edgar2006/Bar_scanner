@@ -7,22 +7,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.qr_scanner.Activity.Login_or_register;
-import com.example.qr_scanner.Activity.Read;
-import com.example.qr_scanner.Activity.User.HomeActivity;
-import com.example.qr_scanner.Adapter.ViewAdapter;
+import com.example.qr_scanner.Activity.All.Login_or_register;
 import com.example.qr_scanner.Adapter.ViewAdapterCompany;
+import com.example.qr_scanner.Adapter.ViewAdapterCompanyByUser;
 import com.example.qr_scanner.Class.Function;
+import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.Company;
-import com.example.qr_scanner.DataBase_Class.Messenger;
+import com.example.qr_scanner.DataBase_Class.GenRemoteDataSource;
 import com.example.qr_scanner.DataBase_Class.ProductBio;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
@@ -40,13 +36,14 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class CompanyHomeActivity extends AppCompatActivity {
-    private ImageView companyImage;
-    private TextView companyName;
-
+    private ImageView companyImage,setting;
+    private TextView companyName,description;
     public RecyclerView listView;
-    public ViewAdapterCompany viewAdapter;
+    public RecyclerView.Adapter viewAdapter;
     public ArrayList<ProductBio> listData;
     public RelativeLayout relativeLayout;
+    private boolean onlyRead;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,30 +52,29 @@ public class CompanyHomeActivity extends AppCompatActivity {
         init();
         readUser();
         getDataFromDataBase();
-
-        relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CompanyHomeActivity.this,CheckBarCodeActivity.class);
-                intent.putExtra("name",companyName.getText().toString());
-                startActivity(intent);
-            }
-        });
-
     }
     private void init(){
+        setting = findViewById(R.id.setting);
+        description = findViewById(R.id.description);
         relativeLayout = findViewById(R.id.add);
         companyImage = findViewById(R.id.company_image);
         companyName = findViewById(R.id.company_name);
-        listView = findViewById(R.id.recView);
+        listView = findViewById(R.id.rec_view);
         listData = new ArrayList<>();
-        viewAdapter = new ViewAdapterCompany(this,listData);
+        if (onlyRead){
+            viewAdapter = new ViewAdapterCompanyByUser(this,listData);
+            relativeLayout.setVisibility(View.GONE);
+            setting.setVisibility(View.GONE);
+        }
+        else{
+            viewAdapter = new ViewAdapterCompany(this,listData);
+        }
         listView.setLayoutManager(new LinearLayoutManager(this));
         listView.setAdapter(viewAdapter);
 
     }
     private void readUser(){
-        DatabaseReference myUserRef = FirebaseDatabase.getInstance().getReference("Company_Information").child(User.EMAIL_CONVERT);
+        DatabaseReference myUserRef = FirebaseDatabase.getInstance().getReference(StaticString.companyInformation).child(User.EMAIL_CONVERT);
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -91,7 +87,8 @@ public class CompanyHomeActivity extends AppCompatActivity {
                 User.URL = company.getImageRef();
                 String uploadUri = company.getImageRef();
                 companyName.setText(company.getName());
-                if(!Objects.equals(uploadUri, "noImage")) {
+                description.setText(company.getDescription());
+                if(!Objects.equals(uploadUri, StaticString.noImage)) {
                     Picasso.get().load(company.getImageRef()).into(companyImage);
                 }
             }
@@ -105,44 +102,40 @@ public class CompanyHomeActivity extends AppCompatActivity {
     private void addLocalData(){
         Intent intent = getIntent();
         if (intent != null) {
-            String emailToString = intent.getStringExtra("email");
-            String passwordToString = intent.getStringExtra("password");
-            String type = "Company";
-            User.EMAIL = emailToString;
-            User.EMAIL_CONVERT = Function.convertor(User.EMAIL);
-            try {
-                String newUser = emailToString + "\n" + passwordToString + "\n" + type;
-                FileOutputStream fileOutputStream = openFileOutput("Authentication.txt", MODE_PRIVATE);
-                fileOutputStream.write(newUser.getBytes());
-                fileOutputStream.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            String emailToString, passwordToString;
+            emailToString = intent.getStringExtra(StaticString.email);
+            passwordToString = intent.getStringExtra(StaticString.password);
+            onlyRead = intent.getBooleanExtra(StaticString.onlyRead,false);
+            String type = StaticString.company;
+            if(emailToString!=null && !onlyRead) {
+                User.EMAIL = emailToString;
+                User.EMAIL_CONVERT = Function.convertor(User.EMAIL);
+                try {
+                    String newUser = emailToString + "\n" + passwordToString + "\n" + type;
+                    FileOutputStream fileOutputStream = openFileOutput(StaticString.Authentication, MODE_PRIVATE);
+                    fileOutputStream.write(newUser.getBytes());
+                    fileOutputStream.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
     public void getDataFromDataBase(){
-        DatabaseReference referenceProduct = FirebaseDatabase.getInstance().getReference().child("Product_bio");
-        ValueEventListener eventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(listData.size() > 0){
-                    listData.clear();
-                }
-                for(DataSnapshot ds : snapshot.getChildren()){
-                    ProductBio productBio = ds.getValue(ProductBio.class);
-                    assert  productBio != null;
-                    listData.add(productBio);
-                }
-                listView.setAdapter(viewAdapter);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        };
-        referenceProduct.addValueEventListener(eventListener);
-
+        DatabaseReference referenceProduct = FirebaseDatabase.getInstance().getReference().child(StaticString.productBio);
+        GenRemoteDataSource genRemoteDataSource = new GenRemoteDataSource(ProductBio.class);
+        genRemoteDataSource.getDataFromDataBase(listView,viewAdapter,listData,referenceProduct);
+    }
+    public void onClickAdd(View view) {
+        Intent intent = new Intent(CompanyHomeActivity.this,CheckBarCodeActivity.class);
+        intent.putExtra(StaticString.user,companyName.getText().toString());
+        startActivity(intent);
+    }
+    public void onCLickSetting(View view) {
+        Intent intent = new Intent(CompanyHomeActivity.this,CompanyEditActivity.class);
+        intent.putExtra(StaticString.email,User.EMAIL_CONVERT);
+        startActivity(intent);
     }
 }

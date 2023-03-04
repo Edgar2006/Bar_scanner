@@ -35,6 +35,7 @@ android {
 
 dependencies {
 
+    implementation 'com.firebaseui:firebase-ui-database:8.0.1'
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
     implementation 'jp.wasabeef:picasso-transformations:2.4.0'
     implementation 'com.squareup.picasso:picasso:2.8'

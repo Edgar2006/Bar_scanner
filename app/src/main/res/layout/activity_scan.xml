@@ -39,7 +39,7 @@
         app:iconTint="@color/Base_color" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/barCode_editText"
+        android:id="@+id/barCode_edit_text"
         style="@style/LoginTextInputLayoutStyle"
         app:startIconDrawable="@drawable/scan_icon"
         android:layout_below="@+id/scan_now"
@@ -60,7 +60,7 @@
         android:id="@+id/start_activity_read"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_below="@+id/barCode_editText"
+        android:layout_below="@+id/barCode_edit_text"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="194dp"
         android:backgroundTint="@color/Base_color"

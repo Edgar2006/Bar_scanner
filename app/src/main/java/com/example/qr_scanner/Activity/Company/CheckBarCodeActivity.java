@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.ProductBio;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
@@ -36,9 +37,7 @@ public class CheckBarCodeActivity extends AppCompatActivity {
         builder = new AlertDialog.Builder(this);
         Intent intent = getIntent();
         if (intent != null) {
-            Log.e("________________","1");
-            User.NAME = intent.getStringExtra("name");
-            Log.e("________________","1" + User.NAME);
+            User.NAME = intent.getStringExtra(StaticString.user);
         }
     }
     public void onClickCheck(View view){
@@ -47,7 +46,7 @@ public class CheckBarCodeActivity extends AppCompatActivity {
             Toast.makeText(this, "Please input barcode", Toast.LENGTH_SHORT).show();
         }
         else{
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Product_bio").child(barCode);
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.productBio).child(barCode);
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -56,7 +55,6 @@ public class CheckBarCodeActivity extends AppCompatActivity {
                         addInfo(barCode);
                     }
                     else{
-                        Log.e("________________",User.NAME);
                         if(Objects.equals(productBio.getCompanyName(), User.NAME)){
                             addInfo(barCode);
                         }
@@ -75,32 +73,26 @@ public class CheckBarCodeActivity extends AppCompatActivity {
     }
     public void addInfo(String barCode){
         Intent intent = new Intent(CheckBarCodeActivity.this,Product_activityBioEdit.class);
-        intent.putExtra("barCode",barCode);
-        Log.e("________________","2");
+        intent.putExtra(StaticString.barCode,barCode);
         startActivity(intent);
     }
     private void sendEmail(){
         builder.setMessage("Do you want to open Email ?")
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        finish();
-                        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-                        emailIntent.setType("plain/text");
-                        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { "edgar.bezhanyan@gmail.com" });
-                        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Email Subject");
-                        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Email Body");
-                        startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-                    }
+                .setPositiveButton("Yes", (dialog, id) -> {
+                    finish();
+                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                    emailIntent.setType("plain/text");
+                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "edgar.bezhanyan@gmail.com" });
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Email Subject");
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, "Email Body");
+                    startActivity(Intent.createChooser(emailIntent, "Send mail..."));
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                        Toast.makeText(getApplicationContext(),"Please change barCode",
-                                Toast.LENGTH_SHORT).show();
-                    }
+                .setNegativeButton("No", (dialog, id) -> {
+                    dialog.cancel();
+                    Toast.makeText(getApplicationContext(),"Please change barCode",
+                            Toast.LENGTH_SHORT).show();
                 });
-        //Creating dialog box
         AlertDialog alert = builder.create();
         alert.setTitle("Sorry, but this bar code is already using another company, if you are the true owner, then contact your dreams via Email");
         alert.show();

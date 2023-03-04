@@ -1,11 +1,10 @@
-package com.example.qr_scanner.Activity;
+package com.example.qr_scanner.Activity.All;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -13,6 +12,7 @@ import com.example.qr_scanner.Activity.Company.CompanyEditActivity;
 import com.example.qr_scanner.Activity.Company.CompanyHomeActivity;
 import com.example.qr_scanner.Activity.User.HomeActivity;
 import com.example.qr_scanner.Class.Function;
+import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,12 +26,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 public class Login extends AppCompatActivity {
     private TextInputLayout email,password;
     private String emailToString, passwordToString;
-    private FirebaseAuth mAuth;
+    private FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +41,8 @@ public class Login extends AppCompatActivity {
     }
     public void init(){
         email = findViewById(R.id.email);
-        password =findViewById(R.id.password);
-        mAuth = FirebaseAuth.getInstance();
+        password = findViewById(R.id.password);
+        firebaseAuth = FirebaseAuth.getInstance();
     }
     public void onClickSignIn(View view){
         emailToString = email.getEditText().getText().toString();
@@ -50,11 +51,12 @@ public class Login extends AppCompatActivity {
             Toast.makeText(Login.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
         }
         else{
-            mAuth.signInWithEmailAndPassword(emailToString, passwordToString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            firebaseAuth.signInWithEmailAndPassword(emailToString, passwordToString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
-                        if (mAuth.getCurrentUser().isEmailVerified()){
+                        if (firebaseAuth.getCurrentUser().isEmailVerified()){
+                            User.EMAIL = emailToString;
                             checkIfCompany();
                         }
                         else{
@@ -70,17 +72,17 @@ public class Login extends AppCompatActivity {
     }
 
     private void checkIfCompany(){
-        DatabaseReference referenceUser = FirebaseDatabase.getInstance().getReference("Company").child(Function.convertor(emailToString));
+        DatabaseReference referenceUser = FirebaseDatabase.getInstance().getReference(StaticString.company).child(Function.convertor(emailToString));
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 if(user != null){
-                    if(!Objects.equals(user.getImageRef(), "noImage")){
+                    if(!Objects.equals(user.getImageRef(), StaticString.noImage)){
                         Toast.makeText(Login.this, "Your account is verified by Admin", Toast.LENGTH_SHORT).show();
                         if(Objects.equals(user.getImageRef(), "1") || Objects.equals(user.getImageRef(), "0")) {
                             if(Objects.equals(user.getImageRef(), "1")){
-                                nextActivityCompanyEdit();
+                                nextActivityCompanyEdit(user);
                             }
                             else{
                                 nextActivityCompanyHome();
@@ -106,26 +108,27 @@ public class Login extends AppCompatActivity {
         referenceUser.addValueEventListener(eventListener);
 
     }
-    public void nextActivityCompanyEdit() {
+    public void nextActivityCompanyEdit(User user) {
         Intent intent = new Intent(Login.this, CompanyEditActivity.class);
-        intent.putExtra("email", emailToString);
-        intent.putExtra("password", passwordToString);
+        intent.putExtra(StaticString.email, emailToString);
+        intent.putExtra(StaticString.password, passwordToString);
+        intent.putExtra(StaticString.user, (Serializable) user);
         startActivity(intent);
     }
     public void nextActivityCompanyHome() {
         Intent intent = new Intent(Login.this, CompanyHomeActivity.class);
-        intent.putExtra("email", emailToString);
-        intent.putExtra("password", passwordToString);
+        intent.putExtra(StaticString.email, emailToString);
+        intent.putExtra(StaticString.password, passwordToString);
         startActivity(intent);
     }
     public void nextActivityUser() {
         Intent intent = new Intent(Login.this, HomeActivity.class);
-        intent.putExtra("email", emailToString);
-        intent.putExtra("password", passwordToString);
+        intent.putExtra(StaticString.email, emailToString);
+        intent.putExtra(StaticString.password, passwordToString);
         startActivity(intent);
     }
     public void onClickForgotPassword(View view){
-        mAuth.sendPasswordResetEmail(emailToString).addOnCompleteListener(new OnCompleteListener<Void>() {
+        firebaseAuth.sendPasswordResetEmail(emailToString).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {

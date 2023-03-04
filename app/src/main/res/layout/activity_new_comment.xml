@@ -9,59 +9,57 @@
 
 
     <RatingBar
-        android:id="@+id/ratingBar"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/rating_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="95dp"
+        android:layout_below="@+id/comment_image"
+        android:layout_marginTop="3dp"
         android:progressTint="@color/Base_color" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/comment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/LoginTextInputLayoutStyle"
         android:layout_alignParentTop="true"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="184dp"
-        android:hint="your comment"
+        android:layout_marginTop="80dp"
+        android:hint="@string/company_name"
+        app:startIconDrawable="@drawable/ic_baseline_add_comment_24">
 
-        />
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
 
-    <ImageView
-        android:id="@+id/image"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/comment_image"
         android:layout_width="match_parent"
-        android:layout_height="247dp"
-        android:layout_below="@+id/chooseImage"
-        android:layout_marginTop="45dp" />
-
-    <Button
-
-        android:id="@+id/chooseImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="279dp"
-        android:layout_marginBottom="1dp"
-        android:backgroundTint="#9C27B0"
+        android:layout_height="300dp"
+        android:layout_below="@+id/comment"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="50dp"
         android:onClick="onClickChooseImage"
-        android:text="Choose Image"
-        android:textColor="@color/black"
-        android:textSize="30dp" />
+        android:src="@drawable/ic_baseline_add_photo_alternate_24" />
 
     <Button
-
         android:id="@+id/submit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="702dp"
-        android:layout_marginBottom="1dp"
-        android:backgroundTint="#9C27B0"
+        android:layout_height="70dp"
+        android:layout_below="@+id/comment_image"
+        android:layout_marginHorizontal="@dimen/side"
+        android:layout_marginTop="158dp"
+        android:backgroundTint="@color/Base_color"
         android:onClick="onClickSubmit"
-        android:text="Submit"
-        android:textColor="@color/black"
-        android:textSize="30dp" />
+        android:text="Save"
+        android:textAllCaps="false"
+        android:textSize="15dp"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

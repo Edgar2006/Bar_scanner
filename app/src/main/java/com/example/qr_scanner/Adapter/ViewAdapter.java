@@ -1,6 +1,7 @@
 package com.example.qr_scanner.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,16 +10,21 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.qr_scanner.Activity.All.OpenImageActivity;
+import com.example.qr_scanner.Activity.User.UserAllCommentShowActivity;
 import com.example.qr_scanner.Class.Function;
+import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.DataBase_Class.MyBool;
 import com.example.qr_scanner.R;
 import com.example.qr_scanner.DataBase_Class.User;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -56,9 +62,9 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         holder.mAuth = FirebaseAuth.getInstance();
         holder.database = FirebaseDatabase.getInstance();
         holder.time = messenger.getTime();
-        holder.reference  = FirebaseDatabase.getInstance().getReference("Product").child(holder.address).child(temp);
-        holder.friendRef = FirebaseDatabase.getInstance().getReference("Friends").child(holder.address).child(temp);
-        holder.likeRef = FirebaseDatabase.getInstance().getReference("Friends").child(holder.address).child(temp);
+        holder.reference  = FirebaseDatabase.getInstance().getReference(StaticString.product).child(holder.address).child(temp);
+        holder.friendRef = FirebaseDatabase.getInstance().getReference(StaticString.friends).child(holder.address).child(temp);
+        holder.likeRef = FirebaseDatabase.getInstance().getReference(StaticString.friends).child(holder.address).child(temp);
         holder.uploadUri = messenger.getImageRef();
         holder.userImageUrl = messenger.getUserRef();
         holder.ratingBar.setRating(messenger.getRatingBarScore());
@@ -82,15 +88,15 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-        if(!Objects.equals(holder.uploadUri, "noImage")) {
-            Picasso.get().load(messenger.getImageRef()).into(holder.imageDataBase);
+        if(!Objects.equals(holder.uploadUri, StaticString.noImage)) {
+            Picasso.get().load(holder.uploadUri).into(holder.imageDataBase);
         }
         else{
             holder.imageDataBase.setVisibility(View.GONE);
             holder.comment.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
 
         }
-        if(!Objects.equals(holder.userImageUrl, "noImage")) {
+        if(!Objects.equals(holder.userImageUrl, StaticString.noImage)) {
             Picasso.get().load(holder.userImageUrl).into(holder.userImage);
         }
 
@@ -123,62 +129,74 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         FirebaseAuth mAuth;
         DatabaseReference reference, friendRef, likeRef;
         FirebaseDatabase database;
+        RelativeLayout userClick;
         int size;
         public ViewHolder(View view) {
             super(view);
-            ratingBar = view.findViewById(R.id.ratingBar);
+            userClick = view.findViewById(R.id.rel1);
+            ratingBar = view.findViewById(R.id.rating_bar);
             email = view.findViewById(R.id.name);
             comment = view.findViewById(R.id.comment);
             count = view.findViewById(R.id.count);
             like = view.findViewById(R.id.like);
             time_text = view.findViewById(R.id.time);
-            imageDataBase = view.findViewById(R.id.imageDataBase);
+            imageDataBase = view.findViewById(R.id.image_data_base);
             userImage = view.findViewById(R.id.user_image);
             size = 0;
-            like.setOnClickListener(new View.OnClickListener() {
+            like.setOnClickListener(view1 -> friendRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onClick(View view) {
-                    friendRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            boolean b = false;
-                            for(DataSnapshot data: dataSnapshot.getChildren()){
-                                if(data.getKey().toString().equals(User.EMAIL_CONVERT)){
-                                    b=true;
-                                    MyBool isLike = data.getValue(MyBool.class);
-                                    boolean isOk = isLike.isLike();
-                                    likeRef.child(User.EMAIL_CONVERT).setValue(new MyBool(!isOk));
-                                    int second = Integer.parseInt(count.getText().toString());
-                                    if(!isOk){
-                                        second++;
-                                        count.setText(Integer.toString(second));
-                                    }
-                                    else{
-                                        second--;
-                                    }
-                                    count.setText(Integer.toString(second));
-                                    addMessenger();
-
-                                }
-                            }
-                            if(!b){
-                                likeRef.child(User.EMAIL_CONVERT).setValue(new MyBool(true));
-                                int second = Integer.parseInt(count.getText().toString());
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    boolean b = false;
+                    for(DataSnapshot data: dataSnapshot.getChildren()){
+                        if(data.getKey().toString().equals(User.EMAIL_CONVERT)){
+                            b=true;
+                            MyBool isLike = data.getValue(MyBool.class);
+                            boolean isOk = isLike.isLike();
+                            likeRef.child(User.EMAIL_CONVERT).setValue(new MyBool(!isOk));
+                            int second = Integer.parseInt(count.getText().toString());
+                            if(!isOk){
                                 second++;
                                 count.setText(Integer.toString(second));
-                                addMessenger();
-
                             }
+                            else{
+                                second--;
+                            }
+                            count.setText(Integer.toString(second));
+                            addMessenger();
+
                         }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
-                    });
+                    }
+                    if(!b){
+                        likeRef.child(User.EMAIL_CONVERT).setValue(new MyBool(true));
+                        int second = Integer.parseInt(count.getText().toString());
+                        second++;
+                        count.setText(Integer.toString(second));
+                        addMessenger();
+
+                    }
                 }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            }));
+            userClick.setOnClickListener(v -> {
+                Intent intent = new Intent(view.getContext(), UserAllCommentShowActivity.class);
+                intent.putExtra(StaticString.email,Function.convertor(emailToString));
+                intent.putExtra(StaticString.user,name);
+                intent.putExtra(StaticString.userImage,userImageUrl);
+                view.getContext().startActivity(intent);
             });
+
+            imageDataBase.setOnClickListener(v -> {
+                Intent intent = new Intent(view.getContext(), OpenImageActivity.class);
+                intent.putExtra(StaticString.url,uploadUri);
+                view.getContext().startActivity(intent);
+            });
+
         }
+
         private void addMessenger(){
-            Messenger newMessenger = new Messenger(emailToString,name.toString(),comment.getText().toString(),address,count.getText().toString(),"notImage","notImage",time,ratingBar.getRating());
+            Messenger newMessenger = new Messenger(emailToString, name,comment.getText().toString(),address,count.getText().toString(),StaticString.noImage,StaticString.noImage,time,ratingBar.getRating());
             if(userImageUrl != null){
                 newMessenger.setUserRef(userImageUrl);
             }

@@ -1,9 +1,10 @@
 package com.example.qr_scanner.DataBase_Class;
 
 public class ProductBio {
-    private String companyName, productName, imageRef, companyRef, bioShort, bioLong, barCode;
+    private String companyEmail, companyName, productName, imageRef, companyRef, bioShort, bioLong, barCode;
 
-    public ProductBio(String companyName, String productName, String imageRef, String companyRef, String bioShort, String bioLong, String barCode) {
+    public ProductBio(String companyEmail ,String companyName, String productName, String imageRef, String companyRef, String bioShort, String bioLong, String barCode) {
+        this.companyEmail = companyEmail;
         this.companyName = companyName;
         this.productName = productName;
         this.imageRef = imageRef;
@@ -14,6 +15,14 @@ public class ProductBio {
     }
 
     public ProductBio() {
+    }
+
+    public String getCompanyEmail() {
+        return companyEmail;
+    }
+
+    public void setCompanyEmail(String companyEmail) {
+        this.companyEmail = companyEmail;
     }
 
     public String getBarCode() {

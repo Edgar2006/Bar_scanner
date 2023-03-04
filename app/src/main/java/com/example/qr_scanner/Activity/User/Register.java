@@ -1,4 +1,4 @@
-package com.example.qr_scanner.Activity;
+package com.example.qr_scanner.Activity.User;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,11 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.qr_scanner.Activity.User.HomeActivity;
 import com.example.qr_scanner.Class.Function;
+import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,7 +38,7 @@ public class Register extends AppCompatActivity {
         email = (TextInputLayout)findViewById(R.id.email);
         password = (TextInputLayout)findViewById(R.id.password);
         firebaseAuth = FirebaseAuth.getInstance();
-        reference = FirebaseDatabase.getInstance().getReference("User");
+        reference = FirebaseDatabase.getInstance().getReference(StaticString.user);
         emailToString = email.getEditText().getText().toString();
         passwordToString = password.getEditText().getText().toString();
     }
@@ -61,7 +60,6 @@ public class Register extends AppCompatActivity {
                 }
                 else{
                     registerOrVerification = false;
-                    Log.e("_____", task.getException().getMessage());
                 }
             }
         });
@@ -84,34 +82,29 @@ public class Register extends AppCompatActivity {
     }
 
     public void nextActivity(){
-        User user = new User(nameToString, emailToString,"noImage",false);
+        User user = new User(nameToString, emailToString,StaticString.noImage,false);
         User.EMAIL_CONVERT = Function.convertor(emailToString);
         reference.child(User.EMAIL_CONVERT).setValue(user);
-        Intent intent = new Intent(Register.this, HomeActivity.class);
-        intent.putExtra("email",emailToString);
-        intent.putExtra("password",passwordToString);
+        Intent intent = new Intent(Register.this, RegisterAddPhotoActivity.class);
+        intent.putExtra(StaticString.email,emailToString);
+        intent.putExtra(StaticString.password,passwordToString);
+        intent.putExtra(StaticString.user,nameToString);
         startActivity(intent);
     }
     public void createUser(){
-        firebaseAuth.createUserWithEmailAndPassword(emailToString, passwordToString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(Register.this, "Please check your email for verification", Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                Toast.makeText(Register.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                }
-                else{
-                    Toast.makeText(Register.this, "You have some errors ", Toast.LENGTH_SHORT).show();
-                }
+        firebaseAuth.createUserWithEmailAndPassword(emailToString, passwordToString).addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task1 -> {
+                    if(task1.isSuccessful()){
+                        Toast.makeText(Register.this, "Please check your email for verification", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(Register.this, task1.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            else{
+                Toast.makeText(Register.this, "You have some errors ", Toast.LENGTH_SHORT).show();
             }
         });
     }

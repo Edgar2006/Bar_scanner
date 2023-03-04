@@ -7,17 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.qr_scanner.Activity.Company.Product_activityBioEdit;
 import com.example.qr_scanner.Activity.User.Read;
 import com.example.qr_scanner.Class.StaticString;
-import com.example.qr_scanner.DataBase_Class.Rating;
 import com.example.qr_scanner.DataBase_Class.ProductBio;
+import com.example.qr_scanner.DataBase_Class.Rating;
 import com.example.qr_scanner.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,20 +27,21 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class ViewAdapterCompany extends RecyclerView.Adapter<ViewAdapterCompany.ViewHolder> {
+public class ViewAdapterCompanyByUser extends RecyclerView.Adapter<ViewAdapterCompanyByUser.ViewHolder>{
     private LayoutInflater inflater;
     private ArrayList<ProductBio> productBios;
-    public ViewAdapterCompany(Context context, ArrayList<ProductBio> productBios) {
+
+    public ViewAdapterCompanyByUser(Context context, ArrayList<ProductBio> productBios) {
         this.productBios = productBios;
         this.inflater = LayoutInflater.from(context);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewAdapterCompany.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewAdapterCompanyByUser.ViewHolder holder, int position) {
         ProductBio productBio = productBios.get(position);
         holder.productName.setText(productBio.getProductName());
         holder.barCode.setText(productBio.getBarCode());
-        if(!Objects.equals(productBio.getImageRef(), StaticString.noImage)){
+        if (!Objects.equals(productBio.getImageRef(), StaticString.noImage)) {
             Picasso.get().load(productBio.getImageRef()).into(holder.productImageView);
         }
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.productRating).child(productBio.getBarCode());
@@ -58,11 +57,12 @@ public class ViewAdapterCompany extends RecyclerView.Adapter<ViewAdapterCompany.
                     }
                     holder.ratingScore.setText(v + "  (" + rating.countRating + ')');
                     holder.ratingBar.setRating(v);
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
 
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -76,14 +76,13 @@ public class ViewAdapterCompany extends RecyclerView.Adapter<ViewAdapterCompany.
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         RatingBar ratingBar;
-        TextView productName,scanCount, ratingScore, barCode;
+        TextView productName, scanCount, ratingScore, barCode;
         ImageView productImageView;
-        RelativeLayout edit;
+
         public ViewHolder(View view) {
             super(view);
-            edit = view.findViewById(R.id.edit);
             barCode = view.findViewById(R.id.barCode);
             ratingBar = view.findViewById(R.id.rating_bar);
             productName = view.findViewById(R.id.product_name);
@@ -91,15 +90,10 @@ public class ViewAdapterCompany extends RecyclerView.Adapter<ViewAdapterCompany.
             ratingScore = view.findViewById(R.id.rating_score);
             productImageView = view.findViewById(R.id.product_image_view);
 
-            edit.setOnClickListener(v -> {
-                Intent intent = new Intent(view.getContext(), Product_activityBioEdit.class);
-                intent.putExtra(StaticString.barCode,barCode.getText().toString());
-                view.getContext().startActivity(intent);
-            });
+
             productImageView.setOnClickListener(v -> {
                 Intent intent = new Intent(view.getContext(), Read.class);
                 intent.putExtra(StaticString.barCode,barCode.getText().toString());
-                intent.putExtra(StaticString.type,StaticString.company);
                 view.getContext().startActivity(intent);
             });
         }
@@ -107,9 +101,9 @@ public class ViewAdapterCompany extends RecyclerView.Adapter<ViewAdapterCompany.
     }
 
 
-    public ViewAdapterCompany.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.list_item_company,parent,false);
-        return new ViewAdapterCompany.ViewHolder(view);
+    public ViewAdapterCompanyByUser.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = inflater.inflate(R.layout.list_item_company_by_user, parent, false);
+        return new ViewAdapterCompanyByUser.ViewHolder(view);
     }
 
 
