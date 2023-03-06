@@ -19,6 +19,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Activity.Company.CompanyHomeActivity;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.LexicographicComparator;
@@ -118,9 +119,9 @@ public class Read extends AppCompatActivity {
         productRating = FirebaseDatabase.getInstance().getReference(StaticString.productRating).child(barCode);
         referenceComment = FirebaseDatabase.getInstance().getReference(StaticString.product).child(barCode);
         referenceProduct = FirebaseDatabase.getInstance().getReference(StaticString.productBio).child(barCode);
-        productName = findViewById(R.id.productName);
+        productName = findViewById(R.id.product_name);
         bioText = findViewById(R.id.bioShort);
-        productImageView = findViewById(R.id.productImageView);
+        productImageView = findViewById(R.id.product_image_view);
         showMore = findViewById(R.id.showMore);
         ifMore = true;
     }
@@ -212,7 +213,7 @@ public class Read extends AppCompatActivity {
                     shortText = productBio.getBioShort();
                     bioText.setText(shortText);
                     if(!Objects.equals(productBio.getImageRef(), StaticString.noImage)) {
-                        Picasso.get().load(productBio.getImageRef()).into(productImageView);
+                        Glide.with(Read.this).load(productBio.getImageRef()).into(productImageView);
                     }
                     referenceHistory.child(barCode).setValue(productBio);
                     DatabaseReference reference = companyNameRef.child(productBio.getCompanyEmail());
@@ -221,9 +222,9 @@ public class Read extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             Company companyNameAndImageUnit = snapshot.getValue(Company.class);
                             companyName.setText(companyNameAndImageUnit.getName());
-                            User.EMAIL_CONVERT = companyNameAndImageUnit.getEmail();
+                            User.COMPANY = companyNameAndImageUnit.getEmail();
                             if(!Objects.equals(companyNameAndImageUnit.getImageRef(), StaticString.noImage)) {
-                                Picasso.get().load(companyNameAndImageUnit.getImageRef()).into(companyImageView);
+                                Glide.with(Read.this).load(companyNameAndImageUnit.getImageRef()).into(companyImageView);
                             }
                         }
                         @Override
@@ -236,7 +237,6 @@ public class Read extends AppCompatActivity {
                     relativeLayout.setVisibility(View.GONE);
                     ProductBio productBio = new ProductBio("","",barCode,StaticString.noImage, StaticString.noImage,"","",barCode);
                     referenceHistory.child(barCode).setValue(productBio);
-
                 }
 
             }
@@ -292,7 +292,7 @@ public class Read extends AppCompatActivity {
     public void onClickProduct(View view) {
         Intent intent = new Intent(Read.this, CompanyHomeActivity.class);
         intent.putExtra(StaticString.onlyRead,true);
-        intent.putExtra(StaticString.email,User.EMAIL_CONVERT);
+        intent.putExtra(StaticString.email,User.COMPANY);
         startActivity(intent);
     }
     @Override

@@ -13,7 +13,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Activity.User.HomeActivity;
+import com.example.qr_scanner.Activity.User.Read;
 import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
@@ -53,7 +55,9 @@ public class SettingsActivity extends AppCompatActivity {
         imageView = findViewById(R.id.image);
         name.setText(User.NAME);
         uploadUri = Uri.parse(User.URL);
-        Picasso.get().load(User.URL).into(imageView);
+//        Picasso.get().load(User.URL).into(imageView);
+        Glide.with(SettingsActivity.this).load(User.URL).into(imageView);
+
         storageReference = FirebaseStorage.getInstance().getReference(StaticString.userImage);
     }
     public void onClickLogout(View view){

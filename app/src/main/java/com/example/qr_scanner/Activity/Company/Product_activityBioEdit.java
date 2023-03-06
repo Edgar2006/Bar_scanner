@@ -65,8 +65,6 @@ public class Product_activityBioEdit extends AppCompatActivity {
 
     public void onClickSubmit(View view){
         uploadImage();
-        Intent intent = new Intent(Product_activityBioEdit.this, CompanyHomeActivity.class);
-        startActivity(intent);
     }
 
 
@@ -89,6 +87,8 @@ public class Product_activityBioEdit extends AppCompatActivity {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.productBio).child(barCode);
         reference.setValue(productBio);
         Toast.makeText(Product_activityBioEdit.this, "Your comment send", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(Product_activityBioEdit.this, CompanyHomeActivity.class);
+        startActivity(intent);
     }
     private void uploadImage(){
         try {

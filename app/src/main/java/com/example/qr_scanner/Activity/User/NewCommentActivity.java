@@ -64,9 +64,6 @@ public class NewCommentActivity extends AppCompatActivity {
     }
     public void onClickSubmit(View view){
         uploadImage();
-        Intent intent = new Intent(NewCommentActivity.this, Read.class);
-        intent.putExtra(StaticString.barCode, barCode);
-        startActivity(intent);
     }
 
     public void onClickChooseImage(View view){
@@ -111,6 +108,9 @@ public class NewCommentActivity extends AppCompatActivity {
         DatabaseReference friendReference = FirebaseDatabase.getInstance().getReference(StaticString.friends).child(barCode).child(User.EMAIL_CONVERT);
         friendReference.setValue(friends);
         Toast.makeText(NewCommentActivity.this, "Your comment send", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(NewCommentActivity.this, Read.class);
+        intent.putExtra(StaticString.barCode, barCode);
+        startActivity(intent);
     }
 
     private void getImage(){

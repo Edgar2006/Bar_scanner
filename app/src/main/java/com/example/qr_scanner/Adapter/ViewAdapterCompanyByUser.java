@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Activity.User.Read;
 import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.ProductBio;
@@ -42,7 +43,8 @@ public class ViewAdapterCompanyByUser extends RecyclerView.Adapter<ViewAdapterCo
         holder.productName.setText(productBio.getProductName());
         holder.barCode.setText(productBio.getBarCode());
         if (!Objects.equals(productBio.getImageRef(), StaticString.noImage)) {
-            Picasso.get().load(productBio.getImageRef()).into(holder.productImageView);
+//            Picasso.get().load(productBio.getImageRef()).into(holder.productImageView);
+            Glide.with(holder.itemView.getContext()).load(productBio.getImageRef()).into(holder.productImageView);
         }
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.productRating).child(productBio.getBarCode());
         reference.addValueEventListener(new ValueEventListener() {

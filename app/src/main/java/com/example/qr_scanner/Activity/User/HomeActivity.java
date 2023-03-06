@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Activity.All.Login_or_register;
 import com.example.qr_scanner.Activity.All.SettingsActivity;
 import com.example.qr_scanner.Adapter.ViewAdapterCompanyByUser;
@@ -25,7 +26,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -76,7 +76,7 @@ public class HomeActivity extends AppCompatActivity {
                 yourName.setText(user.getName());
                 if(!Objects.equals(uploadUri, StaticString.noImage)) {
                     uploadUri = user.getImageRef();
-                    Picasso.get().load(uploadUri).into(imageDataBase);
+                    Glide.with(HomeActivity.this).load(uploadUri).into(imageDataBase);
                 }
             }
 

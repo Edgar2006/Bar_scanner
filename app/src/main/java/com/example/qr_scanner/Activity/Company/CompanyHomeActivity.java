@@ -12,7 +12,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Activity.All.Login_or_register;
+import com.example.qr_scanner.Activity.User.Read;
 import com.example.qr_scanner.Adapter.ViewAdapterCompany;
 import com.example.qr_scanner.Adapter.ViewAdapterCompanyByUser;
 import com.example.qr_scanner.Class.Function;
@@ -74,7 +76,7 @@ public class CompanyHomeActivity extends AppCompatActivity {
 
     }
     private void readUser(){
-        DatabaseReference myUserRef = FirebaseDatabase.getInstance().getReference(StaticString.companyInformation).child(User.EMAIL_CONVERT);
+        DatabaseReference myUserRef = FirebaseDatabase.getInstance().getReference(StaticString.companyInformation).child(User.COMPANY);
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -89,7 +91,8 @@ public class CompanyHomeActivity extends AppCompatActivity {
                 companyName.setText(company.getName());
                 description.setText(company.getDescription());
                 if(!Objects.equals(uploadUri, StaticString.noImage)) {
-                    Picasso.get().load(company.getImageRef()).into(companyImage);
+//                    Picasso.get().load(company.getImageRef()).into(companyImage);
+                    Glide.with(CompanyHomeActivity.this).load(company.getImageRef()).into(companyImage);
                 }
             }
 

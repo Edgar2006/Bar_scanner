@@ -12,6 +12,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Adapter.ViewAdapter;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.LexicographicComparator;
@@ -20,6 +21,7 @@ import com.example.qr_scanner.Class.TimeComparator;
 import com.example.qr_scanner.DataBase_Class.GenRemoteDataSource;
 import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.DataBase_Class.ProductBio;
+import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.FirebaseError;
@@ -69,14 +71,14 @@ public class UserAllCommentShowActivity extends AppCompatActivity {
         name.setText(intent.getStringExtra(StaticString.user));
         String userImageUrl = intent.getStringExtra(StaticString.userImage);
         if(!Objects.equals(userImageUrl, StaticString.noImage)) {
-            Picasso.get().load(userImageUrl).into(imageView);
+            Glide.with(UserAllCommentShowActivity.this).load(userImageUrl).into(imageView);
         }
         email = intent.getStringExtra(StaticString.email);
     }
 
     private void getDataFromDataBase(){
         DatabaseReference referenceComment = FirebaseDatabase.getInstance().getReference(StaticString.userComment).child(Function.convertor(email));
-        GenRemoteDataSource genRemoteDataSource = new GenRemoteDataSource(ProductBio.class);
+        GenRemoteDataSource genRemoteDataSource = new GenRemoteDataSource(Messenger.class);
         genRemoteDataSource.getDataFromDataBase(listView,viewAdapter,listData,referenceComment);
     }
 

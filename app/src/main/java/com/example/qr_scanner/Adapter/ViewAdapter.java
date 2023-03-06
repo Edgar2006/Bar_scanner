@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Activity.All.OpenImageActivity;
 import com.example.qr_scanner.Activity.User.UserAllCommentShowActivity;
 import com.example.qr_scanner.Class.Function;
@@ -31,14 +32,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
 
 public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
@@ -89,7 +85,8 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
             }
         });
         if(!Objects.equals(holder.uploadUri, StaticString.noImage)) {
-            Picasso.get().load(holder.uploadUri).into(holder.imageDataBase);
+            //Picasso.get().load(holder.uploadUri).into(holder.imageDataBase);
+            Glide.with(holder.itemView.getContext()).load(holder.uploadUri).into(holder.imageDataBase);
         }
         else{
             holder.imageDataBase.setVisibility(View.GONE);
@@ -97,7 +94,9 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
 
         }
         if(!Objects.equals(holder.userImageUrl, StaticString.noImage)) {
-            Picasso.get().load(holder.userImageUrl).into(holder.userImage);
+            //Picasso.get().load(holder.userImageUrl).into(holder.userImage);
+            Glide.with(holder.itemView.getContext()).load(holder.userImageUrl).into(holder.userImage);
+
         }
 
         SimpleDateFormat formatter = new SimpleDateFormat("MMMM d, yyyy");
