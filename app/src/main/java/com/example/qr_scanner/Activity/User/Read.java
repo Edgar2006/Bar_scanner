@@ -46,26 +46,17 @@ import java.util.Collections;
 import java.util.Objects;
 
 public class Read extends AppCompatActivity {
-    private boolean sortMethod;
+    private boolean sortMethod,ifYouHaveComment,ifMore;
     private RecyclerView listView;
     private ViewAdapter viewAdapter;
     private ArrayList<Messenger> listData;
-    private String barCode;
-    private DatabaseReference referenceComment,referenceProduct;
-    private String shortText,longText;
+    private DatabaseReference referenceComment,referenceProduct,companyNameRef,referenceHistory,productRating;
+    private String shortText,longText,barCode;
     private TextView productName,bioText,showMore,ratingBarScore,companyName;
     private ImageView productImageView,companyImageView;
-    private boolean ifMore;
-    private RelativeLayout relativeLayout,ratingLayout,firstBio,companyLayout;
-    private DatabaseReference productRating;
+    private RelativeLayout relativeLayout,ratingLayout,firstBio,companyLayout,userCorrect,companyCorrect;
     private RatingBar ratingBar;
     private Rating rating;
-    private Boolean ifYouHaveComment;
-
-    private DatabaseReference companyNameRef;
-
-    private DatabaseReference referenceHistory;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,23 +72,11 @@ public class Read extends AppCompatActivity {
             }
         });
     }
-    public void sendToData(){
-        if(ifYouHaveComment){
-            ratingBar.setIsIndicator(true);
-            Messenger messenger;
-            messenger = new Messenger(User.EMAIL, User.NAME, StaticString.haveARating, barCode, "0",StaticString.noImage,StaticString.noImage,System.currentTimeMillis(),ratingBar.getRating());
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.product).child(barCode).child(User.EMAIL_CONVERT);
-            reference.setValue(messenger);
-        }
-        else{
-            ratingBar.setRating(rating.rating / rating.countRating);
-            makeText(this, R.string.yourGiveyourRating, LENGTH_SHORT).show();
-            ratingBar.setIsIndicator(true);
-        }
-    }
 
 
     private void init(){
+        companyCorrect = findViewById(R.id.company_correct);
+        userCorrect = findViewById(R.id.user_correct);
         companyLayout  = findViewById(R.id.company_layout);
         firstBio = findViewById(R.id.first_bio);
         firstBio.setVisibility(View.GONE);
@@ -130,6 +109,21 @@ public class Read extends AppCompatActivity {
         productImageView = findViewById(R.id.product_image_view);
         showMore = findViewById(R.id.showMore);
         ifMore = true;
+    }
+
+    public void sendToData(){
+        if(ifYouHaveComment){
+            ratingBar.setIsIndicator(true);
+            Messenger messenger;
+            messenger = new Messenger(User.EMAIL, User.NAME, StaticString.haveARating, barCode, "0",StaticString.noImage,StaticString.noImage,System.currentTimeMillis(),ratingBar.getRating());
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.product).child(barCode).child(User.EMAIL_CONVERT);
+            reference.setValue(messenger);
+        }
+        else{
+            ratingBar.setRating(rating.rating / rating.countRating);
+            makeText(this, R.string.yourGiveyourRating, LENGTH_SHORT).show();
+            ratingBar.setIsIndicator(true);
+        }
     }
 
     public void onClickShowMore(View view){
@@ -224,8 +218,10 @@ public class Read extends AppCompatActivity {
                     referenceHistory.child(barCode).setValue(productBio);
                     if(productBio.getCompanyName().equals(StaticString.haveARating)){
                         companyLayout.setVisibility(View.GONE);
+                        userCorrect.setVisibility(View.VISIBLE);
                     }
                     else{
+                        companyCorrect.setVisibility(View.VISIBLE);
                         DatabaseReference reference = companyNameRef.child(productBio.getCompanyEmail());
                         reference.addValueEventListener(new ValueEventListener() {
                             @Override
