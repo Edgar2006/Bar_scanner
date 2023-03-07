@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -50,6 +51,8 @@ public class CompanyHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_home);
+        Log.e("________","!!!!!!!");
+
         addLocalData();
         init();
         readUser();
@@ -129,7 +132,7 @@ public class CompanyHomeActivity extends AppCompatActivity {
     public void getDataFromDataBase(){
         DatabaseReference referenceProduct = FirebaseDatabase.getInstance().getReference().child(StaticString.productBio);
         GenRemoteDataSource genRemoteDataSource = new GenRemoteDataSource(ProductBio.class);
-        genRemoteDataSource.getDataFromDataBase(listView,viewAdapter,listData,referenceProduct);
+        genRemoteDataSource.getDataFromDataBase(listView,viewAdapter,listData,referenceProduct,User.COMPANY);
     }
     public void onClickAdd(View view) {
         Intent intent = new Intent(CompanyHomeActivity.this,CheckBarCodeActivity.class);

@@ -1,6 +1,7 @@
 package com.example.qr_scanner.DataBase_Class;
 
 public class ProductBio {
+
     private String companyEmail, companyName, productName, imageRef, companyRef, bioShort, bioLong, barCode;
 
     public ProductBio(String companyEmail ,String companyName, String productName, String imageRef, String companyRef, String bioShort, String bioLong, String barCode) {

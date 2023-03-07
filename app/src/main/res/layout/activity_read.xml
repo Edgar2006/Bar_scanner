@@ -9,6 +9,24 @@
 
 
     <RelativeLayout
+        android:visibility="gone"
+        android:onClick="onClickFirstBio"
+        android:layout_margin="20dp"
+        android:id="@+id/first_bio"
+        android:padding="20dp"
+        android:background="@drawable/round_rect_shape"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="20dp"
+            android:layout_centerHorizontal="true"
+            android:text="Hey this product no have a description \n if you hava add click  this button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+    </RelativeLayout>
+
+    <RelativeLayout
 
         android:id="@+id/bio"
         android:layout_width="match_parent"
@@ -19,7 +37,7 @@
         android:layout_marginBottom="20dp">
 
         <RelativeLayout
-            android:id="@+id/company"
+            android:id="@+id/company_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClickProduct">
@@ -49,7 +67,7 @@
             android:id="@+id/bio1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/company"
+            android:layout_below="@+id/company_layout"
             android:layout_marginStart="20dp"
             android:layout_marginTop="37dp"
             android:layout_marginEnd="20dp"
@@ -95,7 +113,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/ratingLayout"
+        android:id="@+id/rating_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bio"
@@ -128,7 +146,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ratingLayout"
+        android:layout_below="@+id/rating_layout"
         android:layout_marginTop="71dp">
 
         <com.google.android.material.button.MaterialButtonToggleGroup

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Activity.Company.CompanyHomeActivity;
+import com.example.qr_scanner.Activity.Company.Product_activityBioEdit;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.LexicographicComparator;
 import com.example.qr_scanner.Class.StaticString;
@@ -54,7 +56,7 @@ public class Read extends AppCompatActivity {
     private TextView productName,bioText,showMore,ratingBarScore,companyName;
     private ImageView productImageView,companyImageView;
     private boolean ifMore;
-    private RelativeLayout relativeLayout;
+    private RelativeLayout relativeLayout,ratingLayout,firstBio,companyLayout;
     private DatabaseReference productRating;
     private RatingBar ratingBar;
     private Rating rating;
@@ -96,6 +98,10 @@ public class Read extends AppCompatActivity {
 
 
     private void init(){
+        companyLayout  = findViewById(R.id.company_layout);
+        firstBio = findViewById(R.id.first_bio);
+        firstBio.setVisibility(View.GONE);
+        ratingLayout = findViewById(R.id.rating_layout);
         referenceHistory = FirebaseDatabase.getInstance().getReference(StaticString.history).child(User.EMAIL_CONVERT);
         ifYouHaveComment = true;
         companyNameRef = FirebaseDatabase.getInstance().getReference(StaticString.companyInformation);
@@ -107,7 +113,7 @@ public class Read extends AppCompatActivity {
         relativeLayout = findViewById(R.id.bio);
         sortMethod = false;
         listView = findViewById(R.id.rec_view);
-        listData = new ArrayList<Messenger>();
+        listData = new ArrayList<>();
         viewAdapter = new ViewAdapter(this,listData);
         listView.setLayoutManager(new LinearLayoutManager(this));
         listView.setAdapter(viewAdapter);
@@ -216,25 +222,36 @@ public class Read extends AppCompatActivity {
                         Glide.with(Read.this).load(productBio.getImageRef()).into(productImageView);
                     }
                     referenceHistory.child(barCode).setValue(productBio);
-                    DatabaseReference reference = companyNameRef.child(productBio.getCompanyEmail());
-                    reference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            Company companyNameAndImageUnit = snapshot.getValue(Company.class);
-                            companyName.setText(companyNameAndImageUnit.getName());
-                            User.COMPANY = companyNameAndImageUnit.getEmail();
-                            if(!Objects.equals(companyNameAndImageUnit.getImageRef(), StaticString.noImage)) {
-                                Glide.with(Read.this).load(companyNameAndImageUnit.getImageRef()).into(companyImageView);
+                    if(productBio.getCompanyName().equals(StaticString.haveARating)){
+                        companyLayout.setVisibility(View.GONE);
+                    }
+                    else{
+                        DatabaseReference reference = companyNameRef.child(productBio.getCompanyEmail());
+                        reference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                Company companyNameAndImageUnit = snapshot.getValue(Company.class);
+                                companyName.setText(companyNameAndImageUnit.getName());
+                                User.COMPANY = companyNameAndImageUnit.getEmail();
+                                if(!Objects.equals(companyNameAndImageUnit.getImageRef(), StaticString.noImage)) {
+                                    Glide.with(Read.this).load(companyNameAndImageUnit.getImageRef()).into(companyImageView);
+                                }
                             }
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
 
-                        }
-                    });
+                            }
+                        });
+                    }
+
                 }
                 catch (Exception e){
+                    firstBio.setVisibility(View.VISIBLE);
                     relativeLayout.setVisibility(View.GONE);
+                    RelativeLayout.LayoutParams params= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                    params.addRule(RelativeLayout.BELOW, R.id.first_bio);
+                    params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                    ratingLayout.setLayoutParams(params);
                     ProductBio productBio = new ProductBio("","",barCode,StaticString.noImage, StaticString.noImage,"","",barCode);
                     referenceHistory.child(barCode).setValue(productBio);
                 }
@@ -300,5 +317,12 @@ public class Read extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.bottom_app_bar_menu,menu);
         return true;
+    }
+
+    public void onClickFirstBio(View view) {
+        Intent intent = new Intent(Read.this, Product_activityBioEdit.class);
+        intent.putExtra(StaticString.barCode,barCode);
+        intent.putExtra(StaticString.haveARating,StaticString.haveARating);
+        startActivity(intent);
     }
 }

@@ -14,7 +14,9 @@ import android.widget.Toast;
 import com.example.qr_scanner.Activity.Company.CompanyHomeActivity;
 import com.example.qr_scanner.Activity.InternetAndNotification.InternetReceiver;
 import com.example.qr_scanner.Activity.User.HomeActivity;
+import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.StaticString;
+import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 String type = list.get(2);
                 Intent intent;
                 if(Objects.equals(type, StaticString.company)){
+                    User.COMPANY = Function.convertor(emailToString);
                     intent = new Intent(MainActivity.this, CompanyHomeActivity.class);
                 }
                 else{

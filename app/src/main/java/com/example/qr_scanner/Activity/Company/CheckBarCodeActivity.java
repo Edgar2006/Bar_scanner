@@ -33,6 +33,7 @@ public class CheckBarCodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_bar_code);
+        Log.e("________","111111");
         barCodeView = findViewById(R.id.barCode);
         builder = new AlertDialog.Builder(this);
         Intent intent = getIntent();
@@ -55,7 +56,7 @@ public class CheckBarCodeActivity extends AppCompatActivity {
                         addInfo(barCode);
                     }
                     else{
-                        if(Objects.equals(productBio.getCompanyName(), User.NAME)){
+                        if(Objects.equals(productBio.getCompanyName(), User.NAME) || Objects.equals(productBio.getCompanyName(), StaticString.haveARating)){
                             addInfo(barCode);
                         }
                         else{

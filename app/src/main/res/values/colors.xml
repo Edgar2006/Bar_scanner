@@ -10,5 +10,5 @@
     <color name="grey"  tools:override="true">#A8A8AB</color>
     <color name="Base_color" tools:override="true">#2479BF</color>
     <color name="Second_color" tools:override="true">#DCDEF4</color>
-
+    <color name="Red" tools:override="true">#C62014</color>
 </resources>

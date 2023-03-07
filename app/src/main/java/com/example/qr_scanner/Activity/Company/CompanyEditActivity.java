@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.qr_scanner.Activity.All.Login_or_register;
+import com.example.qr_scanner.Activity.All.SettingsActivity;
 import com.example.qr_scanner.Activity.User.NewCommentActivity;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.StaticString;
@@ -24,6 +26,7 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +39,9 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,6 +114,7 @@ public class CompanyEditActivity extends AppCompatActivity {
         if(uploadUri != null){
             company.setImageRef(uploadUri.toString());
         }
+        User.COMPANY = Function.convertor(emailToString);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.companyInformation).child(emailToString);
         reference.setValue(company);
         Toast.makeText(CompanyEditActivity.this, "Your comment send", Toast.LENGTH_SHORT).show();
@@ -149,6 +156,21 @@ public class CompanyEditActivity extends AppCompatActivity {
     }
 
 
-
-
+    public void onClickLogout(View view) {
+        FirebaseAuth firebaseAuth;
+        firebaseAuth = FirebaseAuth.getInstance();
+        try {
+            String temp = "";
+            FileOutputStream fileOutputStream = openFileOutput(StaticString.Authentication, MODE_PRIVATE);
+            fileOutputStream.write(temp.getBytes());
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        firebaseAuth.signOut();
+        Intent intent = new Intent(CompanyEditActivity.this, Login_or_register.class);
+        startActivity(intent);
+    }
 }

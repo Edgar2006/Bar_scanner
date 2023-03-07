@@ -9,6 +9,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class GenRemoteDataSource<E>
 {
@@ -30,6 +31,30 @@ public class GenRemoteDataSource<E>
                     E history = ds.getValue(clazz);
                     assert  history != null;
                     listData.add(history);
+                }
+                listView.setAdapter(viewAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        reference.addValueEventListener(eventListener);
+    }
+    public void getDataFromDataBase(RecyclerView listView, RecyclerView.Adapter viewAdapter, ArrayList<ProductBio> listData, DatabaseReference reference, String email){
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(listData.size() > 0){
+                    listData.clear();
+                }
+                for(DataSnapshot ds : snapshot.getChildren()){
+                    ProductBio history = ds.getValue(ProductBio.class);
+                    assert  history != null;
+                    if(Objects.equals(history.getCompanyEmail(), email)){
+                        listData.add(history);
+                    }
                 }
                 listView.setAdapter(viewAdapter);
             }

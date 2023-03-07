@@ -23,4 +23,6 @@
     <string name="comment">But I musonsequences, or one who avoids a pain that produces no resultant pleasure?\"</string>
     <string name="company_name">Company name</string>
     <string name="yourGiveyourRating">You have already given your rating</string>
+    <string name="edit_product_info1">Edit product info</string>
+    <string name="delete_product">Delete product</string>
 </resources>

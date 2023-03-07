@@ -82,9 +82,10 @@ public class ViewAdapterCompany extends RecyclerView.Adapter<ViewAdapterCompany.
         RatingBar ratingBar;
         TextView productName,scanCount, ratingScore, barCode;
         ImageView productImageView;
-        RelativeLayout edit;
+        RelativeLayout edit,delete;
         public ViewHolder(View view) {
             super(view);
+            delete = view.findViewById(R.id.remove);
             edit = view.findViewById(R.id.edit);
             barCode = view.findViewById(R.id.barCode);
             ratingBar = view.findViewById(R.id.rating_bar);
@@ -93,6 +94,11 @@ public class ViewAdapterCompany extends RecyclerView.Adapter<ViewAdapterCompany.
             ratingScore = view.findViewById(R.id.rating_score);
             productImageView = view.findViewById(R.id.product_image_view);
 
+
+            delete.setOnClickListener(v -> {
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.productBio).child(barCode.getText().toString());
+                reference.removeValue();
+            });
             edit.setOnClickListener(v -> {
                 Intent intent = new Intent(view.getContext(), Product_activityBioEdit.class);
                 intent.putExtra(StaticString.barCode,barCode.getText().toString());

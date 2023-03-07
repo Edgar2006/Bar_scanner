@@ -1,6 +1,8 @@
 package com.example.qr_scanner.DataBase_Class;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private String name,email,imageRef;
     private boolean access;
     public static String EMAIL, NAME, EMAIL_CONVERT, URL, COMPANY;
