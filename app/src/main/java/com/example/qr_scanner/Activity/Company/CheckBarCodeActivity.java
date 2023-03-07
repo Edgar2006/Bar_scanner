@@ -4,37 +4,72 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.qr_scanner.Adapter.CaptureAct;
 import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.ProductBio;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.util.Objects;
 
 public class CheckBarCodeActivity extends AppCompatActivity {
-    private TextInputLayout barCodeView;
+    private TextInputLayout barCodeEditText;
+    private String barCode = "";
     AlertDialog.Builder builder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_bar_code);
-        Log.e("________","111111");
-        barCodeView = findViewById(R.id.barCode);
+        init();
+    }
+
+    public void onCLickScanNow(View view){
+        scanCode();
+    }
+    private void scanCode(){
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.setCaptureActivity(CaptureAct.class);
+        integrator.setOrientationLocked(false);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+        integrator.setPrompt("Scanning Code");
+        integrator.initiateScan();
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
+        if(result != null){
+            if(result.getContents() != null){
+                try {
+                    barCode = result.getContents().toString();
+                    barCodeEditText.getEditText().setText(barCode);
+                }catch (Exception e){
+                    Toast.makeText(this, "place scan again or input barcode number manually", Toast.LENGTH_SHORT).show();
+                }
+            }
+            else{
+                Toast.makeText(this, "No results", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            super.onActivityResult(requestCode,resultCode,data);
+        }
+
+    }
+
+    private void init(){
+        barCodeEditText = findViewById(R.id.barCode);
         builder = new AlertDialog.Builder(this);
         Intent intent = getIntent();
         if (intent != null) {
@@ -42,11 +77,16 @@ public class CheckBarCodeActivity extends AppCompatActivity {
         }
     }
     public void onClickCheck(View view){
-        String barCode = barCodeView.getEditText().getText().toString();
-        if(barCode.isEmpty()){
-            Toast.makeText(this, "Please input barcode", Toast.LENGTH_SHORT).show();
+        String barCodeText = barCodeEditText.getEditText().getText().toString();
+        boolean b=false;
+        if(barCodeText.isEmpty() && barCode.isEmpty()){
+            b=true;
+            Toast.makeText(this, "place scan barcode", Toast.LENGTH_SHORT).show();
         }
-        else{
+        else if(barCode.isEmpty() || !barCodeText.equals(barCode)){
+            barCode = barCodeText;
+        }
+        if(!b){
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.productBio).child(barCode);
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -67,7 +107,6 @@ public class CheckBarCodeActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Log.e("________________","1");
                 }
             });
         }
