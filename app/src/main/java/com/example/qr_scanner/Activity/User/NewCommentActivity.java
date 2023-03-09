@@ -95,28 +95,38 @@ public class NewCommentActivity extends AppCompatActivity {
 
     }
     public void sendToData(){
-        User.EMAIL_CONVERT = Function.convertor(User.EMAIL);
-        time = System.currentTimeMillis();
-        List<String> friends = new ArrayList<>();
-        friends.add(User.EMAIL);
-        Messenger messenger;
-        messenger = new Messenger(User.EMAIL, User.NAME, comment.getEditText().getText().toString(), barCode, "0",StaticString.noImage,StaticString.noImage,time,ratingBar.getRating());
-        if(uploadUri != null){
-            messenger.setImageRef(uploadUri.toString());
+        if(!comment.getEditText().getText().toString().isEmpty()){
+            User.EMAIL_CONVERT = Function.convertor(User.EMAIL);
+            time = System.currentTimeMillis();
+            List<String> friends = new ArrayList<>();
+            friends.add(User.EMAIL);
+            Messenger messenger;
+            messenger = new Messenger(User.EMAIL, User.NAME, comment.getEditText().getText().toString(), barCode, "0",StaticString.noImage,StaticString.noImage,time,ratingBar.getRating());
+            if(uploadUri != null){
+                messenger.setImageRef(uploadUri.toString());
+            }
+            if(User.URL != null){
+                messenger.setUserRef(User.URL);
+            }
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.product).child(barCode).child(User.EMAIL_CONVERT);
+            reference.setValue(messenger);
+            DatabaseReference userComment = FirebaseDatabase.getInstance().getReference(StaticString.userComment).child(User.EMAIL_CONVERT).child(barCode);
+            userComment.setValue(messenger);
+            DatabaseReference friendReference = FirebaseDatabase.getInstance().getReference(StaticString.friends).child(barCode).child(User.EMAIL_CONVERT);
+            friendReference.setValue(friends);
+            Toast.makeText(NewCommentActivity.this, "Your comment send", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(NewCommentActivity.this, Read.class);
+            intent.putExtra(StaticString.barCode, barCode);
+            startActivity(intent);
         }
-        if(User.URL != null){
-            messenger.setUserRef(User.URL);
+        else{
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                activity.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+            }, 120);
+            Toast.makeText(this, "Please input your Comment", Toast.LENGTH_SHORT).show();
         }
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.product).child(barCode).child(User.EMAIL_CONVERT);
-        reference.setValue(messenger);
-        DatabaseReference userComment = FirebaseDatabase.getInstance().getReference(StaticString.userComment).child(User.EMAIL_CONVERT).child(barCode);
-        userComment.setValue(messenger);
-        DatabaseReference friendReference = FirebaseDatabase.getInstance().getReference(StaticString.friends).child(barCode).child(User.EMAIL_CONVERT);
-        friendReference.setValue(friends);
-        Toast.makeText(NewCommentActivity.this, "Your comment send", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(NewCommentActivity.this, Read.class);
-        intent.putExtra(StaticString.barCode, barCode);
-        startActivity(intent);
     }
 
     private void getImage(){

@@ -8,30 +8,15 @@
 
 
     <TextView
-        android:onClick="onCLickSkip"
         android:id="@+id/skip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="412dp"
-        android:layout_marginBottom="25dp"
-        android:background="@drawable/round_rect_shape"
-        android:paddingHorizontal="20dp"
-        android:text="Skip"
-        android:textSize="30dp"
-        tools:layout_editor_absoluteX="545dp"
-        tools:layout_editor_absoluteY="31dp" />
-
-    <TextView
-        android:onClick="onCLickNext"
-        android:id="@+id/next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/skip"
-        android:layout_marginStart="22dp"
-        android:layout_toEndOf="@+id/skip"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="28dp"
         android:background="@drawable/round_rect"
+        android:onClick="onCLickNext"
         android:paddingHorizontal="20dp"
         android:text="Next"
         android:textSize="30dp"
@@ -50,16 +35,11 @@
         android:textStyle="bold" />
 
     <ImageView
-        android:onClick="onClickChooseImage"
         android:id="@+id/image_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/skip"
+        android:layout_height="200dp"
         android:layout_below="@+id/idk"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginBottom="80dp"
-        android:scaleType="centerCrop"
+        android:layout_marginTop="10dp"
+        android:onClick="onClickChooseImage"
         android:src="@drawable/ic_baseline_add_photo_alternate_24" />
 </RelativeLayout>

@@ -66,50 +66,51 @@ public class Product_activityBioEdit extends AppCompatActivity {
         load(false);
     }
     private void sendToData(){
-        Intent intent;
-        String bioLong=bio.getEditText().getText().toString();
-        String bioShort=bioShortGeneration(bioLong);
-        ProductBio productBio;
-        String uri;
-        if(uploadUri == null){
-            productBio = new ProductBio(User.EMAIL_CONVERT ,User.NAME,productName.getEditText().getText().toString(),StaticString.noImage,StaticString.noImage,bioShort,bioLong,barCode);
-        }
-        else{
-            uri = uploadUri.toString();
-            productBio = new ProductBio(User.EMAIL_CONVERT ,User.NAME,productName.getEditText().getText().toString(),uri,StaticString.noImage,bioShort,bioLong,barCode);
-        }
-        Intent getIntent = getIntent();
-        if(getIntent!=null){
-            if (getIntent.getStringExtra(StaticString.haveARating) != null){
-                productBio.setCompanyName(StaticString.haveARating);
-                intent = new Intent(Product_activityBioEdit.this, Read.class);
-                intent.putExtra(StaticString.barCode,barCode);
-                Log.e("________","3");
-                allActivityStart(productBio,intent);
-
-
+        if(!Objects.requireNonNull(bio.getEditText()).getText().toString().isEmpty() && !Objects.requireNonNull(productName.getEditText()).getText().toString().isEmpty() && uploadUri != null) {
+            Intent intent;
+            String bioLong = bio.getEditText().getText().toString();
+            String bioShort;
+            if (bioLong.length() >= 300) {
+                bioShort = bioShortGeneration(bioLong);
+            } else {
+                bioShort = bioLong;
             }
-            else{
-                Log.e("________","1");
+            ProductBio productBio;
+            String uri = uploadUri.toString();
+            productBio = new ProductBio(User.EMAIL_CONVERT, User.NAME, productName.getEditText().getText().toString(), uri, StaticString.noImage, bioShort, bioLong, barCode);
+            Intent getIntent = getIntent();
+            if (getIntent != null) {
+                if (getIntent.getStringExtra(StaticString.haveARating) != null) {
+                    productBio.setCompanyName(StaticString.haveARating);
+                    intent = new Intent(Product_activityBioEdit.this, Read.class);
+                    intent.putExtra(StaticString.barCode, barCode);
+                    Log.e("________", "3");
+                    allActivityStart(productBio, intent);
+
+
+                } else {
+                    Log.e("________", "1");
+                    intent = new Intent(Product_activityBioEdit.this, CompanyHomeActivity.class);
+                    allActivityStart(productBio, intent);
+
+                }
+            } else {
+                Log.e("________", "2");
                 intent = new Intent(Product_activityBioEdit.this, CompanyHomeActivity.class);
-                allActivityStart(productBio,intent);
+                allActivityStart(productBio, intent);
 
             }
+            Handler handler = new Handler();
+            handler.postDelayed(() -> allActivityStart(productBio, intent), 10);
         }
         else{
-            Log.e("________","2");
-            intent = new Intent(Product_activityBioEdit.this, CompanyHomeActivity.class);
-            allActivityStart(productBio,intent);
-
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                activity.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+            }, 120);
+            Toast.makeText(this, "Please input your Comment!!!", Toast.LENGTH_SHORT).show();
         }
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                Log.e("________","!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                allActivityStart(productBio,intent);
-            }
-        }, 10);
-
     }
     private void allActivityStart(ProductBio productBio,Intent intent){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.productBio).child(barCode);

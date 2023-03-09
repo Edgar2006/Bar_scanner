@@ -43,17 +43,6 @@ public class RegisterAddPhotoActivity extends AppCompatActivity {
         addLocalData();
     }
 
-    public void onCLickSkip(View view) {
-        User user;
-        user = new User(name, User.EMAIL, StaticString.noImage,false);
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.user).child(User.EMAIL_CONVERT);
-        reference.setValue(user);
-        Intent intent = new Intent(RegisterAddPhotoActivity.this, HomeActivity.class);
-        intent.putExtra(StaticString.email,emailToString);
-        intent.putExtra(StaticString.password,passwordToString);
-        startActivity(intent);
-    }
-
     public void onCLickNext(View view) {
         uploadImage();
     }
@@ -80,31 +69,41 @@ public class RegisterAddPhotoActivity extends AppCompatActivity {
     }
 
     private void uploadImage(){
-        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,15,byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
-        StorageReference storageReference1 = storageReference.child(User.EMAIL_CONVERT);
-        final UploadTask uploadTask = storageReference1.putBytes(byteArray);
-        Task<Uri> task = uploadTask.continueWithTask(task1 -> storageReference1.getDownloadUrl()).addOnCompleteListener(task12 -> {
-            uploadUri = task12.getResult();
-            Toast.makeText(RegisterAddPhotoActivity.this, "Loading is complete", Toast.LENGTH_SHORT).show();
+        try {
+            Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 15, byteArrayOutputStream);
+            byte[] byteArray = byteArrayOutputStream.toByteArray();
+            StorageReference storageReference1 = storageReference.child(User.EMAIL_CONVERT);
+            final UploadTask uploadTask = storageReference1.putBytes(byteArray);
+            Task<Uri> task = uploadTask.continueWithTask(task1 -> storageReference1.getDownloadUrl()).addOnCompleteListener(task12 -> {
+                uploadUri = task12.getResult();
+                Toast.makeText(RegisterAddPhotoActivity.this, "Loading is complete", Toast.LENGTH_SHORT).show();
+                User user;
+                String uri;
+                if (uploadUri == null) {
+                    user = new User(name, User.EMAIL, StaticString.noImage, false);
+                } else {
+                    uri = uploadUri.toString();
+                    user = new User(name, User.EMAIL, uri, false);
+                }
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.user).child(User.EMAIL_CONVERT);
+                reference.setValue(user);
+                Intent intent = new Intent(RegisterAddPhotoActivity.this, HomeActivity.class);
+                intent.putExtra(StaticString.email, emailToString);
+                intent.putExtra(StaticString.password, passwordToString);
+                startActivity(intent);
+            });
+        }catch (Exception e){
             User user;
-            String uri;
-            if(uploadUri == null){
-                user = new User(name, User.EMAIL,StaticString.noImage,false);
-            }
-            else{
-                uri = uploadUri.toString();
-                user = new User(name, User.EMAIL,uri,false);
-            }
+            user = new User(name, User.EMAIL, StaticString.noImage,false);
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.user).child(User.EMAIL_CONVERT);
             reference.setValue(user);
             Intent intent = new Intent(RegisterAddPhotoActivity.this, HomeActivity.class);
             intent.putExtra(StaticString.email,emailToString);
             intent.putExtra(StaticString.password,passwordToString);
             startActivity(intent);
-        });
+        }
     }
 
 
