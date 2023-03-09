@@ -15,7 +15,9 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -39,7 +41,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,12 +58,16 @@ public class Read extends AppCompatActivity {
     private RelativeLayout relativeLayout,ratingLayout,firstBio,companyLayout,userCorrect,companyCorrect;
     private RatingBar ratingBar;
     private Rating rating;
+    private RelativeLayout activity;
+    private ProgressBar progressBar;
+    private Button buttonAppBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read);
         init();
+        load(true);
         getDataFromDataBase();
         getDataProductDataBase();
         writeCountPeople();
@@ -191,6 +196,7 @@ public class Read extends AppCompatActivity {
                 }
                 ratingBar.setRating(rating_);
                 ratingBarScore.setText(Float.toString(rating_) + "  (" + rating.countRating + ')');
+                load(false);
             }
 
             @Override
@@ -321,4 +327,24 @@ public class Read extends AppCompatActivity {
         intent.putExtra(StaticString.haveARating,StaticString.haveARating);
         startActivity(intent);
     }
+
+    private void load(boolean b){
+        if(b){
+            activity = findViewById(R.id.activity);
+            activity.setVisibility(View.GONE);
+            progressBar = findViewById(R.id.progress_bar);
+            progressBar.setVisibility(View.VISIBLE);
+            buttonAppBar = findViewById(R.id.button_app_bar);
+            buttonAppBar.setVisibility(View.VISIBLE);
+
+        }
+        else{
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                activity.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+            }, 100);
+        }
+    }
+
 }

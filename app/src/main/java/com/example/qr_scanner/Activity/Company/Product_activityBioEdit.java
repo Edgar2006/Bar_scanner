@@ -12,6 +12,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.qr_scanner.Activity.User.Read;
@@ -40,13 +42,15 @@ public class Product_activityBioEdit extends AppCompatActivity {
     private ImageView imageView;
     private Uri uploadUri;
     private StorageReference mStorageRef;
+    private RelativeLayout activity;
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_bio_edit);
         init();
+        load(true);
     }
-
     public void init(){
         productName = findViewById(R.id.product_name);
         bio = findViewById(R.id.bio);
@@ -57,14 +61,10 @@ public class Product_activityBioEdit extends AppCompatActivity {
             barCode = intent.getStringExtra(StaticString.barCode);
         }
     }
-
-
     public void onClickSubmit(View view){
         uploadImage();
+        load(false);
     }
-
-
-
     private void sendToData(){
         Intent intent;
         String bioLong=bio.getEditText().getText().toString();
@@ -134,8 +134,6 @@ public class Product_activityBioEdit extends AppCompatActivity {
             sendToData();
         }
     }
-
-
     public void onClickChooseImage(View view){
         getImage();
     }
@@ -174,6 +172,21 @@ public class Product_activityBioEdit extends AppCompatActivity {
             bioShort+=bioLong.charAt(i);
         }
         return bioShort;
+    }
+    private void load(boolean b){
+        if(b){
+            activity = findViewById(R.id.activity);
+            activity.setVisibility(View.VISIBLE);
+            progressBar = findViewById(R.id.progress_bar);
+            progressBar.setVisibility(View.GONE);
+        }
+        else{
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                activity.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+            }, 100);
+        }
     }
 
 }

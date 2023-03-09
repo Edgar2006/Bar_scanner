@@ -8,9 +8,12 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.qr_scanner.Class.Function;
@@ -42,12 +45,14 @@ public class NewCommentActivity extends AppCompatActivity {
     private Uri uploadUri;
     private StorageReference mStorageRef;
     private RatingBar ratingBar;
+    private RelativeLayout activity;
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_comment);
         init();
-
+        load(true);
     }
 
 
@@ -64,6 +69,7 @@ public class NewCommentActivity extends AppCompatActivity {
     }
     public void onClickSubmit(View view){
         uploadImage();
+        load(false);
     }
 
     public void onClickChooseImage(View view){
@@ -143,5 +149,19 @@ public class NewCommentActivity extends AppCompatActivity {
         }
 
     }
-
+    private void load(boolean b){
+        if(b){
+            activity = findViewById(R.id.activity);
+            activity.setVisibility(View.VISIBLE);
+            progressBar = findViewById(R.id.progress_bar);
+            progressBar.setVisibility(View.GONE);
+        }
+        else{
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                activity.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+            }, 100);
+        }
+    }
 }

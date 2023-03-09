@@ -36,20 +36,32 @@
             android:textSize="18dp"
             android:textStyle="bold" />
 
+
         <RatingBar
             android:id="@+id/rating_bar"
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_margin="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="30dp"
             android:layout_marginBottom="20dp"
             android:isIndicator="true"
             android:progressTint="@color/Base_color"
             android:secondaryProgressTint="@color/zxing_transparent" />
+
+        <ImageView
+            android:id="@+id/more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/rating_bar"
+            android:layout_alignBottom="@+id/rating_bar"
+
+
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="0dp"
+            android:src="@drawable/ic_baseline_more_horiz_24" />
     </RelativeLayout>
 
 

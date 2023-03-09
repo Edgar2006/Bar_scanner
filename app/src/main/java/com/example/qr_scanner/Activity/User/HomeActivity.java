@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -40,6 +43,8 @@ public class HomeActivity extends AppCompatActivity {
     private String uploadUri;
     private ImageView imageDataBase;
     private TextView yourName;
+    private RelativeLayout activity;
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +55,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void init(){
+        load();
         yourName = findViewById(R.id.your_name);
         imageDataBase = findViewById(R.id.profile_image);
         listView = findViewById(R.id.rec_view);
@@ -58,7 +64,6 @@ public class HomeActivity extends AppCompatActivity {
         listView.setLayoutManager(new LinearLayoutManager(this));
         listView.setAdapter(viewAdapter);
         readUser();
-
     }
     public void readUser(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -118,12 +123,17 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     }
-
-
     private  void  getDataFromDataBase(){
         DatabaseReference referenceHistory = FirebaseDatabase.getInstance().getReference("History").child(User.EMAIL_CONVERT);
         GenRemoteDataSource genRemoteDataSource = new GenRemoteDataSource(ProductBio.class);
-        genRemoteDataSource.getDataFromDataBase(listView,viewAdapter,listData,referenceHistory);
+        genRemoteDataSource.getDataFromDataBase(listView,viewAdapter,listData,referenceHistory,activity,progressBar);
+    }
+
+    private void load(){
+            activity = findViewById(R.id.activity);
+            activity.setVisibility(View.GONE);
+            progressBar = findViewById(R.id.progress_bar);
+            progressBar.setVisibility(View.VISIBLE);
     }
 
 }

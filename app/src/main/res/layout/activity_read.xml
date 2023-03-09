@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,274 +7,288 @@
     android:layout_height="match_parent"
     tools:context=".Activity.User.Read">
 
-
-    <RelativeLayout
-        android:visibility="gone"
-        android:onClick="onClickFirstBio"
-        android:layout_margin="20dp"
-        android:id="@+id/first_bio"
-        android:padding="20dp"
-        android:background="@drawable/round_rect_shape"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:textSize="20dp"
-            android:layout_centerHorizontal="true"
-            android:text="Hey this product no have a description \n if you hava add click  this button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </TextView>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/bio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp">
-
-
-
-
-
-
-
-
+        android:layout_height="match_parent">
         <RelativeLayout
-            android:visibility="gone"
-            android:id="@+id/user_correct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/company_layout"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="0dp"
-            android:padding="20dp">
-
-            <TextView
-                android:id="@+id/correct"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Maybe no correct" />
-
-            <ImageView
-                android:id="@+id/ok"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/correct"
-                android:layout_alignBottom="@+id/correct"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="0dp"
-                android:layout_toEndOf="@+id/correct"
-                android:src="@drawable/ic_baseline_do_not_disturb_24" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:visibility="gone"
-            android:id="@+id/company_correct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/company_layout"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="0dp"
-            android:padding="20dp">
-
-            <TextView
-                android:id="@+id/correct1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Correct" />
-
-            <ImageView
-                android:id="@+id/ok1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/correct1"
-                android:layout_alignBottom="@+id/correct1"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="0dp"
-                android:layout_toEndOf="@+id/correct1"
-                android:src="@drawable/ic_baseline_done_24" />
-        </RelativeLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-        <RelativeLayout
-            android:id="@+id/company_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClickProduct">
-
-            <TextView
-                android:id="@+id/company_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="17dp"
-                android:layout_marginTop="15dp"
-                android:layout_toEndOf="@+id/company_image"
-                android:text="Company name" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/company_image"
-                android:layout_width="72dp"
-                android:layout_height="60dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="9dp"
-                android:layout_marginTop="3dp"
-                android:src="@drawable/ic_baseline_account_circle_24" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/bio1"
+            android:id="@+id/activity"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/company_layout"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="37dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp">
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:visibility="gone"
+                android:onClick="onClickFirstBio"
+                android:layout_margin="20dp"
+                android:id="@+id/first_bio"
+                android:padding="20dp"
+                android:background="@drawable/round_rect_shape"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="20dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="Hey this product no have a description \n if you hava add click  this button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </TextView>
+            </RelativeLayout>
 
-
-            <TextView
-                android:id="@+id/product_name"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/bio"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="product name" />
-
-            <ImageView
-                android:id="@+id/product_image_view"
-
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_below="@+id/product_name"
-                android:foreground="@drawable/corner1"
-                android:scaleType="centerCrop"
-                tools:srcCompat="@tools:sample/avatars" />
-
-            <TextView
-                android:id="@+id/bioShort"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:layout_toEndOf="@+id/product_image_view" />
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp">
 
-            <TextView
-                android:id="@+id/showMore"
+
+
+
+
+
+
+
+                <RelativeLayout
+                    android:visibility="gone"
+                    android:id="@+id/user_correct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/company_layout"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="0dp"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:id="@+id/correct"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Maybe no correct" />
+
+                    <ImageView
+                        android:id="@+id/ok"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/correct"
+                        android:layout_alignBottom="@+id/correct"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginBottom="0dp"
+                        android:layout_toEndOf="@+id/correct"
+                        android:src="@drawable/ic_baseline_do_not_disturb_24" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:visibility="gone"
+                    android:id="@+id/company_correct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/company_layout"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="0dp"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:id="@+id/correct1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Correct" />
+
+                    <ImageView
+                        android:id="@+id/ok1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/correct1"
+                        android:layout_alignBottom="@+id/correct1"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginBottom="0dp"
+                        android:layout_toEndOf="@+id/correct1"
+                        android:src="@drawable/ic_baseline_done_24" />
+                </RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+                <RelativeLayout
+                    android:id="@+id/company_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClickProduct">
+
+                    <TextView
+                        android:id="@+id/company_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="17dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_toEndOf="@+id/company_image"
+                        android:text="Company name" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/company_image"
+                        android:layout_width="72dp"
+                        android:layout_height="60dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="9dp"
+                        android:layout_marginTop="3dp"
+                        android:src="@drawable/ic_baseline_account_circle_24" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/bio1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/company_layout"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="37dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp">
+
+
+                    <TextView
+                        android:id="@+id/product_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="product name" />
+
+                    <ImageView
+                        android:id="@+id/product_image_view"
+
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_below="@+id/product_name"
+                        android:foreground="@drawable/corner1"
+                        android:scaleType="centerCrop"
+                        tools:srcCompat="@tools:sample/avatars" />
+
+                    <TextView
+                        android:id="@+id/bioShort"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_toEndOf="@+id/product_image_view" />
+
+                    <TextView
+                        android:id="@+id/showMore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/bioShort"
+                        android:layout_margin="15dp"
+                        android:layout_toEndOf="@+id/product_image_view"
+                        android:onClick="onClickShowMore"
+                        android:text="show more"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rating_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/bioShort"
-                android:layout_margin="15dp"
-                android:layout_toEndOf="@+id/product_image_view"
-                android:onClick="onClickShowMore"
-                android:text="show more"
-                android:textStyle="bold" />
+                android:layout_below="@+id/bio"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp">
+
+                <RatingBar
+                    android:id="@+id/rating_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:isIndicator="false"
+                    android:progressTint="@color/Base_color"
+                    android:secondaryProgressTint="@color/zxing_transparent" />
+
+                <TextView
+                    android:id="@+id/rating_bar_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/rating_bar"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_toEndOf="@+id/rating_bar"
+                    android:text="0.0"
+                    android:textColor="@color/Second_color"
+                    android:textSize="40dp" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rating_layout"
+                android:layout_marginTop="71dp">
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/toggleButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    app:singleSelection="true">
+
+                    <Button
+                        android:id="@+id/button1"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onClickSortByLike"
+                        android:text="Sort by like" />
+
+                    <Button
+                        android:id="@+id/button2"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onClickSortByTime"
+                        android:text="Sort by Time" />
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rec_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="70dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            </RelativeLayout>
+
         </RelativeLayout>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rating_layout"
+    </ScrollView>
+    <ProgressBar
+        android:layout_centerInParent="true"
+        android:id="@+id/progress_bar"
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/Base_color"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foregroundTint="@color/Red"
+        />
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/button_app_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bio"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="7dp">
-
-        <RatingBar
-            android:id="@+id/rating_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:isIndicator="false"
-            android:progressTint="@color/Base_color"
-            android:secondaryProgressTint="@color/zxing_transparent" />
-
-        <TextView
-            android:id="@+id/rating_bar_score"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/rating_bar"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="0dp"
-            android:layout_toEndOf="@+id/rating_bar"
-            android:text="0.0"
-            android:textColor="@color/Second_color"
-            android:textSize="40dp" />
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rating_layout"
-        android:layout_marginTop="71dp">
-
-        <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/toggleButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            app:singleSelection="true">
-
-            <Button
-                android:id="@+id/button1"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onClickSortByLike"
-                android:text="Sort by like" />
-
-            <Button
-                android:id="@+id/button2"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onClickSortByTime"
-                android:text="Sort by Time" />
-        </com.google.android.material.button.MaterialButtonToggleGroup>
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rec_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:foregroundGravity="bottom">
-
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:id="@+id/bottom_app_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="16dp"
-                android:onClick="onClickComment"
-                android:text="add comment"
-                app:icon="@drawable/ic_baseline_add_24" />
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    </RelativeLayout>
-
-</RelativeLayout>
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:onClick="onClickComment"
+        android:text="add comment"
+        app:icon="@drawable/ic_baseline_add_24"
+    />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

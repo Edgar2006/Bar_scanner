@@ -121,12 +121,7 @@ public class CheckBarCodeActivity extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton("Yes", (dialog, id) -> {
                     finish();
-                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                    emailIntent.setType("plain/text");
-                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "edgar.bezhanyan@gmail.com" });
-                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Email Subject");
-                    emailIntent.putExtra(Intent.EXTRA_TEXT, "Email Body");
-                    startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+
                 })
                 .setNegativeButton("No", (dialog, id) -> {
                     dialog.cancel();

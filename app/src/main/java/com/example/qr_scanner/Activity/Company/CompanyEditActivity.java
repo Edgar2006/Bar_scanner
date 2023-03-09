@@ -8,8 +8,11 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,12 +53,15 @@ public class CompanyEditActivity extends AppCompatActivity {
     private ImageView companyImage;
     private StorageReference storageRef;
     private Uri uploadUri;
+    private RelativeLayout activity;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_edit);
         init();
+        load(true);
     }
     private void init(){
         name = findViewById(R.id.name);
@@ -66,32 +72,6 @@ public class CompanyEditActivity extends AppCompatActivity {
 
 
 
-    public void onClickSubmit(View view){
-        uploadImage();
-    }
-
-    public void onClickChooseImage(View view){
-        getImage();
-    }
-
-    private void uploadImage(){
-        try {
-            Bitmap bitmap = ((BitmapDrawable) companyImage.getDrawable()).getBitmap();
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG,50,byteArrayOutputStream);
-            byte[] byteArray = byteArrayOutputStream.toByteArray();
-            StorageReference mRef = storageRef.child(User.EMAIL_CONVERT + "_" + name.getEditText().getText());
-            final UploadTask uploadTask = mRef.putBytes(byteArray);
-            Task<Uri> task = uploadTask.continueWithTask(task1 -> mRef.getDownloadUrl()).addOnCompleteListener(task12 -> {
-                uploadUri = task12.getResult();
-                Toast.makeText(CompanyEditActivity.this, "Loading is complete", Toast.LENGTH_SHORT).show();
-                sendToData();
-            });
-        }catch (Exception e){
-            sendToData();
-        }
-
-    }
     public void sendToData(){
         Intent dataGet = getIntent();
         String emailToString, passwordToString;
@@ -124,14 +104,24 @@ public class CompanyEditActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void getImage(){
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,1);
+    private void uploadImage(){
+        try {
+            Bitmap bitmap = ((BitmapDrawable) companyImage.getDrawable()).getBitmap();
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,50,byteArrayOutputStream);
+            byte[] byteArray = byteArrayOutputStream.toByteArray();
+            StorageReference mRef = storageRef.child(User.EMAIL_CONVERT + "_" + name.getEditText().getText());
+            final UploadTask uploadTask = mRef.putBytes(byteArray);
+            Task<Uri> task = uploadTask.continueWithTask(task1 -> mRef.getDownloadUrl()).addOnCompleteListener(task12 -> {
+                uploadUri = task12.getResult();
+                Toast.makeText(CompanyEditActivity.this, "Loading is complete", Toast.LENGTH_SHORT).show();
+                sendToData();
+            });
+        }catch (Exception e){
+            sendToData();
+        }
+
     }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode, data);
@@ -154,8 +144,6 @@ public class CompanyEditActivity extends AppCompatActivity {
         }
 
     }
-
-
     public void onClickLogout(View view) {
         FirebaseAuth firebaseAuth;
         firebaseAuth = FirebaseAuth.getInstance();
@@ -172,5 +160,32 @@ public class CompanyEditActivity extends AppCompatActivity {
         firebaseAuth.signOut();
         Intent intent = new Intent(CompanyEditActivity.this, Login_or_register.class);
         startActivity(intent);
+    }
+    public void onClickChooseImage(View view){
+        getImage();
+    }
+    public void onClickSubmit(View view){
+        uploadImage();load(false);
+    }
+    private void getImage(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent,1);
+    }
+    private void load(boolean b){
+        if(b){
+            activity = findViewById(R.id.activity);
+            activity.setVisibility(View.VISIBLE);
+            progressBar = findViewById(R.id.progress_bar);
+            progressBar.setVisibility(View.GONE);
+        }
+        else{
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                activity.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+            }, 100);
+        }
     }
 }

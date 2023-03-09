@@ -1,19 +1,20 @@
 package com.example.qr_scanner.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -25,7 +26,6 @@ import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.DataBase_Class.MyBool;
 import com.example.qr_scanner.R;
 import com.example.qr_scanner.DataBase_Class.User;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -115,16 +115,10 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         String dateString;
         RatingBar ratingBar;
         TextView email,comment,count,time_text;
-        //
-            String emailToString;
-            String name;
-            long time;
-        //
+        String emailToString,name,address,uploadUri,userImageUrl;
+        long time;
         ImageButton like;
-        ImageView imageDataBase,userImage;
-        String address;
-        String uploadUri;
-        String userImageUrl;
+        ImageView imageDataBase,userImage,more;
         FirebaseAuth mAuth;
         DatabaseReference reference, friendRef, likeRef;
         FirebaseDatabase database;
@@ -132,6 +126,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         int size;
         public ViewHolder(View view) {
             super(view);
+            more = view.findViewById(R.id.more);
             userClick = view.findViewById(R.id.rel1);
             ratingBar = view.findViewById(R.id.rating_bar);
             email = view.findViewById(R.id.name);
@@ -185,15 +180,46 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
                 intent.putExtra(StaticString.userImage,userImageUrl);
                 view.getContext().startActivity(intent);
             });
-
             imageDataBase.setOnClickListener(v -> {
                 Intent intent = new Intent(view.getContext(), OpenImageActivity.class);
                 intent.putExtra(StaticString.url,uploadUri);
                 view.getContext().startActivity(intent);
             });
-
+            more.setOnClickListener(v -> {
+                deleteComment(view);
+            });
         }
 
+        private void deleteComment(View view){
+            AlertDialog.Builder builder;
+            builder = new AlertDialog.Builder(view.getContext());
+            builder.setMessage("Do you want delete comment?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", (dialog, id) -> {
+                        Toast.makeText(view.getContext(), "Thank you " + User.EMAIL, Toast.LENGTH_SHORT).show();
+                        if(!Objects.equals(User.EMAIL, emailToString)) {
+                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.deleteComment).child(address);
+                            Messenger newMessenger = new Messenger(emailToString, name, comment.getText().toString(), address, count.getText().toString(), StaticString.noImage, StaticString.noImage, time, ratingBar.getRating());
+                            if (userImageUrl != null) {
+                                newMessenger.setUserRef(userImageUrl);
+                            }
+                            if (uploadUri != null) {
+                                newMessenger.setImageRef(uploadUri);
+                            }
+                            reference.setValue(newMessenger);
+                        }
+                        else{
+                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.product).child(address);
+                            reference.removeValue();
+                        }
+                    })
+                    .setNegativeButton("No", (dialog, id) -> {
+                        dialog.cancel();
+                    });
+            AlertDialog alert = builder.create();
+            alert.setTitle("Do you want delete comment");
+            alert.show();
+        }
         private void addMessenger(){
             Messenger newMessenger = new Messenger(emailToString, name,comment.getText().toString(),address,count.getText().toString(),StaticString.noImage,StaticString.noImage,time,ratingBar.getRating());
             if(userImageUrl != null){
@@ -204,6 +230,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
             }
             reference.setValue(newMessenger);
         }
+
 
     }
 

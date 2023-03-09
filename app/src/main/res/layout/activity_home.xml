@@ -6,65 +6,81 @@
     android:layout_height="match_parent"
     tools:context=".Activity.User.HomeActivity">
 
-    <TextView
-        android:id="@+id/your_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="43dp"
-        android:text="@string/welcome_home"
-        android:textColor="@color/black"
-        android:textSize="30dp"
-        android:textStyle="bold" />
-
-
-    <Button
-        android:id="@+id/start_activity_read"
+    <RelativeLayout
+        android:id="@+id/activity"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_below="@+id/profile_image"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="27dp"
-        android:backgroundTint="@color/Base_color"
-        android:onClick="onCLickNextStep"
-        android:text="@string/get_started_scan"
-        android:textAllCaps="false"
-        android:textStyle="bold" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/setting"
-        style="?attr/materialButtonOutlinedStyle"
+        <TextView
+            android:id="@+id/your_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="43dp"
+            android:text="@string/welcome_home"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+
+        <Button
+            android:id="@+id/start_activity_read"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_below="@+id/profile_image"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="27dp"
+            android:backgroundTint="@color/Base_color"
+            android:onClick="onCLickNextStep"
+            android:text="@string/get_started_scan"
+            android:textAllCaps="false"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/setting"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_below="@+id/start_activity_read"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="16dp"
+            android:onClick="onCLickSetting"
+            android:text="@string/settings"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            app:strokeColor="@color/Base_color" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rec_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/setting"
+            android:layout_marginTop="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="21dp"
+            android:src="@drawable/ic_baseline_account_circle_24" />
+
+    </RelativeLayout>
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/Base_color"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_below="@+id/start_activity_read"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="16dp"
-        android:onClick="onCLickSetting"
-        android:text="@string/settings"
-        android:textAllCaps="false"
-        android:textStyle="bold"
-        app:strokeColor="@color/Base_color" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rec_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/setting"
-        android:layout_marginTop="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_image"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="17dp"
-        android:layout_marginEnd="21dp"
-        android:src="@drawable/ic_baseline_account_circle_24" />
+        android:layout_height="match_parent"
+        android:foregroundTint="@color/Red"
+        />
 
 </RelativeLayout>

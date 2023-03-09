@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -46,15 +48,15 @@ public class CompanyHomeActivity extends AppCompatActivity {
     public ArrayList<ProductBio> listData;
     public RelativeLayout relativeLayout;
     private boolean onlyRead;
-
+    private RelativeLayout activity;
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_home);
-        Log.e("________","!!!!!!!");
-
         addLocalData();
         init();
+        load(true);
         readUser();
         getDataFromDataBase();
     }
@@ -132,7 +134,8 @@ public class CompanyHomeActivity extends AppCompatActivity {
     public void getDataFromDataBase(){
         DatabaseReference referenceProduct = FirebaseDatabase.getInstance().getReference().child(StaticString.productBio);
         GenRemoteDataSource genRemoteDataSource = new GenRemoteDataSource(ProductBio.class);
-        genRemoteDataSource.getDataFromDataBase(listView,viewAdapter,listData,referenceProduct,User.COMPANY);
+        genRemoteDataSource.getDataFromDataBase(listView,viewAdapter,listData,referenceProduct,User.COMPANY,activity,progressBar);
+        //load(false);
     }
     public void onClickAdd(View view) {
         Intent intent = new Intent(CompanyHomeActivity.this,CheckBarCodeActivity.class);
@@ -144,4 +147,21 @@ public class CompanyHomeActivity extends AppCompatActivity {
         intent.putExtra(StaticString.email,User.EMAIL_CONVERT);
         startActivity(intent);
     }
+
+    private void load(boolean b){
+        if(b){
+            activity = findViewById(R.id.activity);
+            activity.setVisibility(View.GONE);
+            progressBar = findViewById(R.id.progress_bar);
+            progressBar.setVisibility(View.VISIBLE);
+        }
+        else{
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                activity.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+            }, 1000);
+        }
+    }
+
 }

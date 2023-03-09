@@ -9,7 +9,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -45,13 +48,15 @@ public class UserAllCommentShowActivity extends AppCompatActivity {
     private RecyclerView listView;
     private ViewAdapter viewAdapter;
     private ArrayList<Messenger> listData;
-
+    private RelativeLayout activity;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_all_comment_show);
         init();
+        load();
         setUseIntent();
         Handler handler = new Handler();
         handler.postDelayed(() -> getDataFromDataBase(), 1000);
@@ -79,9 +84,14 @@ public class UserAllCommentShowActivity extends AppCompatActivity {
     private void getDataFromDataBase(){
         DatabaseReference referenceComment = FirebaseDatabase.getInstance().getReference(StaticString.userComment).child(Function.convertor(email));
         GenRemoteDataSource genRemoteDataSource = new GenRemoteDataSource(Messenger.class);
-        genRemoteDataSource.getDataFromDataBase(listView,viewAdapter,listData,referenceComment);
+        genRemoteDataSource.getDataFromDataBase(listView,viewAdapter,listData,referenceComment,activity,progressBar);
     }
 
-
+    private void load(){
+        activity = findViewById(R.id.activity);
+        activity.setVisibility(View.GONE);
+        progressBar = findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
+    }
 
 }

@@ -11,7 +11,7 @@ public class StaticString {
     public static String userImage = "UserImage";
     public static String imageProduct = "ImageProduct";
     public static String imageDB = "ImageDB";
-
+    public static String deleteComment = "DeleteCommentList";
     public static String imageCompanyLogo = "ImageCompanyLogo";
 
     public static String onlyRead = "onlyRead";

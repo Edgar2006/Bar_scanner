@@ -7,59 +7,71 @@
     tools:context=".Activity.User.NewCommentActivity"
     tools:ignore="UseSwitchCompatOrMaterialXml">
 
-
-    <RatingBar
-        android:layout_centerHorizontal="true"
-        android:id="@+id/rating_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/comment_image"
-        android:layout_marginTop="3dp"
-        android:progressTint="@color/Base_color" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/comment"
-        style="@style/LoginTextInputLayoutStyle"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="80dp"
-        android:hint="@string/company_name"
-        app:startIconDrawable="@drawable/ic_baseline_add_comment_24">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
+    <RelativeLayout
+        android:id="@+id/activity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RatingBar
+            android:layout_centerHorizontal="true"
+            android:id="@+id/rating_bar"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
+            android:layout_below="@+id/comment_image"
+            android:layout_marginTop="3dp"
+            android:progressTint="@color/Base_color" />
 
-            />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/comment"
+            style="@style/LoginTextInputLayoutStyle"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="80dp"
+            android:hint="@string/company_name"
+            app:startIconDrawable="@drawable/ic_baseline_add_comment_24">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
 
+                />
 
-    <ImageView
-        android:id="@+id/comment_image"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_below="@+id/comment"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="50dp"
-        android:onClick="onClickChooseImage"
-        android:src="@drawable/ic_baseline_add_photo_alternate_24" />
-
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_below="@+id/comment_image"
-        android:layout_marginHorizontal="@dimen/side"
-        android:layout_marginTop="158dp"
-        android:backgroundTint="@color/Base_color"
-        android:onClick="onClickSubmit"
-        android:text="Save"
-        android:textAllCaps="false"
-        android:textSize="15dp"
-        android:textStyle="bold" />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
+        <ImageView
+            android:id="@+id/comment_image"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_below="@+id/comment"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="50dp"
+            android:onClick="onClickChooseImage"
+            android:src="@drawable/ic_baseline_add_photo_alternate_24" />
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_below="@+id/comment_image"
+            android:layout_marginHorizontal="@dimen/side"
+            android:layout_marginTop="158dp"
+            android:backgroundTint="@color/Base_color"
+            android:onClick="onClickSubmit"
+            android:text="Save"
+            android:textAllCaps="false"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+    <ProgressBar
+    android:id="@+id/progress_bar"
+    android:indeterminate="true"
+    android:indeterminateTintMode="src_atop"
+    android:indeterminateTint="@color/Base_color"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:foregroundTint="@color/Red"
+        />
 </RelativeLayout>

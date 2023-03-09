@@ -6,95 +6,109 @@
     android:layout_height="match_parent"
     tools:context=".Activity.Company.CompanyEditActivity">
 
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView2"
-        android:layout_alignParentEnd="true"
-        android:layout_marginHorizontal="@dimen/side"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="13dp"
-        android:backgroundTint="@color/Base_color"
-        android:onClick="onClickLogout"
-        android:text="Logout"
-        android:textAllCaps="false"
-        android:textSize="15dp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:textStyle="bold"
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="15dp"
-        android:text="Add a company information"
-        android:textColor="@color/black"
-        android:textSize="30dp" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/name"
-        app:startIconDrawable="@drawable/u_user"
-        style="@style/LoginTextInputLayoutStyle"
-        android:layout_below="@+id/textView2"
-        android:layout_marginTop="50dp"
-        android:hint="@string/company_name">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-
-            />
-
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/description"
-        style="@style/LoginTextInputLayoutStyle"
-        app:startIconDrawable="@drawable/ic_baseline_menu_24"
-        android:layout_below="@+id/name"
-        android:hint="Description for company"
-        >
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/company_image"
+    <RelativeLayout
+        android:id="@+id/activity"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_above="@+id/submit"
-        android:layout_below="@+id/description"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="59dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="41dp"
-        android:onClick="onClickChooseImage"
-        android:src="@drawable/ic_baseline_add_photo_alternate_24" />
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textView2"
+            android:layout_alignParentEnd="true"
+            android:layout_marginHorizontal="@dimen/side"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="13dp"
+            android:backgroundTint="@color/Base_color"
+            android:onClick="onClickLogout"
+            android:text="Logout"
+            android:textAllCaps="false"
+            android:textSize="15dp"
+            android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/submit"
+        <TextView
+            android:textStyle="bold"
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="15dp"
+            android:text="Add a company information"
+            android:textColor="@color/black"
+            android:textSize="30dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/name"
+            app:startIconDrawable="@drawable/u_user"
+            style="@style/LoginTextInputLayoutStyle"
+            android:layout_below="@+id/textView2"
+            android:layout_marginTop="50dp"
+            android:hint="@string/company_name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/description"
+            style="@style/LoginTextInputLayoutStyle"
+            app:startIconDrawable="@drawable/ic_baseline_menu_24"
+            android:layout_below="@+id/name"
+            android:hint="Description for company"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/company_image"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_above="@+id/submit"
+            android:layout_below="@+id/description"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="59dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="41dp"
+            android:onClick="onClickChooseImage"
+            android:src="@drawable/ic_baseline_add_photo_alternate_24" />
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginHorizontal="@dimen/side"
+            android:layout_marginBottom="33dp"
+            android:backgroundTint="@color/Base_color"
+            android:onClick="onClickSubmit"
+            android:text="Save"
+            android:textAllCaps="false"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/Base_color"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginHorizontal="@dimen/side"
-        android:layout_marginBottom="33dp"
-        android:backgroundTint="@color/Base_color"
-        android:onClick="onClickSubmit"
-        android:text="Save"
-        android:textAllCaps="false"
-        android:textSize="15dp"
-        android:textStyle="bold" />
-
+        android:layout_height="match_parent"
+        android:foregroundTint="@color/Red"
+        />
 
 
 </RelativeLayout>
