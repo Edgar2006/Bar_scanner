@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -108,7 +107,7 @@ public class HomeActivity extends AppCompatActivity {
             if(emailToString != null){
                 String passwordToString = intent.getStringExtra(StaticString.password);
                 User.EMAIL = emailToString;
-                User.EMAIL_CONVERT = Function.convertor(User.EMAIL);
+                User.EMAIL_CONVERT = Function.CONVERTOR(User.EMAIL);
                 String type = StaticString.user;
                 try {
                     String newUser = emailToString + "\n" + passwordToString + "\n" + type;

@@ -1,11 +1,15 @@
 package com.example.qr_scanner.Activity.User;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.qr_scanner.Class.Function;
@@ -26,6 +30,8 @@ public class Register extends AppCompatActivity {
     private DatabaseReference reference;
     private String nameToString, emailToString, passwordToString;
     private boolean registerOrVerification;
+    private RelativeLayout load;
+    private Button register;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,20 +39,17 @@ public class Register extends AppCompatActivity {
         init();
     }
     public void init(){
+        register = findViewById(R.id.register);
+        load = findViewById(R.id.load);
         registerOrVerification = false;
         name = (TextInputLayout)findViewById(R.id.name);
         email = (TextInputLayout)findViewById(R.id.email);
         password = (TextInputLayout)findViewById(R.id.password);
         firebaseAuth = FirebaseAuth.getInstance();
         reference = FirebaseDatabase.getInstance().getReference(StaticString.user);
-        emailToString = email.getEditText().getText().toString();
-        passwordToString = password.getEditText().getText().toString();
     }
 
     public void register(){
-        nameToString = name.getEditText().getText().toString();
-        emailToString = email.getEditText().getText().toString();
-        passwordToString = password.getEditText().getText().toString();
         firebaseAuth.signInWithEmailAndPassword(emailToString,passwordToString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -55,7 +58,7 @@ public class Register extends AppCompatActivity {
                         nextActivity();
                     }
                     else{
-                        Toast.makeText(Register.this, "Please verify your email address", Toast.LENGTH_SHORT).show();
+                        toastEmailOpen();
                     }
                 }
                 else{
@@ -65,9 +68,7 @@ public class Register extends AppCompatActivity {
         });
     }
     public void verification(){
-        nameToString = name.getEditText().getText().toString();
-        emailToString = email.getEditText().getText().toString();
-        passwordToString = password.getEditText().getText().toString();
+        getTextAll();
         if(nameToString.isEmpty() || emailToString.isEmpty() || passwordToString.isEmpty()){
             Toast.makeText(Register.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
         }
@@ -83,7 +84,7 @@ public class Register extends AppCompatActivity {
 
     public void nextActivity(){
         User user = new User(nameToString, emailToString,StaticString.noImage,false);
-        User.EMAIL_CONVERT = Function.convertor(emailToString);
+        User.EMAIL_CONVERT = Function.CONVERTOR(emailToString);
         reference.child(User.EMAIL_CONVERT).setValue(user);
         Intent intent = new Intent(Register.this, RegisterAddPhotoActivity.class);
         intent.putExtra(StaticString.email,emailToString);
@@ -96,7 +97,7 @@ public class Register extends AppCompatActivity {
             if(task.isSuccessful()){
                 firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task1 -> {
                     if(task1.isSuccessful()){
-                        Toast.makeText(Register.this, "Please check your email for verification", Toast.LENGTH_SHORT).show();
+                        toastEmailOpen();
                     }
                     else{
                         Toast.makeText(Register.this, task1.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -109,6 +110,53 @@ public class Register extends AppCompatActivity {
         });
     }
 
+    private void toastEmailOpen(){
+        register.setVisibility(View.GONE);
+        load.setVisibility(View.VISIBLE);
+        Toast.makeText(Register.this, "Please check your email for verification", Toast.LENGTH_SHORT).show();
+        Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            openEmail();
+        }, 2000);
+        new CountDownTimer(Integer.MAX_VALUE, 3000) {
+            public void onTick(long millisUntilFinished) {
+                firebaseAuth.signInWithEmailAndPassword(emailToString,passwordToString).addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        if (firebaseAuth.getCurrentUser().isEmailVerified()){
+                            finish();
+                            cancel();
+                            nextActivity();
+                        }
+                    }
+                    else{
+                        registerOrVerification = false;
+                    }
+                });
+            }
+            public void onFinish() {
+            }
+        }.start();
+    }
+
+    private void openEmail(){
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(this);
+        builder.setMessage("Do you want to open Email ?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", (dialog, id) -> {
+                    finish();
+                    Intent intent = new Intent(Intent.CATEGORY_APP_EMAIL);
+                    intent.addCategory(Intent.CATEGORY_APP_EMAIL);
+                    startActivity(Intent.createChooser(intent, "Email"));
+                })
+                .setNegativeButton("No", (dialog, id) -> {
+                    Toast.makeText(Register.this, "Please check your email for verification", Toast.LENGTH_SHORT).show();
+                    dialog.cancel();
+                });
+        AlertDialog alert = builder.create();
+        alert.setTitle("Do you want to open Email ?");
+        alert.show();
+    }
 
     public void onCLickRegister(View view) {
         if(registerOrVerification){
@@ -120,5 +168,11 @@ public class Register extends AppCompatActivity {
             register();
             registerOrVerification=!registerOrVerification;
         }
+    }
+
+    public void getTextAll(){
+        nameToString = Function.POP(name.getEditText().getText().toString());
+        emailToString = Function.POP(email.getEditText().getText().toString());
+        passwordToString = Function.POP(password.getEditText().getText().toString());
     }
 }

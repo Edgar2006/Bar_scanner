@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.qr_scanner.Adapter.CaptureAct;
+import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.R;
 import com.google.android.material.textfield.TextInputLayout;
@@ -27,7 +28,7 @@ public class ScanActivity extends AppCompatActivity {
         scanCode();
     }
     public void onCLickRead(View view){
-        String barCodeText = barCodeEditText.getEditText().getText().toString();
+        String barCodeText = Function.POP(barCodeEditText.getEditText().getText().toString());
         boolean b=false;
         if(barCodeText.isEmpty() && barCode.isEmpty()){
             b=true;
@@ -46,7 +47,7 @@ public class ScanActivity extends AppCompatActivity {
         if(result != null){
             if(result.getContents() != null){
                 try {
-                    barCode = result.getContents().toString();
+                    barCode = Function.POP(result.getContents());
                     barCodeEditText.getEditText().setText(barCode);
                 }catch (Exception e){
                     Toast.makeText(this, "place scan again or input barcode number manually", Toast.LENGTH_SHORT).show();

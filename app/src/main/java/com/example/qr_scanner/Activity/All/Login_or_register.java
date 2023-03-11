@@ -29,11 +29,7 @@ public class Login_or_register extends AppCompatActivity {
         singIn = findViewById(R.id.log_in);
     }
     public void create_new_account(View view){
-        Intent intent = new Intent(Login_or_register.this, Register.class);
-        startActivity(intent);
-    }
-    public void create_new_account_company(View view){
-        Intent intent = new Intent(Login_or_register.this, CompanyRegisterActivity.class);
+        Intent intent = new Intent(Login_or_register.this, UserOrCompanyActivity.class);
         startActivity(intent);
     }
     public void sign_in(View view){

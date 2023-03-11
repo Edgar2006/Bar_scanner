@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -18,7 +19,6 @@ import com.example.qr_scanner.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,34 +45,33 @@ public class Login extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
     }
     public void onClickSignIn(View view){
-        emailToString = email.getEditText().getText().toString();
-        passwordToString = password.getEditText().getText().toString();
+        emailToString = Function.POP(email.getEditText().getText().toString());
+        Log.e("T", "_"+emailToString + "T");
+        passwordToString = Function.POP(password.getEditText().getText().toString());
         if(emailToString.isEmpty() || passwordToString.isEmpty() || passwordToString.length() < 8){
             Toast.makeText(Login.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
         }
         else{
-            firebaseAuth.signInWithEmailAndPassword(emailToString, passwordToString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
-                        if (firebaseAuth.getCurrentUser().isEmailVerified()){
-                            User.EMAIL = emailToString;
-                            checkIfCompany();
-                        }
-                        else{
-                            Toast.makeText(Login.this, "Please verify your email address", Toast.LENGTH_SHORT).show();
-                        }
+            firebaseAuth.signInWithEmailAndPassword(emailToString, passwordToString).addOnCompleteListener(task -> {
+                if(task.isSuccessful()){
+                    if (firebaseAuth.getCurrentUser().isEmailVerified()){
+                        User.EMAIL = emailToString;
+                        User.COMPANY = Function.CONVERTOR(emailToString);
+                        checkIfCompany();
                     }
                     else{
-                        Toast.makeText(Login.this, "You have some errors", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login.this, "Please verify your email address", Toast.LENGTH_SHORT).show();
                     }
+                }
+                else{
+                    Toast.makeText(Login.this, "You have some errors", Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
 
     private void checkIfCompany(){
-        DatabaseReference referenceUser = FirebaseDatabase.getInstance().getReference(StaticString.company).child(Function.convertor(emailToString));
+        DatabaseReference referenceUser = FirebaseDatabase.getInstance().getReference(StaticString.company).child(Function.CONVERTOR(emailToString));
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

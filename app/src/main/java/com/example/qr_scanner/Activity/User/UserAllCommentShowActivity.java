@@ -1,6 +1,5 @@
 package com.example.qr_scanner.Activity.User;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -18,27 +16,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Adapter.ViewAdapter;
 import com.example.qr_scanner.Class.Function;
-import com.example.qr_scanner.Class.LexicographicComparator;
 import com.example.qr_scanner.Class.StaticString;
-import com.example.qr_scanner.Class.TimeComparator;
 import com.example.qr_scanner.DataBase_Class.GenRemoteDataSource;
 import com.example.qr_scanner.DataBase_Class.Messenger;
-import com.example.qr_scanner.DataBase_Class.ProductBio;
-import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.FirebaseError;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.ktx.Firebase;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Objects;
 
 public class UserAllCommentShowActivity extends AppCompatActivity {
@@ -82,7 +67,7 @@ public class UserAllCommentShowActivity extends AppCompatActivity {
     }
 
     private void getDataFromDataBase(){
-        DatabaseReference referenceComment = FirebaseDatabase.getInstance().getReference(StaticString.userComment).child(Function.convertor(email));
+        DatabaseReference referenceComment = FirebaseDatabase.getInstance().getReference(StaticString.userComment).child(Function.CONVERTOR(email));
         GenRemoteDataSource genRemoteDataSource = new GenRemoteDataSource(Messenger.class);
         genRemoteDataSource.getDataFromDataBase(listView,viewAdapter,listData,referenceComment,activity,progressBar);
     }

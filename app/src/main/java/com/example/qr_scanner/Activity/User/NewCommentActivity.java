@@ -1,6 +1,5 @@
 package com.example.qr_scanner.Activity.User;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -21,8 +20,6 @@ import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
@@ -57,7 +54,7 @@ public class NewCommentActivity extends AppCompatActivity {
 
 
     public void init(){
-        User.EMAIL_CONVERT = Function.convertor(User.EMAIL);
+        User.EMAIL_CONVERT = Function.CONVERTOR(User.EMAIL);
         comment = findViewById(R.id.comment);
         imageView = findViewById(R.id.comment_image);
         mStorageRef = FirebaseStorage.getInstance().getReference(StaticString.imageDB);
@@ -95,13 +92,14 @@ public class NewCommentActivity extends AppCompatActivity {
 
     }
     public void sendToData(){
-        if(!comment.getEditText().getText().toString().isEmpty()){
-            User.EMAIL_CONVERT = Function.convertor(User.EMAIL);
+        String commentString = Function.POP(comment.getEditText().getText().toString());
+        if(!commentString.isEmpty()){
+            User.EMAIL_CONVERT = Function.CONVERTOR(User.EMAIL);
             time = System.currentTimeMillis();
             List<String> friends = new ArrayList<>();
             friends.add(User.EMAIL);
             Messenger messenger;
-            messenger = new Messenger(User.EMAIL, User.NAME, comment.getEditText().getText().toString(), barCode, "0",StaticString.noImage,StaticString.noImage,time,ratingBar.getRating());
+            messenger = new Messenger(User.EMAIL, User.NAME, commentString, barCode, "0",StaticString.noImage,StaticString.noImage,time,ratingBar.getRating());
             if(uploadUri != null){
                 messenger.setImageRef(uploadUri.toString());
             }

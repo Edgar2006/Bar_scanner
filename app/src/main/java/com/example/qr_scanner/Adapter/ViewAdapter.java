@@ -1,6 +1,5 @@
 package com.example.qr_scanner.Adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -51,7 +50,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         holder.address = messenger.getAddress();
         holder.email.setText(messenger.getName());
         holder.emailToString = messenger.getEmail();
-        String temp = Function.convertor(holder.emailToString);
+        String temp = Function.CONVERTOR(holder.emailToString);
         holder.name = messenger.getName();
         holder.comment.setText(messenger.getComment());
         holder.count.setText(messenger.getCount());
@@ -85,18 +84,14 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
             }
         });
         if(!Objects.equals(holder.uploadUri, StaticString.noImage)) {
-            //Picasso.get().load(holder.uploadUri).into(holder.imageDataBase);
             Glide.with(holder.itemView.getContext()).load(holder.uploadUri).into(holder.imageDataBase);
         }
         else{
             holder.imageDataBase.setVisibility(View.GONE);
             holder.comment.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
-
         }
         if(!Objects.equals(holder.userImageUrl, StaticString.noImage)) {
-            //Picasso.get().load(holder.userImageUrl).into(holder.userImage);
             Glide.with(holder.itemView.getContext()).load(holder.userImageUrl).into(holder.userImage);
-
         }
 
         SimpleDateFormat formatter = new SimpleDateFormat("MMMM d, yyyy");
@@ -175,7 +170,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
             }));
             userClick.setOnClickListener(v -> {
                 Intent intent = new Intent(view.getContext(), UserAllCommentShowActivity.class);
-                intent.putExtra(StaticString.email,Function.convertor(emailToString));
+                intent.putExtra(StaticString.email,Function.CONVERTOR(emailToString));
                 intent.putExtra(StaticString.user,name);
                 intent.putExtra(StaticString.userImage,userImageUrl);
                 view.getContext().startActivity(intent);

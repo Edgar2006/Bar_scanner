@@ -80,6 +80,7 @@ public class Read extends AppCompatActivity {
 
 
     private void init(){
+        buttonAppBar = findViewById(R.id.button_app_bar);
         companyCorrect = findViewById(R.id.company_correct);
         userCorrect = findViewById(R.id.user_correct);
         companyLayout  = findViewById(R.id.company_layout);
@@ -104,7 +105,7 @@ public class Read extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent!=null){
             barCode = intent.getStringExtra(StaticString.barCode);
-            if (Objects.equals(intent.getStringExtra(StaticString.type), StaticString.company)){ifYouHaveComment = false;}
+            if (Objects.equals(intent.getStringExtra(StaticString.type), StaticString.company)){ifYouHaveComment = false;buttonAppBar.setVisibility(View.GONE);}
         }
         productRating = FirebaseDatabase.getInstance().getReference(StaticString.productRating).child(barCode);
         referenceComment = FirebaseDatabase.getInstance().getReference(StaticString.product).child(barCode);
@@ -183,7 +184,7 @@ public class Read extends AppCompatActivity {
                     if(!Objects.equals(a.getComment(), StaticString.haveARating)) {
                         listData.add(a);
                     }
-                    if(Objects.equals(Function.convertor(a.getEmail()), User.EMAIL_CONVERT)) {
+                    if(Objects.equals(Function.CONVERTOR(a.getEmail()), User.EMAIL_CONVERT)) {
                         ifYouHaveComment = false;
                     }
                     rating.rating += messenger.getRatingBarScore();
@@ -269,7 +270,7 @@ public class Read extends AppCompatActivity {
     }
     private Messenger getCommentUserNameAndUserImage(Messenger messenger){
         Messenger a = messenger;
-        DatabaseReference referenceUser = FirebaseDatabase.getInstance().getReference(StaticString.user).child(Function.convertor(a.getEmail()));
+        DatabaseReference referenceUser = FirebaseDatabase.getInstance().getReference(StaticString.user).child(Function.CONVERTOR(a.getEmail()));
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -334,9 +335,9 @@ public class Read extends AppCompatActivity {
             activity.setVisibility(View.GONE);
             progressBar = findViewById(R.id.progress_bar);
             progressBar.setVisibility(View.VISIBLE);
-            buttonAppBar = findViewById(R.id.button_app_bar);
-            buttonAppBar.setVisibility(View.VISIBLE);
-
+            if (buttonAppBar.getVisibility() != View.GONE){
+                buttonAppBar.setVisibility(View.VISIBLE);
+            }
         }
         else{
             Handler handler = new Handler();

@@ -1,10 +1,13 @@
 package com.example.qr_scanner.Activity.Company;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
@@ -30,6 +33,7 @@ public class CompanyRegisterActivity extends AppCompatActivity {
     private CheckBox checkBox;
     private String nameToString, emailToString, passwordToString;
     private boolean registerOrVerification;
+    private RelativeLayout load;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,7 @@ public class CompanyRegisterActivity extends AppCompatActivity {
         init();
     }
     public void init(){
+        load = findViewById(R.id.load);
         checkBox = (CheckBox) findViewById(R.id.check_box);
         relativeLayoutAnnotation = findViewById(R.id.annotation_read);
         relativeLayoutReg = findViewById(R.id.register_relative_layout);
@@ -46,11 +51,13 @@ public class CompanyRegisterActivity extends AppCompatActivity {
         password = (TextInputLayout)findViewById(R.id.password);
         firebaseAuth = FirebaseAuth.getInstance();
         reference = FirebaseDatabase.getInstance().getReference(StaticString.company);
-        emailToString = email.getEditText().getText().toString();
-        passwordToString = password.getEditText().getText().toString();
-
     }
 
+    public void getTextAll(){
+        nameToString = Function.POP(name.getEditText().getText().toString());
+        emailToString = Function.POP(email.getEditText().getText().toString());
+        passwordToString = Function.POP(password.getEditText().getText().toString());
+    }
     public void onClickReg(View view){
         Boolean checkBoxState = checkBox.isChecked();
         if(checkBoxState){
@@ -59,28 +66,23 @@ public class CompanyRegisterActivity extends AppCompatActivity {
         }
     }
     public void register(){
-        firebaseAuth.signInWithEmailAndPassword(emailToString,passwordToString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    if (firebaseAuth.getCurrentUser().isEmailVerified()){
-                        nextActivity();
-                    }
-                    else{
-                        Toast.makeText(CompanyRegisterActivity.this, "Please verify your email address", Toast.LENGTH_SHORT).show();
-                    }
+        firebaseAuth.signInWithEmailAndPassword(emailToString,passwordToString).addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                if (firebaseAuth.getCurrentUser().isEmailVerified()){
+                    nextActivity();
                 }
                 else{
-                    registerOrVerification = false;
-                    Toast.makeText(CompanyRegisterActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    toastEmailOpen();
                 }
+            }
+            else{
+                registerOrVerification = false;
+                Toast.makeText(CompanyRegisterActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
     public void verification(){
-        nameToString = name.getEditText().getText().toString();
-        emailToString = email.getEditText().getText().toString();
-        passwordToString = password.getEditText().getText().toString();
+        getTextAll();
         if(nameToString.isEmpty() || emailToString.isEmpty() || passwordToString.isEmpty()){
             Toast.makeText(CompanyRegisterActivity.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
         }
@@ -95,49 +97,82 @@ public class CompanyRegisterActivity extends AppCompatActivity {
     }
 
     public void createUser(){
-        nameToString = name.getEditText().getText().toString();
-        emailToString = email.getEditText().getText().toString();
-        passwordToString = password.getEditText().getText().toString();
-        firebaseAuth.createUserWithEmailAndPassword(emailToString, passwordToString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(CompanyRegisterActivity.this, "Please check your email for verification", Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                register();
-                            }
-                        }
-                    });
-                }
-                else{
-                    Toast.makeText(CompanyRegisterActivity.this, "Please check your email for verification or register again", Toast.LENGTH_SHORT).show();
-                }
+        firebaseAuth.createUserWithEmailAndPassword(emailToString, passwordToString).addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task1 -> {
+                    if(task1.isSuccessful()){
+                        Toast.makeText(CompanyRegisterActivity.this, "Please check your email for verification", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        register();
+                    }
+                });
+            }
+            else{
+                Toast.makeText(CompanyRegisterActivity.this, "Please check your email for verification or register again", Toast.LENGTH_SHORT).show();
             }
         });
     }
     public void nextActivity(){
         User user = new User(nameToString, emailToString,StaticString.noImage,false);
-        User.EMAIL_CONVERT = Function.convertor(emailToString);
+        User.EMAIL_CONVERT = Function.CONVERTOR(emailToString);
         reference.child(User.EMAIL_CONVERT).setValue(user);
-        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-        emailIntent.setType("plain/text");
-        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { "edgar.bezhanyan@gmail.com" });
-        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Email Subject");
-        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "send a verification company");
-        startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+        Intent intent3 = new Intent(CompanyRegisterActivity.this,AdminSendActivity.class);
+        startActivity(intent3);
+    }
+    private void toastEmailOpen(){
+        load.setVisibility(View.VISIBLE);
+        Toast.makeText(CompanyRegisterActivity.this, "Please check your email for verification", Toast.LENGTH_SHORT).show();
+        Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            openEmail();
+        }, 2000);
+        new CountDownTimer(Integer.MAX_VALUE, 3000) {
+            public void onTick(long millisUntilFinished) {
+                firebaseAuth.signInWithEmailAndPassword(emailToString,passwordToString).addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        if (firebaseAuth.getCurrentUser().isEmailVerified()){
+                            finish();
+                            cancel();
+                            nextActivity();
+                        }
+                    }
+                    else{
+                        registerOrVerification = false;
+                    }
+                });
+            }
+            public void onFinish() {
+            }
+        }.start();
+    }
+    private void openEmail(){
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(this);
+        builder.setMessage("Do you want to open Email ?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", (dialog, id) -> {
+                    finish();
+                    Intent intent = new Intent(Intent.CATEGORY_APP_EMAIL);
+                    intent.addCategory(Intent.CATEGORY_APP_EMAIL);
+                    startActivity(Intent.createChooser(intent, "Email"));
+                })
+                .setNegativeButton("No", (dialog, id) -> {
+                    dialog.cancel();
+                });
+        AlertDialog alert = builder.create();
+        alert.setTitle("Do you want to open Email ?");
+        alert.show();
     }
 
     public void onCLickRegister(View view) {
         if(registerOrVerification){
+            verification();
             register();
         }
         else{
             verification();
+            register();
             registerOrVerification=!registerOrVerification;
         }
     }

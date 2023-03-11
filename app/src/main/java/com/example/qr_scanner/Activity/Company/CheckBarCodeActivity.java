@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.qr_scanner.Adapter.CaptureAct;
+import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.ProductBio;
 import com.example.qr_scanner.DataBase_Class.User;
@@ -77,7 +78,7 @@ public class CheckBarCodeActivity extends AppCompatActivity {
         }
     }
     public void onClickCheck(View view){
-        String barCodeText = barCodeEditText.getEditText().getText().toString();
+        String barCodeText = Function.POP(barCodeEditText.getEditText().getText().toString());
         boolean b=false;
         if(barCodeText.isEmpty() && barCode.isEmpty()){
             b=true;
@@ -121,7 +122,12 @@ public class CheckBarCodeActivity extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton("Yes", (dialog, id) -> {
                     finish();
-
+                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                    emailIntent.setType("plain/text");
+                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "edgar.bezhanyan@gmail.com" });
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Email Subject");
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, "Email Body");
+                    startActivity(Intent.createChooser(emailIntent, "Send mail..."));
                 })
                 .setNegativeButton("No", (dialog, id) -> {
                     dialog.cancel();

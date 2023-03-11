@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.qr_scanner.Activity.User.Read;
+import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.ProductBio;
 import com.example.qr_scanner.DataBase_Class.User;
@@ -66,9 +67,10 @@ public class Product_activityBioEdit extends AppCompatActivity {
         load(false);
     }
     private void sendToData(){
-        if(!Objects.requireNonNull(bio.getEditText()).getText().toString().isEmpty() && !Objects.requireNonNull(productName.getEditText()).getText().toString().isEmpty() && uploadUri != null) {
+        String productNameString = Function.POP(productName.getEditText().getText().toString());
+        String bioLong = Function.POP(bio.getEditText().getText().toString());
+        if(!(productNameString.isEmpty() && bioLong.isEmpty() && uploadUri == null)){
             Intent intent;
-            String bioLong = bio.getEditText().getText().toString();
             String bioShort;
             if (bioLong.length() >= 300) {
                 bioShort = bioShortGeneration(bioLong);
@@ -77,7 +79,7 @@ public class Product_activityBioEdit extends AppCompatActivity {
             }
             ProductBio productBio;
             String uri = uploadUri.toString();
-            productBio = new ProductBio(User.EMAIL_CONVERT, User.NAME, productName.getEditText().getText().toString(), uri, StaticString.noImage, bioShort, bioLong, barCode);
+            productBio = new ProductBio(User.EMAIL_CONVERT, User.NAME, productNameString, uri, StaticString.noImage, bioShort, bioLong, barCode);
             Intent getIntent = getIntent();
             if (getIntent != null) {
                 if (getIntent.getStringExtra(StaticString.haveARating) != null) {

@@ -44,26 +44,12 @@
         android:textStyle="bold" />
 
     <Button
-
-        android:id="@+id/create_new_account_company"
+        android:id="@+id/log_in"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_below="@+id/create_new_account"
         android:layout_marginHorizontal="@dimen/side"
-        android:layout_marginTop="25dp"
-        android:backgroundTint="@color/Base_color"
-        android:onClick="create_new_account_company"
-        android:text="Create new account for company"
-        android:textAllCaps="false"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/log_in"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/create_new_account_company"
-        android:layout_marginHorizontal="@dimen/side"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="30dp"
         android:onClick="sign_in"
         android:outlineSpotShadowColor="@color/white"
         android:text="@string/sign_in"

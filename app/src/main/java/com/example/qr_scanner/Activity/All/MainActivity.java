@@ -8,8 +8,6 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.example.qr_scanner.Activity.Company.CompanyHomeActivity;
 import com.example.qr_scanner.Activity.InternetAndNotification.InternetReceiver;
@@ -18,7 +16,6 @@ import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -48,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 String type = list.get(2);
                 Intent intent;
                 if(Objects.equals(type, StaticString.company)){
-                    User.COMPANY = Function.convertor(emailToString);
+                    User.COMPANY = Function.CONVERTOR(emailToString);
                     intent = new Intent(MainActivity.this, CompanyHomeActivity.class);
                 }
                 else{

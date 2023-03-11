@@ -1,33 +1,35 @@
 package com.example.qr_scanner.Class;
 
-import android.content.Intent;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.qr_scanner.DataBase_Class.ProductBio;
-import com.example.qr_scanner.DataBase_Class.User;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
 
 public class Function  extends AppCompatActivity {
 
     public Function() {
     }
 
-    public static String convertor(String a){
-        return a.replace(".", "|");
+    public static String CONVERTOR(String s){
+        return s.replace(".", "|");
     }
-
+    public static String POP(String v){
+        StringBuilder s = new StringBuilder();
+        int q = v.length();
+        boolean b=false;
+        for(int i=v.length()-1;i>=0;i--){
+            if(v.charAt(i) != ' '){
+                q = i+1;
+                break;
+            }
+        }
+        for(int i=0;i<q;i++){
+            if(v.charAt(i) != ' '){
+                b=true;
+            }
+            if (b){
+                s.append(v.charAt(i));
+            }
+        }
+        return String.valueOf(s);
+    }
 
 
 }

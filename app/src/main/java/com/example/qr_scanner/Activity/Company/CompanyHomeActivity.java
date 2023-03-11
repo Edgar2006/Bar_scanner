@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Activity.All.Login_or_register;
-import com.example.qr_scanner.Activity.User.Read;
 import com.example.qr_scanner.Adapter.ViewAdapterCompany;
 import com.example.qr_scanner.Adapter.ViewAdapterCompanyByUser;
 import com.example.qr_scanner.Class.Function;
@@ -32,7 +30,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -117,7 +114,7 @@ public class CompanyHomeActivity extends AppCompatActivity {
             String type = StaticString.company;
             if(emailToString!=null && !onlyRead) {
                 User.EMAIL = emailToString;
-                User.EMAIL_CONVERT = Function.convertor(User.EMAIL);
+                User.EMAIL_CONVERT = Function.CONVERTOR(User.EMAIL);
                 try {
                     String newUser = emailToString + "\n" + passwordToString + "\n" + type;
                     FileOutputStream fileOutputStream = openFileOutput(StaticString.Authentication, MODE_PRIVATE);
@@ -139,7 +136,7 @@ public class CompanyHomeActivity extends AppCompatActivity {
     }
     public void onClickAdd(View view) {
         Intent intent = new Intent(CompanyHomeActivity.this,CheckBarCodeActivity.class);
-        intent.putExtra(StaticString.user,companyName.getText().toString());
+        intent.putExtra(StaticString.user,Function.POP(companyName.getText().toString()));
         startActivity(intent);
     }
     public void onCLickSetting(View view) {

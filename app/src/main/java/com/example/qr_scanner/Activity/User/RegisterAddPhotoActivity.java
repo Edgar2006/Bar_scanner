@@ -1,6 +1,5 @@
 package com.example.qr_scanner.Activity.User;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -54,7 +52,7 @@ public class RegisterAddPhotoActivity extends AppCompatActivity {
                 passwordToString = intent.getStringExtra(StaticString.password);
                 name = intent.getStringExtra(StaticString.user);
                 User.EMAIL = emailToString;
-                User.EMAIL_CONVERT = Function.convertor(User.EMAIL);
+                User.EMAIL_CONVERT = Function.CONVERTOR(User.EMAIL);
         }
     }
 

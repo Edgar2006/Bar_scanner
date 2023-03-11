@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Activity.User.HomeActivity;
 import com.example.qr_scanner.Activity.User.Read;
+import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
@@ -96,18 +97,14 @@ public class SettingsActivity extends AppCompatActivity {
         Task<Uri> task = uploadTask.continueWithTask(task1 -> mRef.getDownloadUrl()).addOnCompleteListener(task12 -> {
             uploadUri = task12.getResult();
             Toast.makeText(SettingsActivity.this, "Loading is complete", Toast.LENGTH_SHORT).show();
-            User user;
+            User user = new User(Function.POP(name.getText().toString()), User.EMAIL,StaticString.noImage,false);
             String uri;
-            if(uploadUri == null){
-                user = new User(name.getText().toString(), User.EMAIL,StaticString.noImage,false);
-            }
-            else{
+            if(uploadUri != null){
                 uri = uploadUri.toString();
-                user = new User(name.getText().toString(), User.EMAIL,uri,false);
+                user.setImageRef(uri);
             }
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.user).child(User.EMAIL_CONVERT);
             reference.setValue(user);
-            Toast.makeText(SettingsActivity.this, "Your comment send", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(SettingsActivity.this, HomeActivity.class);
             startActivity(intent);
         });

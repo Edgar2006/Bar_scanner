@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.User.Register">
+
     <TextView
         android:textStyle="bold"
         android:id="@+id/textView2"
@@ -79,6 +80,22 @@
         android:textAllCaps="false"
         android:textSize="15dp"
         android:textStyle="bold" />
-
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/load"
+        android:background="@color/Second_color"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <ProgressBar
+        android:layout_centerInParent="true"
+        android:id="@+id/progress_bar"
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/Base_color"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foregroundTint="@color/Red"
+        />
+    </RelativeLayout>
 
 </RelativeLayout>
