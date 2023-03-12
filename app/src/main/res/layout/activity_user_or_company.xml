@@ -31,9 +31,8 @@
             android:layout_below="@+id/user_text"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
-            android:foreground="@drawable/corner1"
             android:scaleType="centerCrop"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:src="@drawable/u_user" />
 
         <TextView
             android:layout_centerHorizontal="true"
@@ -71,9 +70,8 @@
             android:layout_below="@+id/company_text"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
-            android:foreground="@drawable/corner1"
             android:scaleType="centerCrop"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:src="@drawable/ic_baseline_work_outline_24"/>
 
         <TextView
             android:layout_centerHorizontal="true"

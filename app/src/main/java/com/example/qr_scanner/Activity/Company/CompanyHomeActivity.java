@@ -89,6 +89,7 @@ public class CompanyHomeActivity extends AppCompatActivity {
                 }
                 User.NAME = company.getName();
                 User.URL = company.getImageRef();
+                User.DESCRIPTION = company.getDescription();
                 String uploadUri = company.getImageRef();
                 companyName.setText(company.getName());
                 description.setText(company.getDescription());

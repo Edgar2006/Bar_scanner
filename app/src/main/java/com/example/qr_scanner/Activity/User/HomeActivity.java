@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Activity.All.Login_or_register;
-import com.example.qr_scanner.Activity.All.SettingsActivity;
 import com.example.qr_scanner.Adapter.ViewAdapterCompanyByUser;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.StaticString;

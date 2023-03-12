@@ -14,7 +14,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Activity.All.Login_or_register;
+import com.example.qr_scanner.Activity.User.SettingsActivity;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.Company;
@@ -56,6 +58,11 @@ public class CompanyEditActivity extends AppCompatActivity {
         description = findViewById(R.id.description);
         companyImage = findViewById(R.id.company_image);
         storageRef = FirebaseStorage.getInstance().getReference(StaticString.imageCompanyLogo);
+        name.getEditText().setText(User.NAME);
+        description.getEditText().setText(User.DESCRIPTION);
+        uploadUri = Uri.parse(User.URL);
+        Glide.with(CompanyEditActivity.this).load(User.URL).into(companyImage);
+
     }
 
 
