@@ -2,9 +2,11 @@ package com.example.qr_scanner.Activity.User;
 
 
 import static android.widget.Toast.*;
-import static com.google.common.primitives.UnsignedInts.max;
+
+import static java.lang.Integer.max;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,15 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Activity.Company.CompanyHomeActivity;
@@ -46,22 +51,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
-public class Read extends AppCompatActivity {
+public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     private boolean sortMethod,ifYouHaveComment,ifMore;
     private RecyclerView listView;
     private ViewAdapter viewAdapter;
     private ArrayList<Messenger> listData;
     private DatabaseReference referenceComment,referenceProduct,companyNameRef,referenceHistory,productRating;
     private String shortText,longText,barCode;
-    private TextView productName,bioText,showMore,ratingBarScore,companyName;
+    private TextView productName,bioText,showMore,ratingBarScore,companyName,barCodeTextView,firstComment,sortByText;
     private ImageView productImageView,companyImageView;
-    private RelativeLayout relativeLayout,ratingLayout,firstBio,companyLayout,userCorrect,companyCorrect;
+    private RelativeLayout relativeLayout,userCorrect,companyCorrect,viewLayoutComment;
     private RatingBar ratingBar;
     private Rating rating;
     private RelativeLayout activity;
     private ProgressBar progressBar;
     private Button buttonAppBar;
-
+    private Messenger ifYouHaveAComment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,22 +76,32 @@ public class Read extends AppCompatActivity {
         getDataFromDataBase();
         getDataProductDataBase();
         writeCountPeople();
+        if(viewAdapter.getItemCount()==0){
+            viewLayoutComment.setVisibility(View.GONE);
+        }
+        else{
+            viewLayoutComment.setVisibility(View.VISIBLE);
+        }
         ratingBar.setOnRatingBarChangeListener((ratingBar, ratingValue, fromUser) -> {
             if(fromUser) {
-                sendToData();
+                sendToData(ratingValue);
             }
         });
     }
 
-
     private void init(){
+        sortByText = findViewById(R.id.sortByText);
+        viewLayoutComment = findViewById(R.id.view_comment);
+        viewLayoutComment.setVisibility(View.GONE);
+        firstComment = findViewById(R.id.first_comment);
+        firstComment.setVisibility(View.VISIBLE);
+        activity = findViewById(R.id.activity);
+        progressBar = findViewById(R.id.progress_bar);
+        barCodeTextView = findViewById(R.id.product_barCode);
+        ifYouHaveAComment = new Messenger(StaticString.haveARating);
         buttonAppBar = findViewById(R.id.button_app_bar);
         companyCorrect = findViewById(R.id.company_correct);
         userCorrect = findViewById(R.id.user_correct);
-        companyLayout  = findViewById(R.id.company_layout);
-        firstBio = findViewById(R.id.first_bio);
-        firstBio.setVisibility(View.GONE);
-        ratingLayout = findViewById(R.id.rating_layout);
         referenceHistory = FirebaseDatabase.getInstance().getReference(StaticString.history).child(User.EMAIL_CONVERT);
         ifYouHaveComment = true;
         companyNameRef = FirebaseDatabase.getInstance().getReference(StaticString.companyInformation);
@@ -105,7 +120,7 @@ public class Read extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent!=null){
             barCode = intent.getStringExtra(StaticString.barCode);
-            if (Objects.equals(intent.getStringExtra(StaticString.type), StaticString.company)){ifYouHaveComment = false;buttonAppBar.setVisibility(View.GONE);}
+            if (User.ifCompany){ifYouHaveComment = false;buttonAppBar.setVisibility(View.GONE);}
         }
         productRating = FirebaseDatabase.getInstance().getReference(StaticString.productRating).child(barCode);
         referenceComment = FirebaseDatabase.getInstance().getReference(StaticString.product).child(barCode);
@@ -113,16 +128,23 @@ public class Read extends AppCompatActivity {
         productName = findViewById(R.id.product_name);
         bioText = findViewById(R.id.bioShort);
         productImageView = findViewById(R.id.product_image_view);
-        showMore = findViewById(R.id.showMore);
+        showMore = findViewById(R.id.show_more);
         ifMore = true;
     }
 
-    public void sendToData(){
+    public void sendToData(Float ratingValue){
         if(ifYouHaveComment){
-            ratingBar.setIsIndicator(true);
             Messenger messenger;
             messenger = new Messenger(User.EMAIL, User.NAME, StaticString.haveARating, barCode, "0",StaticString.noImage,StaticString.noImage,System.currentTimeMillis(),ratingBar.getRating());
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.product).child(barCode).child(User.EMAIL_CONVERT);
+            if(ifYouHaveAComment.getTime() != 0){
+                Toast.makeText(this, "!", LENGTH_SHORT).show();
+                Log.e("T",ifYouHaveAComment.toString());
+                messenger = ifYouHaveAComment;
+                rating.countRating--;
+                rating.rating-=messenger.getRatingBarScore();
+                messenger.setRatingBarScore(ratingValue);
+            }
             reference.setValue(messenger);
         }
         else{
@@ -147,16 +169,42 @@ public class Read extends AppCompatActivity {
     public void onClickComment(View view){
         Intent intent = new Intent(Read.this, NewCommentActivity.class);
         intent.putExtra(StaticString.barCode, barCode);
+
         startActivity(intent);
     }
-    public void onClickSortByLike(View view){
+    public void SortByLike(){
         sortMethod=true;
         sortMethod();
+        sortByText.setText(R.string.Sort_review_most_liked);
     }
-    public void onClickSortByTime(View view){
+    public void SortByTime(){
         sortMethod=false;
         sortMethod();
+        sortByText.setText(R.string.sort_by_time);
     }
+
+    public void onClickSort(View view){
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        popupMenu.setOnMenuItemClickListener(this);
+        popupMenu.inflate(R.menu.popup_menu);
+        popupMenu.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.option_1:
+                SortByTime();
+                return true;
+            case R.id.option_2:
+                SortByLike();
+                return true;
+            default:
+                return false;
+
+        }
+    }
+
     public void sortMethod(){
         if(sortMethod) {
             Collections.sort(listData, new LexicographicComparator());
@@ -185,7 +233,7 @@ public class Read extends AppCompatActivity {
                         listData.add(a);
                     }
                     if(Objects.equals(Function.CONVERTOR(a.getEmail()), User.EMAIL_CONVERT)) {
-                        ifYouHaveComment = false;
+                        ifYouHaveAComment = a;
                     }
                     rating.rating += messenger.getRatingBarScore();
                     rating.countRating++;
@@ -198,6 +246,13 @@ public class Read extends AppCompatActivity {
                 ratingBar.setRating(rating_);
                 ratingBarScore.setText(Float.toString(rating_) + "  (" + rating.countRating + ')');
                 load(false);
+                if(viewAdapter.getItemCount()==0){
+                    viewLayoutComment.setVisibility(View.GONE);
+                }
+                else{
+                    viewLayoutComment.setVisibility(View.VISIBLE);
+                    firstComment.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -214,18 +269,39 @@ public class Read extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
                     ProductBio productBio = snapshot.getValue(ProductBio.class);
+                    User.COMPANY_NAME = productBio.getCompanyName();
+                    User.COMPANY_EMAIL = productBio.getCompanyEmail();
+                    User.COMPANY_URL = productBio.getImageRef();
+                    barCodeTextView.setText(barCode);
                     companyName.setText(productBio.getCompanyName());
                     productName.setText(productBio.getProductName());
                     longText = productBio.getBioLong();
                     shortText = productBio.getBioShort();
                     bioText.setText(shortText);
+                    if (longText.length() <= 200){showMore.setVisibility(View.GONE);}
                     if(!Objects.equals(productBio.getImageRef(), StaticString.noImage)) {
                         Glide.with(Read.this).load(productBio.getImageRef()).into(productImageView);
                     }
                     referenceHistory.child(barCode).setValue(productBio);
-                    if(productBio.getCompanyName().equals(StaticString.haveARating)){
-                        companyLayout.setVisibility(View.GONE);
+                    if(!productBio.getAccess()){
                         userCorrect.setVisibility(View.VISIBLE);
+                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.user).child(productBio.getCompanyEmail());
+                        reference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                User userNameAndImageUnit = snapshot.getValue(User.class);
+                                companyName.setText(userNameAndImageUnit.getName());
+                                User.COMPANY = userNameAndImageUnit.getEmail();
+                                User.COMPANY_URL = userNameAndImageUnit.getImageRef();
+                                if(!Objects.equals(userNameAndImageUnit.getImageRef(), StaticString.noImage)) {
+                                    Glide.with(Read.this).load(userNameAndImageUnit.getImageRef()).into(companyImageView);
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
                     else{
                         companyCorrect.setVisibility(View.VISIBLE);
@@ -236,6 +312,7 @@ public class Read extends AppCompatActivity {
                                 Company companyNameAndImageUnit = snapshot.getValue(Company.class);
                                 companyName.setText(companyNameAndImageUnit.getName());
                                 User.COMPANY = companyNameAndImageUnit.getEmail();
+                                User.COMPANY_URL = companyNameAndImageUnit.getImageRef();
                                 if(!Objects.equals(companyNameAndImageUnit.getImageRef(), StaticString.noImage)) {
                                     Glide.with(Read.this).load(companyNameAndImageUnit.getImageRef()).into(companyImageView);
                                 }
@@ -247,16 +324,15 @@ public class Read extends AppCompatActivity {
                         });
                     }
 
+
                 }
                 catch (Exception e){
-                    firstBio.setVisibility(View.VISIBLE);
-                    relativeLayout.setVisibility(View.GONE);
-                    RelativeLayout.LayoutParams params= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-                    params.addRule(RelativeLayout.BELOW, R.id.first_bio);
-                    params.addRule(RelativeLayout.CENTER_HORIZONTAL);
-                    ratingLayout.setLayoutParams(params);
-                    ProductBio productBio = new ProductBio("","",barCode,StaticString.noImage, StaticString.noImage,"","",barCode);
-                    referenceHistory.child(barCode).setValue(productBio);
+                    Handler handler = new Handler();
+                    handler.postDelayed(() -> {
+                        activity.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.VISIBLE);
+                    }, 110);
+                    firstBio();
                 }
 
             }
@@ -268,6 +344,27 @@ public class Read extends AppCompatActivity {
         referenceProduct.addValueEventListener(eventListener);
 
     }
+
+    public void firstBio() {
+        String title = "This product is missing from the database";
+        String message = "You can add yourself";
+        String button1String = "Add now";
+        String button2String = "Go back";
+        AlertDialog.Builder builder = new AlertDialog.Builder(Read.this);
+        builder.setTitle(title);  // заголовок
+        builder.setMessage(message); // сообщение
+        builder.setPositiveButton(button1String, (dialog, id) -> {
+            Intent intent = new Intent(Read.this, Product_activityBioEdit.class);
+            intent.putExtra(StaticString.barCode,barCode);
+            intent.putExtra(StaticString.haveARating,StaticString.haveARating);
+            startActivity(intent);
+        });
+        builder.setNegativeButton(button2String, (dialog, id) -> finish());
+        builder.setCancelable(false);
+        builder.create();
+        builder.show();
+    }
+
     private Messenger getCommentUserNameAndUserImage(Messenger messenger){
         Messenger a = messenger;
         DatabaseReference referenceUser = FirebaseDatabase.getInstance().getReference(StaticString.user).child(Function.CONVERTOR(a.getEmail()));
@@ -310,10 +407,19 @@ public class Read extends AppCompatActivity {
     }
 
     public void onClickProduct(View view) {
-        Intent intent = new Intent(Read.this, CompanyHomeActivity.class);
-        intent.putExtra(StaticString.onlyRead,true);
-        intent.putExtra(StaticString.email,User.COMPANY);
-        startActivity(intent);
+        if (companyCorrect.getVisibility() == View.VISIBLE) {
+            Intent intent = new Intent(Read.this, CompanyHomeActivity.class);
+            intent.putExtra(StaticString.onlyRead,true);
+            intent.putExtra(StaticString.email,User.COMPANY);
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(Read.this, UserAllCommentShowActivity.class);
+            intent.putExtra(StaticString.email,User.EMAIL_CONVERT);
+            intent.putExtra(StaticString.user,User.COMPANY_NAME);
+            intent.putExtra(StaticString.userImage,User.COMPANY_URL);
+            startActivity(intent);
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -322,18 +428,11 @@ public class Read extends AppCompatActivity {
         return true;
     }
 
-    public void onClickFirstBio(View view) {
-        Intent intent = new Intent(Read.this, Product_activityBioEdit.class);
-        intent.putExtra(StaticString.barCode,barCode);
-        intent.putExtra(StaticString.haveARating,StaticString.haveARating);
-        startActivity(intent);
-    }
+
 
     private void load(boolean b){
         if(b){
-            activity = findViewById(R.id.activity);
             activity.setVisibility(View.GONE);
-            progressBar = findViewById(R.id.progress_bar);
             progressBar.setVisibility(View.VISIBLE);
             if (buttonAppBar.getVisibility() != View.GONE){
                 buttonAppBar.setVisibility(View.VISIBLE);

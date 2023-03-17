@@ -1,25 +1,35 @@
 package com.example.qr_scanner.Activity.User;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.bumptech.glide.Glide;
+import com.example.qr_scanner.Activity.Company.CompanyEditActivity;
+import com.example.qr_scanner.Class.AppCompat;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.DataBase_Class.User;
+import com.example.qr_scanner.DataBase_Class.UserCommentSaveData;
 import com.example.qr_scanner.R;
+import com.github.drjacky.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
@@ -27,16 +37,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class NewCommentActivity extends AppCompatActivity {
-    private long time;
     private String barCode;
+    private TextView count;
     private TextInputLayout comment;
     private ImageView imageView;
     private Uri uploadUri;
@@ -45,15 +53,21 @@ public class NewCommentActivity extends AppCompatActivity {
     private RelativeLayout activity;
     private ProgressBar progressBar;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_comment);
         init();
         load(true);
+
+        ratingBar.setOnRatingBarChangeListener((ratingBar, ratingValue, fromUser) -> {
+            count.setText(Float.toString(ratingValue));
+        });
+
     }
 
 
     public void init(){
+        count = findViewById(R.id.rating_score);
         User.EMAIL_CONVERT = Function.CONVERTOR(User.EMAIL);
         comment = findViewById(R.id.comment);
         imageView = findViewById(R.id.comment_image);
@@ -95,11 +109,11 @@ public class NewCommentActivity extends AppCompatActivity {
         String commentString = Function.POP(comment.getEditText().getText().toString());
         if(!commentString.isEmpty()){
             User.EMAIL_CONVERT = Function.CONVERTOR(User.EMAIL);
-            time = System.currentTimeMillis();
+            long time = System.currentTimeMillis();
             List<String> friends = new ArrayList<>();
             friends.add(User.EMAIL);
             Messenger messenger;
-            messenger = new Messenger(User.EMAIL, User.NAME, commentString, barCode, "0",StaticString.noImage,StaticString.noImage,time,ratingBar.getRating());
+            messenger = new Messenger(User.EMAIL, User.NAME, commentString, barCode, "0",StaticString.noImage,StaticString.noImage, time,ratingBar.getRating());
             if(uploadUri != null){
                 messenger.setImageRef(uploadUri.toString());
             }
@@ -108,14 +122,16 @@ public class NewCommentActivity extends AppCompatActivity {
             }
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.product).child(barCode).child(User.EMAIL_CONVERT);
             reference.setValue(messenger);
-            DatabaseReference userComment = FirebaseDatabase.getInstance().getReference(StaticString.userComment).child(User.EMAIL_CONVERT).child(barCode);
-            userComment.setValue(messenger);
             DatabaseReference friendReference = FirebaseDatabase.getInstance().getReference(StaticString.friends).child(barCode).child(User.EMAIL_CONVERT);
             friendReference.setValue(friends);
+            DatabaseReference userComment = FirebaseDatabase.getInstance().getReference(StaticString.userComment).child(User.EMAIL_CONVERT).child(barCode);
+            UserCommentSaveData userCommentSaveData = new UserCommentSaveData(User.COMPANY_EMAIL,User.EMAIL_CONVERT,barCode);
+            userComment.setValue(userCommentSaveData);
             Toast.makeText(NewCommentActivity.this, "Your comment send", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(NewCommentActivity.this, Read.class);
             intent.putExtra(StaticString.barCode, barCode);
             startActivity(intent);
+            finish();
         }
         else{
             Handler handler = new Handler();
@@ -128,35 +144,29 @@ public class NewCommentActivity extends AppCompatActivity {
     }
 
     private void getImage(){
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,1);
+        ActivityResultLauncher<Intent> launcher=
+                registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),(ActivityResult result)->{
+                    if(result.getResultCode()==RESULT_OK){
+                        Uri uri=result.getData().getData();
+                        // Use the uri to load the image
+                        imageView.setImageURI(uri);
+                    }else if(result.getResultCode()== ImagePicker.RESULT_ERROR){
+                        // Use ImagePicker.Companion.getError(result.getData()) to show an error
+                    }
+                });
     }
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode,resultCode, data);
-        if (requestCode == 1 && data != null && data.getData() != null){
-            if(resultCode == RESULT_OK){
-                imageView.setImageURI(data.getData());
-            }
-        }
-        IntentResult  result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
-        if(result != null){
-            if(result.getContents() != null) {
-                Toast.makeText(this, result.getContents().toString(), Toast.LENGTH_SHORT).show();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            Glide.with(NewCommentActivity.this).load(User.URL).into(imageView);
 
-            }
-            else{
-                Toast.makeText(this, "No results", Toast.LENGTH_SHORT).show();
-            }
-        }else{
-            super.onActivityResult(requestCode,resultCode,data);
-        }
-
+        }, 120);
     }
+
     private void load(boolean b){
         if(b){
             activity = findViewById(R.id.activity);

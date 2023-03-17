@@ -1,5 +1,6 @@
 package com.example.qr_scanner.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -44,6 +45,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         this.inflater = LayoutInflater.from(context);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Messenger messenger = messengers.get(position);
@@ -63,11 +65,12 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         holder.uploadUri = messenger.getImageRef();
         holder.userImageUrl = messenger.getUserRef();
         holder.ratingBar.setRating(messenger.getRatingBarScore());
+        holder.ratingBarScore.setText(Float.toString(messenger.getRatingBarScore()));
         holder.friendRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot data: dataSnapshot.getChildren()){
-                    if(data.getKey().toString().equals(User.EMAIL_CONVERT)){
+                    if(data.getKey().equals(User.EMAIL_CONVERT)){
                         MyBool isLike = data.getValue(MyBool.class);
                         boolean isOk = isLike.isLike();
                         if(!isOk){
@@ -109,7 +112,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder{
         String dateString;
         RatingBar ratingBar;
-        TextView email,comment,count,time_text;
+        TextView email,comment,count,time_text,ratingBarScore;
         String emailToString,name,address,uploadUri,userImageUrl;
         long time;
         ImageButton like;
@@ -121,6 +124,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         int size;
         public ViewHolder(View view) {
             super(view);
+            ratingBarScore = view.findViewById(R.id.rating_bar_score);
             more = view.findViewById(R.id.more);
             userClick = view.findViewById(R.id.rel1);
             ratingBar = view.findViewById(R.id.rating_bar);
@@ -137,7 +141,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     boolean b = false;
                     for(DataSnapshot data: dataSnapshot.getChildren()){
-                        if(data.getKey().toString().equals(User.EMAIL_CONVERT)){
+                        if(data.getKey().equals(User.EMAIL_CONVERT)){
                             b=true;
                             MyBool isLike = data.getValue(MyBool.class);
                             boolean isOk = isLike.isLike();
@@ -170,7 +174,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
             }));
             userClick.setOnClickListener(v -> {
                 Intent intent = new Intent(view.getContext(), UserAllCommentShowActivity.class);
-                intent.putExtra(StaticString.email,Function.CONVERTOR(emailToString));
+                intent.putExtra(StaticString.email,emailToString);
                 intent.putExtra(StaticString.user,name);
                 intent.putExtra(StaticString.userImage,userImageUrl);
                 view.getContext().startActivity(intent);
@@ -180,9 +184,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
                 intent.putExtra(StaticString.url,uploadUri);
                 view.getContext().startActivity(intent);
             });
-            more.setOnClickListener(v -> {
-                deleteComment(view);
-            });
+            more.setOnClickListener(v -> deleteComment(view));
         }
 
         private void deleteComment(View view){

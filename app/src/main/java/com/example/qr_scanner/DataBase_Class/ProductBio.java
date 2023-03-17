@@ -3,8 +3,11 @@ package com.example.qr_scanner.DataBase_Class;
 public class ProductBio {
 
     private String companyEmail, companyName, productName, imageRef, companyRef, bioShort, bioLong, barCode;
+    private boolean access;
+    private Long time;
 
-    public ProductBio(String companyEmail ,String companyName, String productName, String imageRef, String companyRef, String bioShort, String bioLong, String barCode) {
+
+    public ProductBio(String companyEmail ,String companyName, String productName, String imageRef, String companyRef, String bioShort, String bioLong, String barCode, boolean access, Long time) {
         this.companyEmail = companyEmail;
         this.companyName = companyName;
         this.productName = productName;
@@ -13,6 +16,8 @@ public class ProductBio {
         this.bioShort = bioShort;
         this.bioLong = bioLong;
         this.barCode = barCode;
+        this.access = access;
+        this.time = time;
     }
 
     public ProductBio() {
@@ -80,5 +85,13 @@ public class ProductBio {
 
     public void setBioLong(String bioLong) {
         this.bioLong = bioLong;
+    }
+
+    public boolean getAccess() {
+        return access;
+    }
+
+    public void setAccess(boolean access) {
+        this.access = access;
     }
 }

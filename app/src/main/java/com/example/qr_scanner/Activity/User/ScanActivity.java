@@ -49,6 +49,7 @@ public class ScanActivity extends AppCompatActivity {
                 try {
                     barCode = Function.POP(result.getContents());
                     barCodeEditText.getEditText().setText(barCode);
+                    push_activity();
                 }catch (Exception e){
                     Toast.makeText(this, "place scan again or input barcode number manually", Toast.LENGTH_SHORT).show();
                 }

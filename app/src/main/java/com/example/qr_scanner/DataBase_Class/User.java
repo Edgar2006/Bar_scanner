@@ -5,8 +5,8 @@ import java.io.Serializable;
 public class User implements Serializable {
     private String name,email,imageRef;
     private boolean access;
-    public static String EMAIL, NAME, EMAIL_CONVERT, URL, COMPANY, DESCRIPTION;
-
+    public static String EMAIL, NAME, EMAIL_CONVERT, URL, COMPANY, COMPANY_NAME, COMPANY_EMAIL, COMPANY_URL, DESCRIPTION;
+    public static boolean ifCompany;
     public User(String name, String email,String imageRef,boolean access) {
         this.name = name;
         this.email = email;

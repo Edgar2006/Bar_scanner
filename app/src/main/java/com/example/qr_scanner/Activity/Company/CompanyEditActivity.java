@@ -1,5 +1,8 @@
 package com.example.qr_scanner.Activity.Company;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -15,13 +18,13 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.qr_scanner.Activity.All.Login_or_register;
-import com.example.qr_scanner.Activity.User.SettingsActivity;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.Company;
 import com.example.qr_scanner.DataBase_Class.User;
+import com.example.qr_scanner.Manifest;
 import com.example.qr_scanner.R;
+import com.github.drjacky.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -60,13 +63,12 @@ public class CompanyEditActivity extends AppCompatActivity {
         storageRef = FirebaseStorage.getInstance().getReference(StaticString.imageCompanyLogo);
         name.getEditText().setText(User.NAME);
         description.getEditText().setText(User.DESCRIPTION);
-        uploadUri = Uri.parse(User.URL);
-        Glide.with(CompanyEditActivity.this).load(User.URL).into(companyImage);
+        try {
+            uploadUri = Uri.parse(User.URL);
+            Glide.with(CompanyEditActivity.this).load(User.URL).into(companyImage);
+        }catch (Exception e){}
 
     }
-
-
-
     public void sendToData(){
         Intent dataGet = getIntent();
         String emailToString, passwordToString;
@@ -115,6 +117,43 @@ public class CompanyEditActivity extends AppCompatActivity {
         }
 
     }
+
+    public void onClickChooseImage(View view){
+        getImage();
+    }
+    public void onClickSubmit(View view){
+        uploadImage();load(false);
+    }
+
+    private void load(boolean b){
+        if(b){
+            activity = findViewById(R.id.activity);
+            activity.setVisibility(View.VISIBLE);
+            progressBar = findViewById(R.id.progress_bar);
+            progressBar.setVisibility(View.GONE);
+        }
+        else{
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                activity.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+            }, 100);
+        }
+    }
+
+    private void getImage(){
+        ActivityResultLauncher<Intent> launcher=
+                registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),(ActivityResult result)->{
+                    if(result.getResultCode()==RESULT_OK){
+                        Uri uri=result.getData().getData();
+                        // Use the uri to load the image
+                        companyImage.setImageURI(uri);
+                    }else if(result.getResultCode()==ImagePicker.RESULT_ERROR){
+                        // Use ImagePicker.Companion.getError(result.getData()) to show an error
+                    }
+                });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode, data);
@@ -137,48 +176,5 @@ public class CompanyEditActivity extends AppCompatActivity {
         }
 
     }
-    public void onClickLogout(View view) {
-        FirebaseAuth firebaseAuth;
-        firebaseAuth = FirebaseAuth.getInstance();
-        try {
-            String temp = "";
-            FileOutputStream fileOutputStream = openFileOutput(StaticString.Authentication, MODE_PRIVATE);
-            fileOutputStream.write(temp.getBytes());
-            fileOutputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        firebaseAuth.signOut();
-        Intent intent = new Intent(CompanyEditActivity.this, Login_or_register.class);
-        startActivity(intent);
-    }
-    public void onClickChooseImage(View view){
-        getImage();
-    }
-    public void onClickSubmit(View view){
-        uploadImage();load(false);
-    }
-    private void getImage(){
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,1);
-    }
-    private void load(boolean b){
-        if(b){
-            activity = findViewById(R.id.activity);
-            activity.setVisibility(View.VISIBLE);
-            progressBar = findViewById(R.id.progress_bar);
-            progressBar.setVisibility(View.GONE);
-        }
-        else{
-            Handler handler = new Handler();
-            handler.postDelayed(() -> {
-                activity.setVisibility(View.GONE);
-                progressBar.setVisibility(View.VISIBLE);
-            }, 100);
-        }
-    }
+
 }

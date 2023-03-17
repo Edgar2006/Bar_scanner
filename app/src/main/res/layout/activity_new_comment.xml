@@ -7,56 +7,115 @@
     tools:context=".Activity.User.NewCommentActivity"
     tools:ignore="UseSwitchCompatOrMaterialXml">
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <RelativeLayout
         android:id="@+id/activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="38dp"
+            android:text="@string/rating"
+            android:textColor="@color/black"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
         <RatingBar
-            android:layout_centerHorizontal="true"
             android:id="@+id/rating_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/comment_image"
-            android:layout_marginTop="3dp"
+            android:layout_alignStart="@+id/comment"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="89dp"
             android:progressTint="@color/Base_color" />
+
+
+        <TextView
+            android:id="@+id/rating_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/rating_bar"
+            android:layout_alignBottom="@+id/rating_bar"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:layout_toEndOf="@+id/rating_bar"
+            android:text="0.0"
+            android:textColor="@color/grey"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/comment"
             style="@style/LoginTextInputLayoutStyle"
-            android:layout_alignParentTop="true"
+            android:layout_below="@+id/rating_score"
             android:layout_marginTop="80dp"
-            android:hint="@string/company_name"
+            app:counterEnabled="true"
+            app:counterMaxLength="200"
+            android:hint="@string/your_review"
             app:startIconDrawable="@drawable/ic_baseline_add_comment_24">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:maxLength="200"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-
+                android:inputType="textMultiLine"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
 
 
-        <ImageView
-            android:id="@+id/comment_image"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
+        <RelativeLayout
+            android:id="@+id/photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/comment"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="50dp"
-            android:onClick="onClickChooseImage"
-            android:src="@drawable/ic_baseline_add_photo_alternate_24" />
+            android:layout_marginTop="44dp">
+            <TextView
+                android:id="@+id/add_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="21dp"
+                android:text="Add photo"
+                android:textColor="@color/black"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+
+
+            <ImageView
+                android:foreground="@drawable/corner1"
+                android:id="@+id/comment_image"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_below="@+id/add_photo"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="50dp"
+                android:onClick="onClickChooseImage"
+                android:src="@drawable/ic_baseline_add_photo_alternate_24" />
+
+        </RelativeLayout>
 
         <Button
             android:id="@+id/submit"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layout_below="@+id/comment_image"
-            android:layout_marginHorizontal="@dimen/side"
-            android:layout_marginTop="158dp"
+            android:layout_below="@+id/photo"
+            android:layout_alignParentBottom="true"
+            android:layout_marginHorizontal="60dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="49dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="15dp"
             android:backgroundTint="@color/Base_color"
             android:onClick="onClickSubmit"
             android:text="Save"
@@ -65,13 +124,17 @@
             android:textStyle="bold" />
 
     </RelativeLayout>
+    </ScrollView>
     <ProgressBar
-    android:id="@+id/progress_bar"
-    android:indeterminate="true"
-    android:indeterminateTintMode="src_atop"
-    android:indeterminateTint="@color/Base_color"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:foregroundTint="@color/Red"
-        />
+        android:visibility="gone"
+        android:progressDrawable="@drawable/ic_custom_star"
+        android:id="@+id/progress_bar"
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/Base_color"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    />
+
+
 </RelativeLayout>

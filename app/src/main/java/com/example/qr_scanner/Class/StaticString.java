@@ -13,11 +13,9 @@ public class StaticString {
     public static String imageDB = "ImageDB";
     public static String deleteComment = "DeleteCommentList";
     public static String imageCompanyLogo = "ImageCompanyLogo";
-
     public static String onlyRead = "onlyRead";
     public static String productRating = "ProductRating";
     public static String productBio = "Product_bio";
-
     public static String Authentication = "Authentication.txt";
     public static String url = "URL";
     public static String haveARating = "_'''_'''_";

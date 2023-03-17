@@ -25,13 +25,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Objects;
+
 public class CompanyRegisterActivity extends AppCompatActivity {
     private RelativeLayout relativeLayoutAnnotation,relativeLayoutReg;
-    private TextInputLayout name,email,password;
+    private TextInputLayout name,email,password,passwordCopy;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference reference;
     private CheckBox checkBox;
-    private String nameToString, emailToString, passwordToString;
+    private String nameToString, emailToString, passwordToString, passwordCopyToString;
     private boolean registerOrVerification;
     private RelativeLayout load;
 
@@ -43,12 +45,13 @@ public class CompanyRegisterActivity extends AppCompatActivity {
     }
     public void init(){
         load = findViewById(R.id.load);
-        checkBox = (CheckBox) findViewById(R.id.check_box);
+        checkBox = findViewById(R.id.check_box);
         relativeLayoutAnnotation = findViewById(R.id.annotation_read);
         relativeLayoutReg = findViewById(R.id.register_relative_layout);
-        name = (TextInputLayout)findViewById(R.id.name);
-        email = (TextInputLayout)findViewById(R.id.email);
-        password = (TextInputLayout)findViewById(R.id.password);
+        name = findViewById(R.id.name);
+        email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
+        passwordCopy = findViewById(R.id.passwordCopy);
         firebaseAuth = FirebaseAuth.getInstance();
         reference = FirebaseDatabase.getInstance().getReference(StaticString.company);
     }
@@ -57,6 +60,7 @@ public class CompanyRegisterActivity extends AppCompatActivity {
         nameToString = Function.POP(name.getEditText().getText().toString());
         emailToString = Function.POP(email.getEditText().getText().toString());
         passwordToString = Function.POP(password.getEditText().getText().toString());
+        passwordCopyToString = Function.POP(passwordCopy.getEditText().getText().toString());
     }
     public void onClickReg(View view){
         Boolean checkBoxState = checkBox.isChecked();
@@ -83,11 +87,11 @@ public class CompanyRegisterActivity extends AppCompatActivity {
     }
     public void verification(){
         getTextAll();
-        if(nameToString.isEmpty() || emailToString.isEmpty() || passwordToString.isEmpty()){
+        if(nameToString.isEmpty() || emailToString.isEmpty() || passwordToString.isEmpty() || passwordCopyToString.isEmpty()){
             Toast.makeText(CompanyRegisterActivity.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
         }
         else {
-            if(passwordToString.length() > 7){
+            if(passwordToString.length() > 7 && Objects.equals(passwordCopyToString, passwordToString)){
                 createUser();
             }
             else{

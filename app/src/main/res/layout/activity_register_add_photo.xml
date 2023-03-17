@@ -13,12 +13,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="70dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginEnd="41dp"
+        android:layout_marginBottom="33dp"
         android:background="@drawable/round_rect"
         android:onClick="onCLickNext"
         android:paddingHorizontal="20dp"
-        android:text="Next"
+        android:text="@string/next"
         android:textSize="30dp"
         tools:layout_editor_absoluteX="545dp"
         tools:layout_editor_absoluteY="31dp" />
@@ -30,11 +30,12 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="Add image or continue"
+        android:text="@string/add_image_or_continue"
         android:textSize="30dp"
         android:textStyle="bold" />
 
     <ImageView
+        android:foreground="@drawable/corner1"
         android:id="@+id/image_view"
         android:layout_width="match_parent"
         android:layout_height="200dp"

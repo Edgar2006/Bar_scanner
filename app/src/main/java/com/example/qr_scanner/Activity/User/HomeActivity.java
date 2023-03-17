@@ -133,5 +133,9 @@ public class HomeActivity extends AppCompatActivity {
             progressBar = findViewById(R.id.progress_bar);
             progressBar.setVisibility(View.VISIBLE);
     }
-
+    @Override
+    public void onBackPressed() {
+        finish();
+        System.exit(0);
+    }
 }

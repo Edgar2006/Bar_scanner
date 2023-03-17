@@ -80,6 +80,7 @@ public class Login extends AppCompatActivity {
                     if(!Objects.equals(user.getImageRef(), StaticString.noImage)){
                         Toast.makeText(Login.this, "Your account is verified by Admin", Toast.LENGTH_SHORT).show();
                         if(Objects.equals(user.getImageRef(), "1") || Objects.equals(user.getImageRef(), "0")) {
+                            User.ifCompany = false;
                             if(Objects.equals(user.getImageRef(), "1")){
                                 nextActivityCompanyEdit(user);
                             }

@@ -22,7 +22,17 @@ public class Messenger {
 
     public Messenger() {
     }
-
+    public Messenger(String a){
+        this.email = a;
+        this.name = a;
+        this.comment = a;
+        this.address = a;
+        this.count = a;
+        this.imageRef = a;
+        this.userRef = a;
+        this.time = 0;
+        this.ratingBarScore = 0F;
+    }
     public float getRatingBarScore() {
         return ratingBarScore;
     }
@@ -93,5 +103,20 @@ public class Messenger {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "Messenger{" +
+                "email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", comment='" + comment + '\'' +
+                ", address='" + address + '\'' +
+                ", count='" + count + '\'' +
+                ", imageRef='" + imageRef + '\'' +
+                ", userRef='" + userRef + '\'' +
+                ", ratingBarScore=" + ratingBarScore +
+                ", time=" + time +
+                '}';
     }
 }

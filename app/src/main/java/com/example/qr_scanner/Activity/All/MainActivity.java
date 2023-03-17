@@ -46,9 +46,11 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent;
                 if(Objects.equals(type, StaticString.company)){
                     User.COMPANY = Function.CONVERTOR(emailToString);
+                    User.ifCompany = true;
                     intent = new Intent(MainActivity.this, CompanyHomeActivity.class);
                 }
                 else{
+                    User.ifCompany = false;
                     intent = new Intent(MainActivity.this, HomeActivity.class);
                 }
                 intent.putExtra(StaticString.email,emailToString);
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         init();
     }
     private void logReg(){
+        User.ifCompany = false;
         Handler handler = new Handler();
         handler.postDelayed(() -> {
             Intent intent = new Intent(MainActivity.this,Login_or_register.class);

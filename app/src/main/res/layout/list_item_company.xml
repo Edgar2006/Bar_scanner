@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:padding="10dp"
     android:background="@drawable/round_rect_shape">
     <TextView
+        android:textStyle="bold"
         android:id="@+id/product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Product name" />
+        android:text="@string/product_name" />
 
     <RelativeLayout
+        android:id="@+id/id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/one"
@@ -33,7 +36,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/barCodeText"
-            android:text="25484848"
+            android:text=""
             android:textStyle="bold" />
 
     </RelativeLayout>
@@ -47,8 +50,8 @@
 
         <ImageView
             android:id="@+id/product_image_view"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_alignParentStart="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
@@ -91,11 +94,12 @@
                 android:padding="2dp">
 
                 <TextView
+
                     android:id="@id/text1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/edit_product_info1"
-                    android:textColor="@color/Second_color"
+                    android:textColor="@color/white"
                     android:textSize="18dp" />
 
                 <ImageView
@@ -105,7 +109,8 @@
                     android:layout_marginStart="3dp"
                     android:layout_marginLeft="30dp"
                     android:layout_toEndOf="@+id/text1"
-                    android:src="@drawable/ic_baseline_edit_24" />
+                    android:src="@drawable/ic_baseline_edit_24"
+                    />
 
             </RelativeLayout>
 
@@ -127,7 +132,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="0dp"
                     android:text="Scan count"
-                    android:textColor="@color/Second_color"
+                    android:textColor="@color/white"
                     android:textSize="18dp" />
 
                 <ImageView
@@ -137,7 +142,8 @@
                     android:layout_marginStart="3dp"
                     android:layout_marginLeft="30dp"
                     android:layout_toEndOf="@+id/text2"
-                    android:src="@drawable/ic_baseline_emoji_people_24" />
+                    android:src="@drawable/ic_baseline_emoji_people_24"
+                 />
 
                 <TextView
                     android:id="@id/count"
@@ -145,49 +151,19 @@
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/imageView1"
                     android:text="0"
-                    android:textColor="@color/Second_color"
+                    android:textColor="@color/white"
                     android:textSize="18dp" />
 
 
             </RelativeLayout>
 
 
+
+
             <RelativeLayout
-                android:id="@+id/remove"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/countView"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/round_rect"
-                android:padding="2dp">
-
-                <TextView
-                    android:id="@id/text11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/delete_product"
-                    android:textColor="@color/Second_color"
-                    android:textSize="18dp" />
-
-                <ImageView
-                    android:id="@+id/image_view11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginLeft="30dp"
-                    android:layout_toEndOf="@+id/text11"
-                    android:src="@drawable/ic_baseline_delete_24" />
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/remove"
                 android:layout_alignStart="@+id/countView"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="10dp">
@@ -199,7 +175,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:isIndicator="true"
-                    android:progressTint="@color/Base_color"
+                    android:progressTint="@color/Gold"
                     android:secondaryProgressTint="@color/zxing_transparent" />
 
                 <TextView
@@ -209,9 +185,31 @@
                     android:layout_marginStart="5dp"
                     android:layout_toEndOf="@+id/rating_bar"
                     android:text="0.0"
-                    android:textColor="@color/Base_color" />
+                    android:textColor="@color/Gold" />
             </RelativeLayout>
         </RelativeLayout>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/id"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/round_rect"
+        android:backgroundTint="@color/Red"
+        android:padding="2dp">
+
+        <ImageView
+            android:id="@+id/image_view11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="30dp"
+            android:src="@drawable/ic_baseline_delete_24" />
+
     </RelativeLayout>
 
 

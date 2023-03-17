@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string name="app_name">BarCode_scanner</string>
+    <string name="create_new_account">Create new account</string>
+    <string name="control_your_choices">Control your choices</string>
+    <string name="sign_in">Sign in</string>
+    <string name="next_step">Next step</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="password">Password</string>
+    <string name="e_mail_address">E-mail address</string>
+    <string name="full_name">Full name</string>
+    <string name="sign_in_to_your_account">Sign in to your account</string>
+    <string name="forgot_password">Forgot password ?</string>
+    <string name="your_barcode_number">Your barcode number</string>
+    <string name="i_ll_do_it_later">I’ll do it later</string>
+    <string name="be_in_control_of_your_something">Be in control of your Something</string>
+    <string name="settings">Settings</string>
+    <string name="welcome_home">Welcome home</string>
+    <string name="i_agree_with_terms_and_privacy_policy">I agree with Terms and Privacy Policy</string>
+    <string name="register">Register</string>
+    <string name="verification">Verification</string>
+    <string name="annotation">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="comment">But I musonsequences, or one who avoids a pain that produces no resultant pleasure?\"</string>
+    <string name="company_name">Company name</string>
+    <string name="yourGiveyourRating">You are a company you can not leave your products</string>
+    <string name="edit_product_info1">Edit product info</string>
+    <string name="delete_product">Delete product</string>
+    <string name="lorem">Lorem Ipsum is sr since the 1500s, when ao electronic larised  containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="report_a_review">Report a review</string>
+    <string name="rating">Rating</string>
+    <string name="your_review">Your review</string>
+    <string name="hey_this_product_no_have_a_description_n_if_you_hava_add_click_this_button">Hey this product no have a description \n if you hava add click this button</string>
+    <string name="barcode">BarCode</string>
+    <string name="recent">recent</string>
+    <string name="setting">Settings</string>
+    <string name="n_this_product_currently_no_have_comment">This product currently has no comments, you can add a comment by clicking the Add Review button.\n\n</string>
+    <string name="the_most_recent">The most recent</string>
+    <string name="the_most_liked">The most liked</string>
+    <string name="sort_by_time">Sort review by time</string>
+    <string name="add_review">Add review</string>
+    <string name="Sort_review_most_liked">Sort review most liked</string>
+    <string name="review">Review</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="change_language">Change language</string>
+    <string name="logout">Пока!!!</string>
+    <string name="get_started_scan">Здарова Заебал</string>
+    <string name="your_product">Здарова Заебал</string>
+
+</resources>

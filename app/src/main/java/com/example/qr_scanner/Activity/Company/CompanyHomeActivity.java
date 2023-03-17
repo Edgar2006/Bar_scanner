@@ -1,30 +1,38 @@
 package com.example.qr_scanner.Activity.Company;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Activity.All.Login_or_register;
 import com.example.qr_scanner.Adapter.ViewAdapterCompany;
 import com.example.qr_scanner.Adapter.ViewAdapterCompanyByUser;
+import com.example.qr_scanner.Class.AppCompat;
 import com.example.qr_scanner.Class.Function;
+import com.example.qr_scanner.Class.LanguageManger;
 import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.Company;
 import com.example.qr_scanner.DataBase_Class.GenRemoteDataSource;
 import com.example.qr_scanner.DataBase_Class.ProductBio;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,7 +45,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class CompanyHomeActivity extends AppCompatActivity {
+public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuItemClickListener{
     private ImageView companyImage,setting;
     private TextView companyName,description;
     public RecyclerView listView;
@@ -48,7 +56,7 @@ public class CompanyHomeActivity extends AppCompatActivity {
     private RelativeLayout activity;
     private ProgressBar progressBar;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_home);
         addLocalData();
@@ -140,11 +148,9 @@ public class CompanyHomeActivity extends AppCompatActivity {
         intent.putExtra(StaticString.user,Function.POP(companyName.getText().toString()));
         startActivity(intent);
     }
-    public void onCLickSetting(View view) {
-        Intent intent = new Intent(CompanyHomeActivity.this,CompanyEditActivity.class);
-        intent.putExtra(StaticString.email,User.EMAIL_CONVERT);
-        startActivity(intent);
-    }
+
+
+
 
     private void load(boolean b){
         if(b){
@@ -161,5 +167,75 @@ public class CompanyHomeActivity extends AppCompatActivity {
             }, 1000);
         }
     }
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "!", Toast.LENGTH_SHORT).show();
+        System.exit(0);
+    }
 
+    public void onCLickMore(View view) {
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        popupMenu.setOnMenuItemClickListener(this);
+        popupMenu.inflate(R.menu.setting_manu);
+        popupMenu.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.edit_profile:
+                onCLickSetting();
+                return true;
+            case R.id.change_language:
+                onClickChangeLanguage();
+                return true;
+            case R.id.logout:
+                onClickLogout();
+                return true;
+            default:
+                return false;
+
+        }
+    }
+
+    public void onCLickSetting() {
+        Intent intent = new Intent(CompanyHomeActivity.this,CompanyEditActivity.class);
+        intent.putExtra(StaticString.email,User.EMAIL_CONVERT);
+        startActivity(intent);
+    }
+    public void onClickLogout() {
+        FirebaseAuth firebaseAuth;
+        firebaseAuth = FirebaseAuth.getInstance();
+        try {
+            String temp = "";
+            FileOutputStream fileOutputStream = openFileOutput(StaticString.Authentication, MODE_PRIVATE);
+            fileOutputStream.write(temp.getBytes());
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        firebaseAuth.signOut();
+        Intent intent = new Intent(CompanyHomeActivity.this, Login_or_register.class);
+        startActivity(intent);
+    }
+    public void onClickChangeLanguage(){
+        LanguageManger languageManger = new LanguageManger(this);
+        String[] listItems = new String[]{"English", "Russian", "Armenia"};
+        String[] language = new String[]{"en", "ru", "am"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(CompanyHomeActivity.this);
+        builder.setTitle("Choose an item");
+        builder.setIcon(R.drawable.ic_baseline_language_24);
+        builder.setSingleChoiceItems(listItems, -1, (dialog, i) -> {
+            languageManger.updateResource(language[i]);
+            recreate();
+            dialog.dismiss();
+        });
+        builder.setNeutralButton("Cancel", (dialog, i) -> {
+
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }

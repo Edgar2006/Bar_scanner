@@ -67,11 +67,29 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/LoginTextInputLayoutStyle"
+        android:id="@+id/passwordCopy"
+        app:startIconDrawable="@drawable/u_lock"
+        app:endIconMode="password_toggle"
+        android:layout_below="@+id/password"
+        android:hint="@string/confirm_password">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
     <Button
         android:id="@+id/register"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_below="@+id/password"
+        android:layout_below="@+id/passwordCopy"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="44dp"
         android:backgroundTint="@color/Base_color"

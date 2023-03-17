@@ -25,7 +25,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -43,7 +42,9 @@ public class ViewAdapterCompany extends RecyclerView.Adapter<ViewAdapterCompany.
         ProductBio productBio = productBios.get(position);
         holder.productName.setText(productBio.getProductName());
         holder.barCode.setText(productBio.getBarCode());
+        holder.productDescription = productBio.getBioLong();
         if(!Objects.equals(productBio.getImageRef(), StaticString.noImage)){
+            holder.url = productBio.getImageRef();
             Glide.with(holder.itemView.getContext()).load(productBio.getImageRef()).into(holder.productImageView);
         }
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.productRating).child(productBio.getBarCode());
@@ -82,6 +83,7 @@ public class ViewAdapterCompany extends RecyclerView.Adapter<ViewAdapterCompany.
         TextView productName,scanCount, ratingScore, barCode;
         ImageView productImageView;
         RelativeLayout edit,delete;
+        String url, productDescription;
         public ViewHolder(View view) {
             super(view);
             delete = view.findViewById(R.id.remove);
@@ -92,8 +94,6 @@ public class ViewAdapterCompany extends RecyclerView.Adapter<ViewAdapterCompany.
             scanCount = view.findViewById(R.id.count);
             ratingScore = view.findViewById(R.id.rating_score);
             productImageView = view.findViewById(R.id.product_image_view);
-
-
             delete.setOnClickListener(v -> {
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.productBio).child(barCode.getText().toString());
                 reference.removeValue();
@@ -101,6 +101,9 @@ public class ViewAdapterCompany extends RecyclerView.Adapter<ViewAdapterCompany.
             edit.setOnClickListener(v -> {
                 Intent intent = new Intent(view.getContext(), Product_activityBioEdit.class);
                 intent.putExtra(StaticString.barCode,barCode.getText().toString());
+                intent.putExtra(StaticString.url,url);
+                intent.putExtra(StaticString.user,productName.getText().toString());
+                intent.putExtra(StaticString.productBio,productDescription);
                 view.getContext().startActivity(intent);
             });
             productImageView.setOnClickListener(v -> {

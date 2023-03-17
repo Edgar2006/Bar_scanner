@@ -126,6 +126,9 @@ public class SettingsActivity extends AppCompatActivity {
             super.onActivityResult(requestCode,resultCode,data);
         }
     }
+
+
+
     public void onClickLogout(View view){
         try {
             String temp = "";

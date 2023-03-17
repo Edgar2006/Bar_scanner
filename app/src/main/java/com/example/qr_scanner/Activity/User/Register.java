@@ -25,10 +25,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class Register extends AppCompatActivity {
-    private TextInputLayout name,email,password;
+    private TextInputLayout name,email,password, passwordCopy;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference reference;
-    private String nameToString, emailToString, passwordToString;
+    private String nameToString, emailToString, passwordToString, passwordCopyToString;
     private boolean registerOrVerification;
     private RelativeLayout load;
     private Button register;
@@ -42,9 +42,10 @@ public class Register extends AppCompatActivity {
         register = findViewById(R.id.register);
         load = findViewById(R.id.load);
         registerOrVerification = false;
-        name = (TextInputLayout)findViewById(R.id.name);
-        email = (TextInputLayout)findViewById(R.id.email);
-        password = (TextInputLayout)findViewById(R.id.password);
+        name = findViewById(R.id.name);
+        email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
+        passwordCopy = findViewById(R.id.passwordCopy);
         firebaseAuth = FirebaseAuth.getInstance();
         reference = FirebaseDatabase.getInstance().getReference(StaticString.user);
     }
@@ -69,11 +70,11 @@ public class Register extends AppCompatActivity {
     }
     public void verification(){
         getTextAll();
-        if(nameToString.isEmpty() || emailToString.isEmpty() || passwordToString.isEmpty()){
+        if(nameToString.isEmpty() || emailToString.isEmpty() || passwordToString.isEmpty() || passwordCopyToString.isEmpty()){
             Toast.makeText(Register.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
         }
         else {
-            if(passwordToString.length() > 7){
+            if(passwordToString.length() > 7 && passwordCopyToString.equals(passwordToString)){
                 createUser();
             }
             else{
@@ -144,7 +145,6 @@ public class Register extends AppCompatActivity {
         builder.setMessage("Do you want to open Email ?")
                 .setCancelable(false)
                 .setPositiveButton("Yes", (dialog, id) -> {
-                    finish();
                     Intent intent = new Intent(Intent.CATEGORY_APP_EMAIL);
                     intent.addCategory(Intent.CATEGORY_APP_EMAIL);
                     startActivity(Intent.createChooser(intent, "Email"));
@@ -174,5 +174,6 @@ public class Register extends AppCompatActivity {
         nameToString = Function.POP(name.getEditText().getText().toString());
         emailToString = Function.POP(email.getEditText().getText().toString());
         passwordToString = Function.POP(password.getEditText().getText().toString());
+        passwordCopyToString = Function.POP(passwordCopy.getEditText().getText().toString());
     }
 }

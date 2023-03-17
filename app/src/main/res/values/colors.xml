@@ -5,10 +5,12 @@
     <color name="purple_700" tools:override="true">#FF6300FE</color>
     <color name="teal_200" tools:override="true">#FF03DAC5</color>
     <color name="teal_700" tools:override="true">#FF018786</color>
-    <color name="black" tools:override="true">#3A353F</color>
+    <color name="black" tools:override="true">#2E2B30</color>
     <color name="white"  tools:override="true">#FFFFFFFF</color>
     <color name="grey"  tools:override="true">#A8A8AB</color>
-    <color name="Base_color" tools:override="true">#2479BF</color>
-    <color name="Second_color" tools:override="true">#DCDEF4</color>
+    <color name="Base_color" tools:override="true">#24BF84</color>
+    <color name="Second_color" tools:override="true">#BCDDC2</color>
     <color name="Red" tools:override="true">#C62014</color>
+    <color name="Gold" tools:override="true">#FFC107</color>
+
 </resources>

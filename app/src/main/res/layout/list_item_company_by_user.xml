@@ -33,7 +33,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/barCodeText"
-            android:text="25484848"
+            android:text=""
             android:textStyle="bold" />
 
     </RelativeLayout>
@@ -47,11 +47,13 @@
 
         <ImageView
             android:id="@+id/product_image_view"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_alignParentStart="true"
-            android:layout_margin="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
             android:foreground="@drawable/corner"
             android:scaleType="centerCrop"
             android:src="@drawable/common_full_open_on_phone" />
@@ -92,8 +94,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="0dp"
-                    android:text="scan count"
-                    android:textColor="@color/Second_color"
+                    android:text="Scan count"
+                    android:textColor="@color/white"
                     android:textSize="18dp" />
 
                 <ImageView
@@ -111,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/imageView1"
                     android:text="0"
-                    android:textColor="@color/Second_color"
+                    android:textColor="@color/white"
                     android:textSize="18dp" />
 
 
@@ -132,7 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:isIndicator="true"
-                    android:progressTint="@color/Base_color"
+                    android:progressTint="@color/Gold"
                     android:secondaryProgressTint="@color/zxing_transparent" />
 
                 <TextView
@@ -142,7 +144,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_toEndOf="@+id/rating_bar"
                     android:text="0.0"
-                    android:textColor="@color/Base_color" />
+                    android:textColor="@color/Gold" />
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>

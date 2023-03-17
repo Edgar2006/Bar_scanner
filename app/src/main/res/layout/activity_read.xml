@@ -3,35 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
+    android:background="@color/Second_color"
     android:layout_height="match_parent"
     tools:context=".Activity.User.Read">
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <RelativeLayout
             android:id="@+id/activity"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <RelativeLayout
-                android:visibility="gone"
-                android:onClick="onClickFirstBio"
-                android:layout_margin="20dp"
-                android:id="@+id/first_bio"
-                android:padding="20dp"
-                android:background="@drawable/round_rect_shape"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:textSize="20dp"
-                    android:layout_centerHorizontal="true"
-                    android:text="Hey this product no have a description \n if you hava add click  this button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                </TextView>
-            </RelativeLayout>
-
             <RelativeLayout
                 android:id="@+id/bio"
                 android:layout_width="match_parent"
@@ -39,17 +23,12 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp">
-
-
-
-
-
-
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/round_rect_shape">
 
 
                 <RelativeLayout
-                    android:visibility="gone"
                     android:id="@+id/user_correct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -57,7 +36,8 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="0dp"
-                    android:padding="20dp">
+                    android:padding="20dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/correct"
@@ -77,8 +57,8 @@
                         android:layout_toEndOf="@+id/correct"
                         android:src="@drawable/ic_baseline_do_not_disturb_24" />
                 </RelativeLayout>
+
                 <RelativeLayout
-                    android:visibility="gone"
                     android:id="@+id/company_correct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -86,7 +66,8 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="0dp"
-                    android:padding="20dp">
+                    android:padding="20dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/correct1"
@@ -108,17 +89,8 @@
                 </RelativeLayout>
 
 
-
-
-
-
-
-
-
-
-
-
                 <RelativeLayout
+
                     android:id="@+id/company_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -129,19 +101,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:layout_marginStart="17dp"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="35dp"
                         android:layout_toEndOf="@+id/company_image"
                         android:text="Company name" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/company_image"
-                        android:layout_width="72dp"
-                        android:layout_height="60dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
-                        android:layout_marginStart="9dp"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginTop="10dp"
                         android:src="@drawable/ic_baseline_account_circle_24" />
                 </RelativeLayout>
 
@@ -150,128 +122,209 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/company_layout"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="37dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="20dp">
+                    >
 
+                    <RelativeLayout
+                        android:layout_toEndOf="@+id/product_image_view"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/barCodeView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/product_barCodeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/barcode" />
+
+                        <TextView
+                            android:id="@+id/product_barCode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="7dp"
+                            android:layout_marginLeft="60dp"
+                            android:layout_toEndOf="@+id/product_barCodeText"
+                            android:text="" />
+                    </RelativeLayout>
 
                     <TextView
                         android:id="@+id/product_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_below="@+id/barCodeView"
+                        android:layout_alignStart="@+id/barCodeView"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="10dp"
                         android:text="product name" />
 
                     <ImageView
                         android:id="@+id/product_image_view"
-
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_below="@+id/product_name"
+                        android:layout_width="180dp"
+                        android:layout_height="180dp"
                         android:foreground="@drawable/corner1"
                         android:scaleType="centerCrop"
                         tools:srcCompat="@tools:sample/avatars" />
+
+
+                    <RatingBar
+                        android:id="@+id/rating_bar"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/product_name"
+                        android:layout_alignStart="@+id/product_name"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="10dp"
+                        android:isIndicator="false"
+                        android:progressTint="@color/Gold"
+                        android:secondaryProgressTint="@color/zxing_transparent" />
+
+                    <TextView
+                        android:id="@+id/rating_bar_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/rating_bar"
+                        android:layout_alignBottom="@+id/rating_bar"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginBottom="0dp"
+                        android:layout_toEndOf="@+id/rating_bar"
+                        android:text="0.0"
+                        android:textColor="@color/Second_color"
+                        android:textSize="15dp" />
+
+
+
+
+                    <TextView
+                        android:id="@+id/descriptionBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/product_image_view"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="7dp"
+                        android:layout_marginTop="17dp"
+                        android:onClick="onClickShowMore"
+                        android:text="Description"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/bioShort"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="14dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_toEndOf="@+id/product_image_view" />
+                        android:layout_below="@+id/descriptionBold"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/lorem" />
 
                     <TextView
-                        android:id="@+id/showMore"
+                        android:id="@+id/show_more"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/bioShort"
-                        android:layout_margin="15dp"
-                        android:layout_toEndOf="@+id/product_image_view"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="12dp"
                         android:onClick="onClickShowMore"
                         android:text="show more"
                         android:textStyle="bold" />
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:id="@+id/rating_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/bio1"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp">
+
+
+                </RelativeLayout>
+
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rating_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/view_comment"
                 android:layout_below="@+id/bio"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="7dp">
-
-                <RatingBar
-                    android:id="@+id/rating_bar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:isIndicator="false"
-                    android:progressTint="@color/Base_color"
-                    android:secondaryProgressTint="@color/zxing_transparent" />
-
-                <TextView
-                    android:id="@+id/rating_bar_score"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/rating_bar"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_toEndOf="@+id/rating_bar"
-                    android:text="0.0"
-                    android:textColor="@color/Second_color"
-                    android:textSize="40dp" />
-            </RelativeLayout>
-
-
-            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rating_layout"
-                android:layout_marginTop="71dp">
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_marginStart="20dp"
 
-                <com.google.android.material.button.MaterialButtonToggleGroup
-                    android:id="@+id/toggleButton"
+                    android:layout_marginEnd="160dp"
+                    android:padding="5dp"
+                    android:onClick="onClickSort"
+                    android:backgroundTint="@color/white"
+                    android:background="@drawable/round_rect_shape"
+                    android:id="@+id/rembobo"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/sortByText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sort_by_time"
+                        />
+
+                    <ImageView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_baseline_keyboard_arrow_down_24" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:backgroundTint="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    app:singleSelection="true">
+                    android:layout_below="@+id/rembobo">
 
-                    <Button
-                        android:id="@+id/button1"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:onClick="onClickSortByLike"
-                        android:text="Sort by like" />
-
-                    <Button
-                        android:id="@+id/button2"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:onClick="onClickSortByTime"
-                        android:text="Sort by Time" />
-                </com.google.android.material.button.MaterialButtonToggleGroup>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rec_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="70dp" />
 
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rec_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="70dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
+                </RelativeLayout>
 
 
             </RelativeLayout>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/first_comment"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@+id/bio"
+                android:layout_alignParentBottom="true"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="20dp"
+                android:layout_marginBottom="50dp"
+                android:background="@drawable/round_rect_shape"
+                android:backgroundTint="@color/white"
+                android:padding="30dp"
+                android:text="@string/n_this_product_currently_no_have_comment"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+
+
 
         </RelativeLayout>
     </ScrollView>
     <ProgressBar
+        android:visibility="gone"
         android:layout_centerInParent="true"
         android:id="@+id/progress_bar"
         android:indeterminate="true"
@@ -286,9 +339,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
+        android:backgroundTint="@color/Base_color"
         android:layout_margin="16dp"
         android:onClick="onClickComment"
-        android:text="add comment"
+        android:text="@string/add_review"
+        android:textAllCaps="false"
         app:icon="@drawable/ic_baseline_add_24"
     />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

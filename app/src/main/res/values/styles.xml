@@ -30,4 +30,11 @@
         <item name="colorContainer">@color/purple_500</item>
         <item name="colorOnContainer">@color/purple_700</item>
     </style>
+    <style name="Widget.App.Button.OutlinedButton.IconOnly" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="iconPadding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:minWidth">88dp</item>
+        <item name="android:minHeight">88dp</item>
+    </style>
 </resources>

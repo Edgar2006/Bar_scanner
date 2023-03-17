@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Activity.User.Read;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.StaticString;
@@ -60,6 +61,9 @@ public class Product_activityBioEdit extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             barCode = intent.getStringExtra(StaticString.barCode);
+            productName.getEditText().setText(intent.getStringExtra(StaticString.user));
+            bio.getEditText().setText( intent.getStringExtra(StaticString.productBio));
+            Glide.with(Product_activityBioEdit.this).load(intent.getStringExtra(StaticString.url)).into(imageView);
         }
     }
     public void onClickSubmit(View view){
@@ -79,17 +83,15 @@ public class Product_activityBioEdit extends AppCompatActivity {
             }
             ProductBio productBio;
             String uri = uploadUri.toString();
-            productBio = new ProductBio(User.EMAIL_CONVERT, User.NAME, productNameString, uri, StaticString.noImage, bioShort, bioLong, barCode);
+            productBio = new ProductBio(User.EMAIL_CONVERT, User.NAME, productNameString, uri, StaticString.noImage, bioShort, bioLong, barCode, true, System.currentTimeMillis());
             Intent getIntent = getIntent();
             if (getIntent != null) {
                 if (getIntent.getStringExtra(StaticString.haveARating) != null) {
-                    productBio.setCompanyName(StaticString.haveARating);
+                    productBio.setAccess(false);
                     intent = new Intent(Product_activityBioEdit.this, Read.class);
                     intent.putExtra(StaticString.barCode, barCode);
                     Log.e("________", "3");
                     allActivityStart(productBio, intent);
-
-
                 } else {
                     Log.e("________", "1");
                     intent = new Intent(Product_activityBioEdit.this, CompanyHomeActivity.class);
