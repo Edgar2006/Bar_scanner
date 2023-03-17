@@ -11,10 +11,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -104,34 +106,19 @@ public class RegisterAddPhotoActivity extends AppCompatActivity {
         }
     }
 
-
     private void getImage(){
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,1);
+        ImagePicker.with(this)
+                .crop()	    			//Crop image(Optional), Check Customization for more option
+                .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                .start();
     }
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode,resultCode, data);
-        if (requestCode == 1 && data != null && data.getData() != null){
-            if(resultCode == RESULT_OK){
-                imageView.setImageURI(data.getData());
-            }
-        }
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
-        if(result != null){
-            if(result.getContents() != null) {
-                Toast.makeText(this, result.getContents(), Toast.LENGTH_SHORT).show();
-
-            }
-            else{
-                Toast.makeText(this, "No results", Toast.LENGTH_SHORT).show();
-            }
-        }else{
-            super.onActivityResult(requestCode,resultCode,data);
-        }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Glide.with(RegisterAddPhotoActivity.this).load(data.getData()).into(imageView);
     }
+
 }

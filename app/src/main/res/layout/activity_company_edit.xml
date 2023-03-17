@@ -78,7 +78,7 @@
 
 
             <ImageView
-                    android:foreground="@drawable/corner1"
+                android:foreground="@drawable/corner1"
                 android:id="@+id/company_image"
                 android:scaleType="fitCenter"
                 android:layout_width="150dp"

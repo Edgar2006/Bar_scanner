@@ -29,7 +29,7 @@ import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.DataBase_Class.UserCommentSaveData;
 import com.example.qr_scanner.R;
-import com.github.drjacky.imagepicker.ImagePicker;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
@@ -97,7 +97,6 @@ public class NewCommentActivity extends AppCompatActivity {
             final UploadTask uploadTask = mRef.putBytes(byteArray);
             Task<Uri> task = uploadTask.continueWithTask(task1 -> mRef.getDownloadUrl()).addOnCompleteListener(task12 -> {
                 uploadUri = task12.getResult();
-                Toast.makeText(NewCommentActivity.this, "Loading is complete", Toast.LENGTH_SHORT).show();
                 sendToData();
             });
         }catch (Exception e){
@@ -144,27 +143,18 @@ public class NewCommentActivity extends AppCompatActivity {
     }
 
     private void getImage(){
-        ActivityResultLauncher<Intent> launcher=
-                registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),(ActivityResult result)->{
-                    if(result.getResultCode()==RESULT_OK){
-                        Uri uri=result.getData().getData();
-                        // Use the uri to load the image
-                        imageView.setImageURI(uri);
-                    }else if(result.getResultCode()== ImagePicker.RESULT_ERROR){
-                        // Use ImagePicker.Companion.getError(result.getData()) to show an error
-                    }
-                });
+        ImagePicker.with(this)
+                .crop()	    			//Crop image(Optional), Check Customization for more option
+                .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                .start();
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            Glide.with(NewCommentActivity.this).load(User.URL).into(imageView);
-
-        }, 120);
+        Glide.with(NewCommentActivity.this).load(data.getData()).into(imageView);
     }
 
     private void load(boolean b){

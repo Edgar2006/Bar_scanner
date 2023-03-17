@@ -18,13 +18,13 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.qr_scanner.Activity.User.NewCommentActivity;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.Company;
 import com.example.qr_scanner.DataBase_Class.User;
-import com.example.qr_scanner.Manifest;
 import com.example.qr_scanner.R;
-import com.github.drjacky.imagepicker.ImagePicker;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -142,39 +142,19 @@ public class CompanyEditActivity extends AppCompatActivity {
     }
 
     private void getImage(){
-        ActivityResultLauncher<Intent> launcher=
-                registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),(ActivityResult result)->{
-                    if(result.getResultCode()==RESULT_OK){
-                        Uri uri=result.getData().getData();
-                        // Use the uri to load the image
-                        companyImage.setImageURI(uri);
-                    }else if(result.getResultCode()==ImagePicker.RESULT_ERROR){
-                        // Use ImagePicker.Companion.getError(result.getData()) to show an error
-                    }
-                });
+        ImagePicker.with(this)
+                .crop()	    			//Crop image(Optional), Check Customization for more option
+                .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                .start();
     }
+
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode,resultCode, data);
-        if (requestCode == 1 && data != null && data.getData() != null){
-            if(resultCode == RESULT_OK){
-                companyImage.setImageURI(data.getData());
-            }
-        }
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
-        if(result != null){
-            if(result.getContents() != null) {
-                Toast.makeText(this, result.getContents().toString(), Toast.LENGTH_SHORT).show();
-
-            }
-            else{
-                Toast.makeText(this, "No results", Toast.LENGTH_SHORT).show();
-            }
-        }else{
-            super.onActivityResult(requestCode,resultCode,data);
-        }
-
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Glide.with(CompanyEditActivity.this).load(data.getData()).into(companyImage);
     }
+
 
 }
