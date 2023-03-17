@@ -88,6 +88,7 @@
         android:layout_marginTop="4dp">
 
         <TextView
+            android:textColor="@color/black"
             android:id="@+id/comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -96,18 +97,22 @@
             android:text="@string/comment"
             android:textSize="18dp" />
 
-
-
     </RelativeLayout>
 
-
+    <TextView
+        android:id="@+id/translate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mid"
+        android:layout_marginTop="9dp"
+        android:text="@string/translate" />
 
     <RelativeLayout
-        android:layout_marginTop="10dp"
         android:id="@+id/down1"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_below="@+id/mid">
+        android:layout_below="@+id/translate"
+        android:layout_marginTop="8dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"

@@ -47,4 +47,7 @@
     <string name="product_name">Product name</string>
     <string name="add_image_or_continue">Add image or continue</string>
     <string name="next">Next</string>
+    <string name="translate">See translation</string>
+    <string name="see_original">See original</string>
+
 </resources>
