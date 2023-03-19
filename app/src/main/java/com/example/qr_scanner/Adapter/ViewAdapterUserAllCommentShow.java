@@ -1,6 +1,7 @@
 package com.example.qr_scanner.Adapter;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import com.example.qr_scanner.Activity.User.ScanActivity;
 import com.example.qr_scanner.Activity.User.UserAllCommentShowActivity;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.StaticString;
+import com.example.qr_scanner.Class.Translations;
 import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.DataBase_Class.MyBool;
 import com.example.qr_scanner.DataBase_Class.User;
@@ -61,6 +63,7 @@ public class ViewAdapterUserAllCommentShow extends RecyclerView.Adapter<ViewAdap
         String temp = Function.CONVERTOR(holder.emailToString);
         holder.name = messenger.getName();
         holder.comment.setText(messenger.getComment());
+        holder.sourceLanguageText = messenger.getComment().trim();
         holder.count.setText(messenger.getCount());
         holder.mAuth = FirebaseAuth.getInstance();
         holder.database = FirebaseDatabase.getInstance();
@@ -72,10 +75,19 @@ public class ViewAdapterUserAllCommentShow extends RecyclerView.Adapter<ViewAdap
         holder.userImageUrl = messenger.getUserRef();
         holder.ratingBar.setRating(messenger.getRatingBarScore());
         holder.ratingBarScore.setText(Float.toString(messenger.getRatingBarScore()));
+
+
+
         holder.friendRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            int a=0;
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot data: dataSnapshot.getChildren()){
+                    try {
+                        MyBool isLike = data.getValue(MyBool.class);
+                        boolean isOk = isLike.isLike();
+                        if (isOk){a++;}
+                    }catch (Exception e){}
                     if(data.getKey().equals(User.EMAIL_CONVERT)){
                         MyBool isLike = data.getValue(MyBool.class);
                         boolean isOk = isLike.isLike();
@@ -86,12 +98,16 @@ public class ViewAdapterUserAllCommentShow extends RecyclerView.Adapter<ViewAdap
                             holder.like.setImageResource(R.drawable.like);
                         }
                     }
+                    holder.count.setText(String.valueOf(a));
                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+
+
+
         if(!Objects.equals(holder.uploadUri, StaticString.noImage)) {
             Glide.with(holder.itemView.getContext()).load(holder.uploadUri).into(holder.imageDataBase);
         }
@@ -127,21 +143,18 @@ public class ViewAdapterUserAllCommentShow extends RecyclerView.Adapter<ViewAdap
         DatabaseReference reference, friendRef, likeRef;
         FirebaseDatabase database;
         RelativeLayout userClick;
+
+        private TextView translateView;
+        private ProgressDialog progressDialog;
+        private String sourceLanguageCode = "en";
+        private String destinationLanguageCode = "ur";
+        private String sourceLanguageText;
+
+
         int size;
         public ViewHolder(View view) {
             super(view);
-            ratingBarScore = view.findViewById(R.id.rating_bar_score);
-            more = view.findViewById(R.id.more);
-            userClick = view.findViewById(R.id.rel1);
-            ratingBar = view.findViewById(R.id.rating_bar);
-            email = view.findViewById(R.id.name);
-            comment = view.findViewById(R.id.comment);
-            count = view.findViewById(R.id.count);
-            like = view.findViewById(R.id.like);
-            time_text = view.findViewById(R.id.time);
-            imageDataBase = view.findViewById(R.id.image_data_base);
-            userImage = view.findViewById(R.id.user_image);
-            size = 0;
+            init(view);
             userClick.setOnClickListener(v -> {
                 Intent intent = new Intent(view.getContext(), Read.class);
                 intent.putExtra(StaticString.barCode, address);
@@ -155,8 +168,29 @@ public class ViewAdapterUserAllCommentShow extends RecyclerView.Adapter<ViewAdap
             more.setOnClickListener(v -> {
                 deleteComment(view);
             });
-        }
 
+            translateView.setOnClickListener(v -> {
+                Translations translations = new Translations(progressDialog,sourceLanguageCode,destinationLanguageCode,sourceLanguageText,comment,translateView,view);
+            });
+        }
+        private void init(View view){
+            translateView = view.findViewById(R.id.translate);
+            progressDialog = new ProgressDialog(view.getContext());
+            progressDialog.setTitle("Please wait");
+            progressDialog.setCanceledOnTouchOutside(false);
+            ratingBarScore = view.findViewById(R.id.rating_bar_score);
+            more = view.findViewById(R.id.more);
+            userClick = view.findViewById(R.id.rel1);
+            ratingBar = view.findViewById(R.id.rating_bar);
+            email = view.findViewById(R.id.name);
+            comment = view.findViewById(R.id.comment);
+            count = view.findViewById(R.id.count);
+            like = view.findViewById(R.id.like);
+            time_text = view.findViewById(R.id.time);
+            imageDataBase = view.findViewById(R.id.image_data_base);
+            userImage = view.findViewById(R.id.user_image);
+            size = 0;
+        }
         private void deleteComment(View view){
             AlertDialog.Builder builder;
             builder = new AlertDialog.Builder(view.getContext());
@@ -186,16 +220,6 @@ public class ViewAdapterUserAllCommentShow extends RecyclerView.Adapter<ViewAdap
             AlertDialog alert = builder.create();
             alert.setTitle("Do you want delete comment");
             alert.show();
-        }
-        private void addMessenger(){
-            Messenger newMessenger = new Messenger(emailToString, name,comment.getText().toString(),address,count.getText().toString(),StaticString.noImage,StaticString.noImage,time,ratingBar.getRating());
-            if(userImageUrl != null){
-                newMessenger.setUserRef(userImageUrl);
-            }
-            if(uploadUri != null){
-                newMessenger.setImageRef(uploadUri);
-            }
-            reference.setValue(newMessenger);
         }
 
 

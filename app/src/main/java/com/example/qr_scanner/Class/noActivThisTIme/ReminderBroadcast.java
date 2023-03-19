@@ -1,4 +1,4 @@
-package com.example.qr_scanner.Class;
+package com.example.qr_scanner.Class.noActivThisTIme;
 
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;

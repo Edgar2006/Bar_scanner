@@ -7,7 +7,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -58,11 +60,10 @@ public class NewCommentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_comment);
         init();
         load(true);
-
         ratingBar.setOnRatingBarChangeListener((ratingBar, ratingValue, fromUser) -> {
             count.setText(Float.toString(ratingValue));
         });
-
+        User.FINISH_ACTIVITY = true;
     }
 
 
@@ -70,6 +71,8 @@ public class NewCommentActivity extends AppCompatActivity {
         count = findViewById(R.id.rating_score);
         User.EMAIL_CONVERT = Function.CONVERTOR(User.EMAIL);
         comment = findViewById(R.id.comment);
+        comment.getEditText().setImeOptions(EditorInfo.IME_ACTION_DONE);
+        comment.getEditText().setRawInputType(InputType.TYPE_CLASS_TEXT);
         imageView = findViewById(R.id.comment_image);
         mStorageRef = FirebaseStorage.getInstance().getReference(StaticString.imageDB);
         Intent intent = getIntent();

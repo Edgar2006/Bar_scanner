@@ -11,76 +11,97 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <RelativeLayout
+
+            android:background="@drawable/round_rect_shape"
+            android:paddingHorizontal="20dp"
+            android:layout_marginTop="-10dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="30dp"
+            android:id="@+id/user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/your_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="35dp"
+                android:layout_toEndOf="@+id/profile_image"
+                android:text="@string/welcome_home"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+
+            <ImageView
+                android:id="@+id/setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/your_name"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="0dp"
+                android:onClick="onCLickMore"
+                android:src="@drawable/ic_baseline_more_vert_24" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/ic_baseline_account_circle_24" />
+
+
+        </RelativeLayout>
+
+
         <TextView
-            android:id="@+id/your_name"
+            android:id="@+id/hi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="43dp"
-            android:text="@string/welcome_home"
-            android:textColor="@color/black"
-            android:textSize="30dp"
-            android:textStyle="bold" />
-
-
-        <Button
-            android:id="@+id/start_activity_read"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_below="@+id/profile_image"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="27dp"
-            android:backgroundTint="@color/Base_color"
-            android:onClick="onCLickNextStep"
-            android:text="@string/get_started_scan"
-            android:textAllCaps="false"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/setting"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
             android:layout_below="@+id/start_activity_read"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="16dp"
-            android:onClick="onCLickSetting"
-            android:text="@string/settings"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            app:strokeColor="@color/Base_color" />
+            android:layout_alignStart="@+id/start_activity_read"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="71dp"
+            android:text="@string/searches_history"
+            android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rec_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/setting"
-            android:layout_marginTop="18dp"
+            android:layout_below="@+id/hi"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="17dp"
-            android:layout_marginEnd="21dp"
-            android:src="@drawable/ic_baseline_account_circle_24" />
+        <Button
+                android:id="@+id/start_activity_read"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_below="@+id/user"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="27dp"
+                android:backgroundTint="@color/Base_color"
+                android:onClick="onCLickNextStep"
+                android:text="@string/get_started_scan"
+                android:textAllCaps="false"
+                android:textStyle="bold" />
+
+
+
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foregroundTint="@color/Red"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/Base_color"
+            android:indeterminateTintMode="src_atop" />
 
     </RelativeLayout>
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:indeterminate="true"
-        android:indeterminateTintMode="src_atop"
-        android:indeterminateTint="@color/Base_color"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:foregroundTint="@color/Red"
-        />
 
 </RelativeLayout>

@@ -11,7 +11,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.InputType;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -59,6 +61,8 @@ public class CompanyEditActivity extends AppCompatActivity {
     private void init(){
         name = findViewById(R.id.name);
         description = findViewById(R.id.description);
+        description.getEditText().setImeOptions(EditorInfo.IME_ACTION_DONE);
+        description.getEditText().setRawInputType(InputType.TYPE_CLASS_TEXT);
         companyImage = findViewById(R.id.company_image);
         storageRef = FirebaseStorage.getInstance().getReference(StaticString.imageCompanyLogo);
         name.getEditText().setText(User.NAME);

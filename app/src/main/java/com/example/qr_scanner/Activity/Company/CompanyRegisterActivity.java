@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -47,7 +48,9 @@ public class CompanyRegisterActivity extends AppCompatActivity {
         load = findViewById(R.id.load);
         checkBox = findViewById(R.id.check_box);
         relativeLayoutAnnotation = findViewById(R.id.annotation_read);
+        relativeLayoutAnnotation.setVisibility(View.VISIBLE);
         relativeLayoutReg = findViewById(R.id.register_relative_layout);
+        relativeLayoutReg.setVisibility(View.GONE);
         name = findViewById(R.id.name);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
@@ -70,20 +73,31 @@ public class CompanyRegisterActivity extends AppCompatActivity {
         }
     }
     public void register(){
-        firebaseAuth.signInWithEmailAndPassword(emailToString,passwordToString).addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                if (firebaseAuth.getCurrentUser().isEmailVerified()){
-                    nextActivity();
-                }
-                else{
-                    toastEmailOpen();
-                }
+        if(nameToString.isEmpty() || emailToString.isEmpty() || passwordToString.isEmpty() || passwordCopyToString.isEmpty()){
+            Toast.makeText(CompanyRegisterActivity.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            if(passwordToString.length() > 7 && Objects.equals(passwordCopyToString, passwordToString)){
+                firebaseAuth.signInWithEmailAndPassword(emailToString,passwordToString).addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        if (firebaseAuth.getCurrentUser().isEmailVerified()){
+                            nextActivity();
+                        }
+                        else{
+                            toastEmailOpen();
+                        }
+                    }
+                    else{
+                        registerOrVerification = false;
+                        //Toast.makeText(CompanyRegisterActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
             else{
-                registerOrVerification = false;
-                Toast.makeText(CompanyRegisterActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CompanyRegisterActivity.this, "Password incorrect", Toast.LENGTH_SHORT).show();
             }
-        });
+        }
+
     }
     public void verification(){
         getTextAll();
@@ -101,6 +115,9 @@ public class CompanyRegisterActivity extends AppCompatActivity {
     }
 
     public void createUser(){
+        User user = new User(nameToString, emailToString,StaticString.noImage,false);
+        User.EMAIL_CONVERT = Function.CONVERTOR(emailToString);
+        reference.child(User.EMAIL_CONVERT).setValue(user);
         firebaseAuth.createUserWithEmailAndPassword(emailToString, passwordToString).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task1 -> {
@@ -118,13 +135,11 @@ public class CompanyRegisterActivity extends AppCompatActivity {
         });
     }
     public void nextActivity(){
-        User user = new User(nameToString, emailToString,StaticString.noImage,false);
-        User.EMAIL_CONVERT = Function.CONVERTOR(emailToString);
-        reference.child(User.EMAIL_CONVERT).setValue(user);
         Intent intent3 = new Intent(CompanyRegisterActivity.this,AdminSendActivity.class);
         startActivity(intent3);
     }
     private void toastEmailOpen(){
+        relativeLayoutReg.setVisibility(View.GONE);
         load.setVisibility(View.VISIBLE);
         Toast.makeText(CompanyRegisterActivity.this, "Please check your email for verification", Toast.LENGTH_SHORT).show();
         Handler handler = new Handler();
@@ -157,9 +172,9 @@ public class CompanyRegisterActivity extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton("Yes", (dialog, id) -> {
                     finish();
-                    Intent intent = new Intent(Intent.CATEGORY_APP_EMAIL);
-                    intent.addCategory(Intent.CATEGORY_APP_EMAIL);
-                    startActivity(Intent.createChooser(intent, "Email"));
+                    Uri webpage = Uri.parse("https://mail.google.com/");
+                    Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
+                    startActivity(Intent.createChooser(webIntent, "Email"));
                 })
                 .setNegativeButton("No", (dialog, id) -> {
                     dialog.cancel();

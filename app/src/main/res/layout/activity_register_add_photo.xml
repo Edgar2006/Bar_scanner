@@ -30,11 +30,11 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="@string/add_image_or_continue"
+        android:text="@string/add_your_avatar_or_skip"
         android:textSize="30dp"
         android:textStyle="bold" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:foreground="@drawable/corner1"
         android:id="@+id/image_view"
         android:layout_width="match_parent"

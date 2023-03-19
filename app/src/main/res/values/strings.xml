@@ -25,7 +25,7 @@
     <string name="yourGiveyourRating">You are a company you can not leave your products</string>
     <string name="edit_product_info1">Edit product info</string>
     <string name="delete_product">Delete product</string>
-    <string name="lorem">Lorem Ipsum is sr since the 1500s, when ao electronic larised  containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="lorem">Lorem Ipsum is sr since the 1500s, um is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standawhen ao electronic larised  containing Lorem Ipsum passages, and more recently with desktop</string>
     <string name="report_a_review">Report a review</string>
     <string name="rating">Rating</string>
     <string name="your_review">Your review</string>
@@ -39,7 +39,7 @@
     <string name="sort_by_time">Sort review by time</string>
     <string name="add_review">Add review</string>
     <string name="Sort_review_most_liked">Sort review most liked</string>
-    <string name="review">Review</string>
+    <string name="review">Review count</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="change_language">Change language</string>
     <string name="logout">Logout</string>
@@ -49,5 +49,28 @@
     <string name="next">Next</string>
     <string name="translate">See translation</string>
     <string name="see_original">See original</string>
+    <string name="loading">Loading...</string>
+    <string name="sorry_but_this_your_language">Sorry but this sentence is already in your language</string>
+    <string name="cannot_be_translated">Sorry, but this sentence cannot be translated</string>
+    <string name="scan_barcode_automatically">Scan barcode automatically</string>
+    <string name="description_for_company">Description for company</string>
+    <string name="add_photo">Add photo</string>
+    <string name="save">Save</string>
+    <string name="description_for_product">Description for product</string>
+    <string name="description">Description</string>
+    <string name="show_more">show more</string>
+    <string name="correct">Correct</string>
+    <string name="maybe_no_correct">Maybe no correct</string>
+    <string name="add_your_avatar_or_skip">Add your avatar or skip</string>
+    <string name="edit_your_profile">Edit your profile</string>
+    <string name="user_name">user Name</string>
+    <string name="user">User</string>
+    <string name="company">Company</string>
+    <string name="searches_history">Your past searches</string>
+    <string name="open_email">Open Email</string>
+    <string name="pl">Please complete all the lines</string>
+    <string name="comment_send">Your comment send</string>
+    <string name="loading_complete">Loading is complete</string>
+
 
 </resources>

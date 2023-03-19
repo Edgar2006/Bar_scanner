@@ -39,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-
+                android:imeActionLabel="Done"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -48,7 +48,7 @@
             android:id="@+id/description"
             style="@style/LoginTextInputLayoutStyle"
             android:layout_below="@+id/name"
-            android:hint="Description for company"
+            android:hint="@string/description_for_company"
             app:startIconDrawable="@drawable/ic_baseline_add_comment_24">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="21dp"
-                android:text="Add photo"
+                android:text="@string/add_photo"
                 android:textColor="@color/black"
                 android:textSize="25dp"
                 android:textStyle="bold" />
@@ -79,8 +79,8 @@
 
             <ImageView
                 android:foreground="@drawable/corner1"
+                android:scaleType="centerCrop"
                 android:id="@+id/company_image"
-                android:scaleType="fitCenter"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_below="@+id/add_photo"
@@ -100,7 +100,7 @@
             android:layout_marginTop="41dp"
             android:backgroundTint="@color/Base_color"
             android:onClick="onClickSubmit"
-            android:text="Save"
+            android:text="@string/save"
             android:textAllCaps="false"
             android:textSize="15dp"
             android:textStyle="bold" />

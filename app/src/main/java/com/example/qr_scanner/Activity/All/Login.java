@@ -89,6 +89,7 @@ public class Login extends AppCompatActivity {
                             }
                         }
                         else{
+                            User.ifCompany = true;
                             nextActivityUser();
                         }
                     }

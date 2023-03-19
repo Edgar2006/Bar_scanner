@@ -13,14 +13,14 @@
         <RelativeLayout
         android:id="@+id/activity"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/product_name"
                 style="@style/LoginTextInputLayoutStyle"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="50dp"
-                android:hint="Product name"
+                android:hint="@string/product_name"
                 app:startIconDrawable="@drawable/u_user">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -37,12 +37,15 @@
                 style="@style/LoginTextInputLayoutStyle"
                 android:layout_below="@+id/product_name"
                 android:layout_marginTop="40dp"
-                android:hint="Description for product"
+                android:hint="@string/description_for_product"
                 app:startIconDrawable="@drawable/ic_baseline_menu_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
@@ -58,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="21dp"
-                android:text="Add photo"
+                android:text="@string/add_photo"
                 android:textColor="@color/black"
                 android:textSize="25dp"
                 android:textStyle="bold" />
@@ -86,7 +89,7 @@
             android:layout_marginTop="44dp"
             android:backgroundTint="@color/Base_color"
             android:onClick="onClickSubmit"
-            android:text="Save"
+            android:text="@string/save"
             android:textAllCaps="false"
             android:textSize="15dp"
             android:textStyle="bold" />

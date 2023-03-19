@@ -12,5 +12,6 @@
     <color name="Second_color" tools:override="true">#BCDDC2</color>
     <color name="Red" tools:override="true">#C62014</color>
     <color name="Gold" tools:override="true">#FFC107</color>
+    <color name="krem" tools:override="true">#DFDFDB</color>
 
 </resources>

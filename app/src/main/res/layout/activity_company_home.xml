@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/Second_color"
     tools:context=".Activity.Company.CompanyHomeActivity">
 
     <ScrollView
@@ -14,7 +15,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RelativeLayout
-            android:layout_marginHorizontal="20dp"
+            android:backgroundTint="@color/white"
+            android:background="@drawable/round_rect_shape"
+            android:layout_marginTop="-10dp"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="40dp"
+            android:paddingBottom="20dp"
             android:id="@+id/welcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -26,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/company_name"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginEnd="0dp"
                 android:onClick="onCLickMore"
                 android:src="@drawable/ic_baseline_more_vert_24" />
@@ -38,19 +44,17 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="29dp"
-                android:layout_marginTop="21dp"
+                android:layout_marginTop="40dp"
                 android:layout_toEndOf="@+id/company_image"
                 android:text="@string/welcome_home"
                 android:textColor="@color/black"
                 android:textSize="20dp"
-                android:textStyle="bold"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="16dp" />
+                android:textStyle="bold" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/company_image"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_alignParentTop="true"
                 android:src="@drawable/ic_baseline_account_circle_24" />
 
@@ -79,6 +83,14 @@
                     android:layout_marginTop="10dp"
                     android:text="@string/lorem"
                     android:textColor="@color/black" />
+                <TextView
+                    android:onClick="onClickTranslate"
+                    android:id="@+id/translate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/description"
+                    android:layout_marginTop="7dp"
+                    android:text="@string/translate" />
 
 
             </RelativeLayout>
@@ -87,6 +99,9 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:backgroundTint="@color/white"
+            android:background="@drawable/round_rect_shape"
+            android:layout_marginHorizontal="10dp"
             android:id="@+id/add"
             android:onClick="onClickAdd"
             android:layout_width="wrap_content"
@@ -95,6 +110,7 @@
             android:layout_marginTop="46dp">
 
             <TextView
+                android:id="@+id/p"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -107,14 +123,17 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/p"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="11dp"
+                android:layout_marginTop="-3dp"
                 android:layout_marginEnd="37dp"
+                android:layout_marginBottom="0dp"
                 android:src="@drawable/ic_baseline_add_24" />
 
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:backgroundTint="@color/white"
             android:id="@+id/rec_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

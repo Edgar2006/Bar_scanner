@@ -1,17 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.Company.AdminSendActivity">
-
-    <TextView
-        android:layout_centerInParent="true"
-        android:id="@+id/textView3"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/lorem"
-        tools:layout_editor_absoluteX="280dp"
-        tools:layout_editor_absoluteY="220dp" />
-</RelativeLayout>
+        >
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/round_rect_shape"
+            android:padding="20dp"
+            android:text="@string/lorem"
+            android:textSize="20dp" />
+
+
+        <Button
+            android:id="@+id/start_activity_read"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_below="@+id/textView3"
+            android:layout_marginHorizontal="60dp"
+            android:layout_marginTop="60dp"
+            android:textSize="18dp"
+            android:backgroundTint="@color/Base_color"
+            android:onClick="onCLickSendEmail"
+            android:text="@string/open_email"
+            android:textAllCaps="false"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</ScrollView>

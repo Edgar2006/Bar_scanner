@@ -50,8 +50,8 @@
 
         <ImageView
             android:id="@+id/product_image_view"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_alignParentStart="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
@@ -59,7 +59,7 @@
             android:layout_marginBottom="20dp"
             android:foreground="@drawable/corner"
             android:scaleType="centerCrop"
-            android:src="@drawable/common_full_open_on_phone" />
+            android:src="@drawable/ic_custom_star" />
 
         <ImageView
             android:id="@+id/image_data_base"
@@ -100,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/edit_product_info1"
                     android:textColor="@color/white"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
 
                 <ImageView
                     android:id="@+id/image_view"
@@ -133,7 +133,7 @@
                     android:layout_marginStart="0dp"
                     android:text="Scan count"
                     android:textColor="@color/white"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
 
                 <ImageView
                     android:id="@+id/imageView1"
@@ -152,7 +152,7 @@
                     android:layout_toEndOf="@+id/imageView1"
                     android:text="0"
                     android:textColor="@color/white"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
 
 
             </RelativeLayout>

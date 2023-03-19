@@ -29,7 +29,7 @@
         android:layout_marginTop="129dp"
         android:backgroundTint="@color/Second_color"
         android:onClick="onCLickScanNow"
-        android:text="Scan barcode automatically"
+        android:text="@string/scan_barcode_automatically"
         android:textAllCaps="false"
         android:textColor="@color/Base_color"
         android:textSize="18dp"
@@ -51,6 +51,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
+            android:imeActionLabel="Done"
+            android:singleLine="true"
             android:textStyle="bold"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -62,12 +64,11 @@
         android:layout_height="70dp"
         android:layout_below="@+id/barCode_edit_text"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="194dp"
+        android:layout_marginTop="143dp"
         android:backgroundTint="@color/Base_color"
         android:onClick="onCLickRead"
         android:text="@string/next_step"
         android:textAllCaps="false"
-        android:textStyle="bold"
-    />
+        android:textStyle="bold" />
 
 </RelativeLayout>

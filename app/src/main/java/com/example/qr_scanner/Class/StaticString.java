@@ -22,7 +22,6 @@ public class StaticString {
     public static String product = "Product";
     public static String friends = "Friends";
     public static String userComment = "UserComment";
-
     public static String companyInformation = "Company_Information";
     public static String history = "History";
 

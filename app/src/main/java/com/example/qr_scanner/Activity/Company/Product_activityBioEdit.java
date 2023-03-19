@@ -9,8 +9,10 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -53,10 +55,15 @@ public class Product_activityBioEdit extends AppCompatActivity {
         setContentView(R.layout.activity_product_bio_edit);
         init();
         load(true);
+        User.FINISH_ACTIVITY = true;
     }
     public void init(){
+        activity = findViewById(R.id.activity);
+        progressBar = findViewById(R.id.progress_bar);
         productName = findViewById(R.id.product_name);
         bio = findViewById(R.id.bio);
+        bio.getEditText().setImeOptions(EditorInfo.IME_ACTION_DONE);
+        bio.getEditText().setRawInputType(InputType.TYPE_CLASS_TEXT);
         imageView = findViewById(R.id.image);
         mStorageRef = FirebaseStorage.getInstance().getReference(StaticString.imageProduct);
         Intent intent = getIntent();
@@ -74,7 +81,7 @@ public class Product_activityBioEdit extends AppCompatActivity {
     private void sendToData(){
         String productNameString = Function.POP(productName.getEditText().getText().toString());
         String bioLong = Function.POP(bio.getEditText().getText().toString());
-        if(!(productNameString.isEmpty() && bioLong.isEmpty() && uploadUri == null)){
+        if(!(productNameString.isEmpty() || bioLong.isEmpty() || uploadUri == null)){
             Intent intent;
             String bioShort;
             if (bioLong.length() >= 300) {
@@ -91,16 +98,13 @@ public class Product_activityBioEdit extends AppCompatActivity {
                     productBio.setAccess(false);
                     intent = new Intent(Product_activityBioEdit.this, Read.class);
                     intent.putExtra(StaticString.barCode, barCode);
-                    Log.e("________", "3");
                     allActivityStart(productBio, intent);
                 } else {
-                    Log.e("________", "1");
                     intent = new Intent(Product_activityBioEdit.this, CompanyHomeActivity.class);
                     allActivityStart(productBio, intent);
 
                 }
             } else {
-                Log.e("________", "2");
                 intent = new Intent(Product_activityBioEdit.this, CompanyHomeActivity.class);
                 allActivityStart(productBio, intent);
 
@@ -113,14 +117,14 @@ public class Product_activityBioEdit extends AppCompatActivity {
             handler.postDelayed(() -> {
                 activity.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
-            }, 120);
-            Toast.makeText(this, "Please input your Comment!!!", Toast.LENGTH_SHORT).show();
+            }, 150);
+            Toast.makeText(this, R.string.pl, Toast.LENGTH_SHORT).show();
         }
     }
     private void allActivityStart(ProductBio productBio,Intent intent){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.productBio).child(barCode);
         reference.setValue(productBio);
-        Toast.makeText(Product_activityBioEdit.this, "Your comment send", Toast.LENGTH_SHORT).show();
+        Toast.makeText(Product_activityBioEdit.this, R.string.comment_send, Toast.LENGTH_SHORT).show();
         startActivity(intent);
     }
     private void uploadImage(){
@@ -133,7 +137,7 @@ public class Product_activityBioEdit extends AppCompatActivity {
         final UploadTask uploadTask = mRef.putBytes(byteArray);
         Task<Uri> task = uploadTask.continueWithTask(task1 -> mRef.getDownloadUrl()).addOnCompleteListener(task12 -> {
             uploadUri = task12.getResult();
-            Toast.makeText(Product_activityBioEdit.this, "Loading is complete", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Product_activityBioEdit.this, R.string.loading_complete, Toast.LENGTH_SHORT).show();
             sendToData();
         });
         }catch (Exception e){
@@ -169,9 +173,7 @@ public class Product_activityBioEdit extends AppCompatActivity {
     }
     private void load(boolean b){
         if(b){
-            activity = findViewById(R.id.activity);
             activity.setVisibility(View.VISIBLE);
-            progressBar = findViewById(R.id.progress_bar);
             progressBar.setVisibility(View.GONE);
         }
         else{

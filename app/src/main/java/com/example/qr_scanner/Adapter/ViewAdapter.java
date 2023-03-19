@@ -31,6 +31,7 @@ import com.example.qr_scanner.Activity.User.UserAllCommentShowActivity;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.ModelLanguage;
 import com.example.qr_scanner.Class.StaticString;
+import com.example.qr_scanner.Class.Translations;
 import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.DataBase_Class.MyBool;
 import com.example.qr_scanner.R;
@@ -52,6 +53,7 @@ import com.google.mlkit.nl.translate.TranslateLanguage;
 import com.google.mlkit.nl.translate.Translation;
 import com.google.mlkit.nl.translate.Translator;
 import com.google.mlkit.nl.translate.TranslatorOptions;
+import com.google.mlkit.nl.translate.internal.TranslatorImpl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -77,8 +79,8 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         holder.emailToString = messenger.getEmail();
         String temp = Function.CONVERTOR(holder.emailToString);
         holder.name = messenger.getName();
-        holder.comment.setText(messenger.getComment().toString().trim());
-        holder.sourceLanguageText = messenger.getComment().toString().trim();
+        holder.comment.setText(messenger.getComment().trim());
+        holder.sourceLanguageText = messenger.getComment().trim();
         holder.count.setText(messenger.getCount());
         holder.mAuth = FirebaseAuth.getInstance();
         holder.database = FirebaseDatabase.getInstance();
@@ -93,7 +95,13 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         holder.friendRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int a=0;
                 for(DataSnapshot data: dataSnapshot.getChildren()){
+                    try {
+                    MyBool isLike = data.getValue(MyBool.class);
+                    boolean isOk = isLike.isLike();
+                    if (isOk){a++;}
+                    }catch (Exception e){}
                     if(data.getKey().equals(User.EMAIL_CONVERT)){
                         MyBool isLike = data.getValue(MyBool.class);
                         boolean isOk = isLike.isLike();
@@ -104,6 +112,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
                             holder.like.setImageResource(R.drawable.like);
                         }
                     }
+                    holder.count.setText(String.valueOf(a));
                 }
             }
             @Override
@@ -136,7 +145,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder{
         String dateString;
         RatingBar ratingBar;
-        TextView email,comment,count,time_text,ratingBarScore,translateView;
+        TextView email,comment,count,time_text,ratingBarScore;
         String emailToString,name,address,uploadUri,userImageUrl;
         long time;
         ImageButton like;
@@ -147,16 +156,10 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         RelativeLayout userClick;
         int size;
 
-
-        private TranslatorOptions transitionOptions;
-        private Translator translator;
+        TextView translateView;
         private ProgressDialog progressDialog;
-        private ArrayList<ModelLanguage> languageArrayList;
-
         private String sourceLanguageCode = "en";
-        private String sourceLanguageTitle = "English";
         private String destinationLanguageCode = "ur";
-        private String destinationLanguageTitle = "Urdu";
         private String sourceLanguageText;
 
 
@@ -177,14 +180,14 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
                             int second = Integer.parseInt(count.getText().toString());
                             if(!isOk){
                                 second++;
+                                like.setImageResource(R.drawable.like);
                                 count.setText(Integer.toString(second));
                             }
                             else{
+                                like.setImageResource(R.drawable.dislike);
                                 second--;
                             }
                             count.setText(Integer.toString(second));
-                            addMessenger();
-
                         }
                     }
                     if(!b){
@@ -192,8 +195,6 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
                         int second = Integer.parseInt(count.getText().toString());
                         second++;
                         count.setText(Integer.toString(second));
-                        addMessenger();
-
                     }
                 }
                 @Override
@@ -215,21 +216,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
             more.setOnClickListener(v -> deleteComment(view));
 
             translateView.setOnClickListener(v -> {
-                if (!Objects.equals(sourceLanguageText, comment.getText().toString())){
-                    comment.setText(sourceLanguageText);
-                    translateView.setText(R.string.translate);
-                }
-                else {
-                    translateView.setText(R.string.see_original);
-                    getTextLanguageIdentifier(sourceLanguageText);
-                    destinationLanguageCode = Locale.getDefault().getLanguage();
-                    Toast.makeText(itemView.getContext(), "My Language " + destinationLanguageCode, Toast.LENGTH_SHORT).show();
-                    loadAvailableLanguages();
-                    Handler handler = new Handler();
-                    handler.postDelayed(() -> {
-                        startTranslations();
-                    }, 100);
-                }
+                Translations translations = new Translations(progressDialog,sourceLanguageCode,destinationLanguageCode,sourceLanguageText,comment,translateView,view);
             });
 
         }
@@ -253,94 +240,6 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
             progressDialog.setCanceledOnTouchOutside(false);
         }
 
-
-        private void getTextLanguageIdentifier(String text){
-            LanguageIdentifier languageIdentifier =
-                    LanguageIdentification.getClient();
-            languageIdentifier.identifyLanguage(text)
-                    .addOnSuccessListener(
-                            languageCode -> {
-                                if (languageCode.equals("und")) {
-                                    Toast.makeText(itemView.getContext(), "Can't identify language.", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    sourceLanguageCode = languageCode;
-                                    Toast.makeText(itemView.getContext(), "Language " + languageCode, Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                    .addOnFailureListener(
-                            e -> {
-                                Toast.makeText(itemView.getContext(), "Can't identify language.", Toast.LENGTH_SHORT).show();
-                            });
-        }
-
-
-
-        private void  loadAvailableLanguages(){
-            languageArrayList = new ArrayList<>();
-            List<String> languageCodeList = TranslateLanguage.getAllLanguages();
-            for (String languageCode : languageCodeList){
-                String languageTitle = new Locale(languageCode).getDisplayLanguage();
-
-                Log.d(TAG,"loadAvailableLanguages: languageCode: "+languageCode);
-                Log.d(TAG,"LoadAvailableLanguages: LanguageTitle: "+languageTitle);
-                ModelLanguage modelLanguage = new ModelLanguage (languageCode, languageTitle);
-                languageArrayList.add(modelLanguage);
-
-
-            }
-        }
-
-        private void startTranslations(){
-            progressDialog.setMessage("Processing language model...");
-            progressDialog.show();
-
-
-            transitionOptions = new TranslatorOptions.Builder()
-                    .setSourceLanguage(sourceLanguageCode)
-                    .setTargetLanguage(destinationLanguageCode)
-                    .build();
-            translator = Translation.getClient(transitionOptions);
-
-            DownloadConditions downloadConditions = new DownloadConditions.Builder()
-                    .requireWifi()
-                    .build();
-
-            translator.downloadModelIfNeeded(downloadConditions)
-                    .addOnSuccessListener(unused -> {
-                        Log.e(TAG, "onSuccess: model ready, starting translate...");
-                        progressDialog.setMessage("Translating...");
-                        translator.translate(sourceLanguageText)
-                                .addOnSuccessListener(s -> {
-                                    progressDialog.dismiss();
-                                    comment.setText(s);
-                                    Toast.makeText(itemView.getContext(), s , Toast.LENGTH_SHORT).show();
-                                })
-                                .addOnFailureListener(e -> {
-                                    progressDialog.dismiss();
-                                    Log.e(TAG, e.getMessage());
-                                    Log.e(TAG, e.getLocalizedMessage());
-
-                                    Toast.makeText(itemView.getContext(), "Failed to translate due to " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                });
-                    })
-                    .addOnFailureListener(e -> {
-                        progressDialog.dismiss();
-                        Log.e(TAG, e.getMessage());
-                        Log.e(TAG, e.getLocalizedMessage());
-
-                        Toast.makeText(itemView.getContext(), "Failed to ready model due to " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                    });
-        }
-
-
-
-
-
-
-
-
-
         private void deleteComment(View view){
             AlertDialog.Builder builder;
             builder = new AlertDialog.Builder(view.getContext());
@@ -350,7 +249,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
                         Toast.makeText(view.getContext(), "Thank you " + User.EMAIL, Toast.LENGTH_SHORT).show();
                         if(!Objects.equals(User.EMAIL, emailToString)) {
                             DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.deleteComment).child(address);
-                            Messenger newMessenger = new Messenger(emailToString, name, comment.getText().toString(), address, count.getText().toString(), StaticString.noImage, StaticString.noImage, time, ratingBar.getRating());
+                            Messenger newMessenger = new Messenger(emailToString, name, sourceLanguageText, address, count.getText().toString(), StaticString.noImage, StaticString.noImage, time, ratingBar.getRating());
                             if (userImageUrl != null) {
                                 newMessenger.setUserRef(userImageUrl);
                             }
@@ -370,16 +269,6 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
             AlertDialog alert = builder.create();
             alert.setTitle("Do you want delete comment");
             alert.show();
-        }
-        private void addMessenger(){
-            Messenger newMessenger = new Messenger(emailToString, name,comment.getText().toString(),address,count.getText().toString(),StaticString.noImage,StaticString.noImage,time,ratingBar.getRating());
-            if(userImageUrl != null){
-                newMessenger.setUserRef(userImageUrl);
-            }
-            if(uploadUri != null){
-                newMessenger.setImageRef(uploadUri);
-            }
-            reference.setValue(newMessenger);
         }
 
     }

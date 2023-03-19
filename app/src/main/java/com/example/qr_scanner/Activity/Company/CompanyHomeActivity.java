@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,12 +22,14 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Activity.All.Login_or_register;
+import com.example.qr_scanner.Activity.User.HomeActivity;
 import com.example.qr_scanner.Adapter.ViewAdapterCompany;
 import com.example.qr_scanner.Adapter.ViewAdapterCompanyByUser;
 import com.example.qr_scanner.Class.AppCompat;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.LanguageManger;
 import com.example.qr_scanner.Class.StaticString;
+import com.example.qr_scanner.Class.Translations;
 import com.example.qr_scanner.DataBase_Class.Company;
 import com.example.qr_scanner.DataBase_Class.GenRemoteDataSource;
 import com.example.qr_scanner.DataBase_Class.ProductBio;
@@ -55,6 +58,13 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
     private boolean onlyRead;
     private RelativeLayout activity;
     private ProgressBar progressBar;
+
+    private TextView translateView;
+    private ProgressDialog progressDialog;
+    private String sourceLanguageCode = "en";
+    private String destinationLanguageCode = "ur";
+    private String sourceLanguageText;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +74,15 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
         load(true);
         readUser();
         getDataFromDataBase();
+
+
     }
     private void init(){
+        User.PAGE = true;
+        translateView = findViewById(R.id.translate);
+        progressDialog = new ProgressDialog(CompanyHomeActivity.this);
+        progressDialog.setTitle("Please wait");
+        progressDialog.setCanceledOnTouchOutside(false);
         setting = findViewById(R.id.setting);
         description = findViewById(R.id.description);
         relativeLayout = findViewById(R.id.add);
@@ -86,7 +103,10 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
 
     }
     private void readUser(){
-        DatabaseReference myUserRef = FirebaseDatabase.getInstance().getReference(StaticString.companyInformation).child(User.COMPANY);
+        if (!onlyRead){
+            User.COMPANY_EMAIL = User.COMPANY;
+        }
+        DatabaseReference myUserRef = FirebaseDatabase.getInstance().getReference(StaticString.companyInformation).child(User.COMPANY_EMAIL);
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -98,6 +118,7 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
                 User.NAME = company.getName();
                 User.URL = company.getImageRef();
                 User.DESCRIPTION = company.getDescription();
+                sourceLanguageText = company.getDescription();
                 String uploadUri = company.getImageRef();
                 companyName.setText(company.getName());
                 description.setText(company.getDescription());
@@ -118,6 +139,7 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
         if (intent != null) {
             String emailToString, passwordToString;
             emailToString = intent.getStringExtra(StaticString.email);
+            User.COMPANY_EMAIL = emailToString;
             passwordToString = intent.getStringExtra(StaticString.password);
             onlyRead = intent.getBooleanExtra(StaticString.onlyRead,false);
             String type = StaticString.company;
@@ -138,10 +160,12 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
         }
     }
     public void getDataFromDataBase(){
-        DatabaseReference referenceProduct = FirebaseDatabase.getInstance().getReference().child(StaticString.productBio);
-        GenRemoteDataSource genRemoteDataSource = new GenRemoteDataSource(ProductBio.class);
-        genRemoteDataSource.getDataFromDataBase(listView,viewAdapter,listData,referenceProduct,User.COMPANY,activity,progressBar);
-        //load(false);
+        if (!onlyRead){
+            User.COMPANY_EMAIL = User.COMPANY;
+        }
+            DatabaseReference referenceProduct = FirebaseDatabase.getInstance().getReference().child(StaticString.productBio);
+            GenRemoteDataSource genRemoteDataSource = new GenRemoteDataSource(ProductBio.class);
+            genRemoteDataSource.getDataFromDataBase(listView, viewAdapter, listData, referenceProduct, User.COMPANY_EMAIL, activity, progressBar);
     }
     public void onClickAdd(View view) {
         Intent intent = new Intent(CompanyHomeActivity.this,CheckBarCodeActivity.class);
@@ -166,11 +190,6 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
                 progressBar.setVisibility(View.GONE);
             }, 1000);
         }
-    }
-    @Override
-    public void onBackPressed() {
-        Toast.makeText(this, "!", Toast.LENGTH_SHORT).show();
-        System.exit(0);
     }
 
     public void onCLickMore(View view) {
@@ -197,6 +216,24 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
 
         }
     }
+    public void onClickChangeLanguage(){
+        LanguageManger languageManger = new LanguageManger(this);
+        String[] listItems = new String[]{"English", "Russian", "Armenia"};
+        String[] language = new String[]{"en", "ru", "am"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(CompanyHomeActivity.this);
+        builder.setTitle("Choose an item");
+        builder.setIcon(R.drawable.ic_baseline_language_24);
+        builder.setSingleChoiceItems(listItems, -1, (dialog, i) -> {
+            languageManger.updateResource(language[i]);
+            recreate();
+            dialog.dismiss();
+        });
+        builder.setNeutralButton("Cancel", (dialog, i) -> {
+
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
     public void onCLickSetting() {
         Intent intent = new Intent(CompanyHomeActivity.this,CompanyEditActivity.class);
@@ -220,22 +257,21 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
         Intent intent = new Intent(CompanyHomeActivity.this, Login_or_register.class);
         startActivity(intent);
     }
-    public void onClickChangeLanguage(){
-        LanguageManger languageManger = new LanguageManger(this);
-        String[] listItems = new String[]{"English", "Russian", "Armenia"};
-        String[] language = new String[]{"en", "ru", "am"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(CompanyHomeActivity.this);
-        builder.setTitle("Choose an item");
-        builder.setIcon(R.drawable.ic_baseline_language_24);
-        builder.setSingleChoiceItems(listItems, -1, (dialog, i) -> {
-            languageManger.updateResource(language[i]);
-            recreate();
-            dialog.dismiss();
-        });
-        builder.setNeutralButton("Cancel", (dialog, i) -> {
 
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+    public void onClickTranslate(View view) {
+        Translations translations = new Translations(progressDialog,sourceLanguageCode,destinationLanguageCode,sourceLanguageText,description,translateView,view);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (onlyRead){
+            finish();
+        }
+        else{
+            moveTaskToBack(true);
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(1);
+        }
+
     }
 }

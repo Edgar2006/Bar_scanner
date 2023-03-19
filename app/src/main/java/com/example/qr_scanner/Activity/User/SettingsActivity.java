@@ -77,7 +77,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void uploadImage(){
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,15,byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG,50,byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
         StorageReference mRef = storageReference.child(User.EMAIL_CONVERT);
         final UploadTask uploadTask = mRef.putBytes(byteArray);

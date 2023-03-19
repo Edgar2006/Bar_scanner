@@ -18,6 +18,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <RelativeLayout
+                android:background="@drawable/round_rect_shape1"
+                android:layout_marginTop="-10dp"
+                android:paddingTop="20dp"
+
                 android:id="@+id/welcome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -39,7 +43,6 @@
 
 
                 <TextView
-
                     android:id="@+id/user_review_count_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

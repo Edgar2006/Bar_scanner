@@ -54,8 +54,9 @@ public class CheckBarCodeActivity extends AppCompatActivity {
         if(result != null){
             if(result.getContents() != null){
                 try {
-                    barCode = result.getContents().toString();
+                    barCode = result.getContents();
                     barCodeEditText.getEditText().setText(barCode);
+                    check();
                 }catch (Exception e){
                     Toast.makeText(this, "place scan again or input barcode number manually", Toast.LENGTH_SHORT).show();
                 }
@@ -78,6 +79,9 @@ public class CheckBarCodeActivity extends AppCompatActivity {
         }
     }
     public void onClickCheck(View view){
+        check();
+    }
+    private void check(){
         String barCodeText = Function.POP(barCodeEditText.getEditText().getText().toString());
         boolean b=false;
         if(barCodeText.isEmpty() && barCode.isEmpty()){
@@ -97,7 +101,7 @@ public class CheckBarCodeActivity extends AppCompatActivity {
                         addInfo(barCode);
                     }
                     else{
-                        if(Objects.equals(productBio.getCompanyName(), User.NAME) || Objects.equals(productBio.getCompanyName(), StaticString.haveARating)){
+                        if(Objects.equals(productBio.getCompanyName(), User.NAME) || !productBio.getAccess()){
                             addInfo(barCode);
                         }
                         else{

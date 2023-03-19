@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -51,22 +52,29 @@ public class Register extends AppCompatActivity {
     }
 
     public void register(){
-        firebaseAuth.signInWithEmailAndPassword(emailToString,passwordToString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    if (firebaseAuth.getCurrentUser().isEmailVerified()){
-                        nextActivity();
+        if(nameToString.isEmpty() || emailToString.isEmpty() || passwordToString.isEmpty() || passwordCopyToString.isEmpty()){
+            Toast.makeText(Register.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            if(passwordToString.length() > 7 && passwordCopyToString.equals(passwordToString)){
+                firebaseAuth.signInWithEmailAndPassword(emailToString,passwordToString).addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        if (firebaseAuth.getCurrentUser().isEmailVerified()){
+                            nextActivity();
+                        }
+                        else{
+                            toastEmailOpen();
+                        }
                     }
                     else{
-                        toastEmailOpen();
+                        registerOrVerification = false;
                     }
-                }
-                else{
-                    registerOrVerification = false;
-                }
+                });
             }
-        });
+            else{
+                Toast.makeText(Register.this, "Password incorrect", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
     public void verification(){
         getTextAll();
@@ -84,9 +92,6 @@ public class Register extends AppCompatActivity {
     }
 
     public void nextActivity(){
-        User user = new User(nameToString, emailToString,StaticString.noImage,false);
-        User.EMAIL_CONVERT = Function.CONVERTOR(emailToString);
-        reference.child(User.EMAIL_CONVERT).setValue(user);
         Intent intent = new Intent(Register.this, RegisterAddPhotoActivity.class);
         intent.putExtra(StaticString.email,emailToString);
         intent.putExtra(StaticString.password,passwordToString);
@@ -94,6 +99,9 @@ public class Register extends AppCompatActivity {
         startActivity(intent);
     }
     public void createUser(){
+        User user = new User(nameToString, emailToString,StaticString.noImage,false);
+        User.EMAIL_CONVERT = Function.CONVERTOR(emailToString);
+        reference.child(User.EMAIL_CONVERT).setValue(user);
         firebaseAuth.createUserWithEmailAndPassword(emailToString, passwordToString).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task1 -> {
@@ -101,12 +109,12 @@ public class Register extends AppCompatActivity {
                         toastEmailOpen();
                     }
                     else{
-                        Toast.makeText(Register.this, task1.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(Register.this, task1.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
             else{
-                Toast.makeText(Register.this, "You have some errors ", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Register.this, "You have some errors ", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -145,9 +153,13 @@ public class Register extends AppCompatActivity {
         builder.setMessage("Do you want to open Email ?")
                 .setCancelable(false)
                 .setPositiveButton("Yes", (dialog, id) -> {
-                    Intent intent = new Intent(Intent.CATEGORY_APP_EMAIL);
-                    intent.addCategory(Intent.CATEGORY_APP_EMAIL);
-                    startActivity(Intent.createChooser(intent, "Email"));
+
+                    Uri webpage = Uri.parse("https://mail.google.com/");
+                    Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
+        /*
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_APP_EMAIL);*/
+                    startActivity(Intent.createChooser(webIntent, "Email"));
                 })
                 .setNegativeButton("No", (dialog, id) -> {
                     Toast.makeText(Register.this, "Please check your email for verification", Toast.LENGTH_SHORT).show();

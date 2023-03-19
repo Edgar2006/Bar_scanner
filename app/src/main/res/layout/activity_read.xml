@@ -15,20 +15,24 @@
         <RelativeLayout
             android:id="@+id/activity"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
             <RelativeLayout
+                android:paddingHorizontal="10dp"
+                android:paddingTop="30dp"
+                android:paddingBottom="20dp"
                 android:id="@+id/bio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginTop="-10dp"
                 android:layout_marginBottom="20dp"
                 android:backgroundTint="@color/white"
                 android:background="@drawable/round_rect_shape">
 
 
                 <RelativeLayout
+                    android:paddingTop="35dp"
+                    android:paddingHorizontal="20dp"
+                    android:paddingBottom="20dp"
                     android:id="@+id/user_correct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -36,14 +40,13 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="0dp"
-                    android:padding="20dp"
                     android:visibility="gone">
 
                     <TextView
                         android:id="@+id/correct"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Maybe no correct" />
+                        android:text="@string/maybe_no_correct" />
 
                     <ImageView
                         android:id="@+id/ok"
@@ -59,6 +62,10 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:visibility="gone"
+                    android:paddingTop="35dp"
+                    android:paddingHorizontal="20dp"
+                    android:paddingBottom="20dp"
                     android:id="@+id/company_correct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -66,14 +73,13 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="0dp"
-                    android:padding="20dp"
-                    android:visibility="gone">
+                    >
 
                     <TextView
                         android:id="@+id/correct1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Correct" />
+                        android:text="@string/correct" />
 
                     <ImageView
                         android:id="@+id/ok1"
@@ -104,7 +110,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="35dp"
                         android:layout_toEndOf="@+id/company_image"
-                        android:text="Company name" />
+                        android:text="@string/company_name" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/company_image"
@@ -134,22 +140,24 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <TextView
+                            android:textStyle="bold"
                             android:id="@+id/product_barCodeText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/barcode" />
 
                         <TextView
+                            android:textStyle="bold"
                             android:id="@+id/product_barCode"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="7dp"
-                            android:layout_marginLeft="60dp"
                             android:layout_toEndOf="@+id/product_barCodeText"
                             android:text="" />
                     </RelativeLayout>
 
                     <TextView
+                        android:textStyle="bold"
                         android:id="@+id/product_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -157,12 +165,12 @@
                         android:layout_alignStart="@+id/barCodeView"
                         android:layout_marginStart="0dp"
                         android:layout_marginTop="10dp"
-                        android:text="product name" />
+                        android:text="@string/product_name" />
 
                     <ImageView
                         android:id="@+id/product_image_view"
-                        android:layout_width="180dp"
-                        android:layout_height="180dp"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
                         android:foreground="@drawable/corner1"
                         android:scaleType="centerCrop"
                         tools:srcCompat="@tools:sample/avatars" />
@@ -186,10 +194,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/rating_bar"
-                        android:layout_alignBottom="@+id/rating_bar"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="0dp"
-                        android:layout_marginBottom="0dp"
                         android:layout_toEndOf="@+id/rating_bar"
                         android:text="0.0"
                         android:textColor="@color/Second_color"
@@ -207,16 +213,27 @@
                         android:layout_marginStart="7dp"
                         android:layout_marginTop="17dp"
                         android:onClick="onClickShowMore"
-                        android:text="Description"
+                        android:text="@string/description"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:textColor="@color/black"
                         android:id="@+id/bioShort"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/descriptionBold"
                         android:layout_marginTop="5dp"
                         android:text="@string/lorem" />
+
+
+                    <TextView
+                        android:onClick="onClickTranslate"
+                        android:id="@+id/translate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/bioShort"
+                        android:layout_marginTop="7dp"
+                        android:text="@string/translate" />
 
                     <TextView
                         android:id="@+id/show_more"
@@ -227,7 +244,7 @@
                         android:layout_marginTop="7dp"
                         android:layout_marginEnd="12dp"
                         android:onClick="onClickShowMore"
-                        android:text="show more"
+                        android:text="@string/show_more"
                         android:textStyle="bold" />
                 </RelativeLayout>
 

@@ -1,28 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.All.UserOrCompanyActivity">
 
+
+
     <RelativeLayout
-        android:onClick="create_new_account"
-        android:layout_marginTop="100dp"
-        android:id="@+id/user"
-        android:background="@drawable/round_rect_shape"
-        android:padding="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/round_rect_shape"
+        android:onClick="create_new_account"
+        android:padding="20dp">
 
         <TextView
             android:id="@+id/user_text"
-            android:layout_centerHorizontal="true"
-            android:text="User"
-            android:textColor="@color/Base_color"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/user"
+            android:textColor="@color/Base_color"
+            android:textSize="30dp" />
 
         <ImageView
             android:id="@+id/User_image_view"
@@ -35,17 +42,17 @@
             android:src="@drawable/u_user" />
 
         <TextView
-            android:layout_centerHorizontal="true"
             android:layout_width="243dp"
-            android:layout_height="81dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/User_image_view"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="12dp"
-            android:text="@string/lorem" />
+            android:text="@string/lorem"
+            android:textSize="18dp" />
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:onClick="create_new_account_company"
         android:id="@+id/company"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,6 +60,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:background="@drawable/round_rect_shape"
+        android:onClick="create_new_account_company"
         android:padding="20dp">
 
         <TextView
@@ -60,8 +68,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Company"
-            android:textColor="@color/Base_color" />
+            android:text="@string/company"
+            android:textColor="@color/Base_color"
+            android:textSize="30dp" />
 
         <ImageView
             android:id="@+id/company_image_view"
@@ -71,16 +80,18 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_baseline_work_outline_24"/>
+            android:src="@drawable/ic_baseline_work_outline_24" />
 
         <TextView
-            android:layout_centerHorizontal="true"
             android:layout_width="243dp"
-            android:layout_height="81dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/company_image_view"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="12dp"
-            android:text="@string/lorem" />
+            android:text="@string/lorem"
+            android:textSize="18dp" />
 
     </RelativeLayout>
+    </RelativeLayout>
 
-</RelativeLayout>
+</ScrollView>

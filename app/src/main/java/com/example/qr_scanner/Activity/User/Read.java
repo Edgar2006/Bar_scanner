@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,10 +32,11 @@ import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Activity.Company.CompanyHomeActivity;
 import com.example.qr_scanner.Activity.Company.Product_activityBioEdit;
 import com.example.qr_scanner.Class.Function;
-import com.example.qr_scanner.Class.LexicographicComparator;
+import com.example.qr_scanner.Class.Translations;
+import com.example.qr_scanner.Class.noActivThisTIme.LexicographicComparator;
 import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.Rating;
-import com.example.qr_scanner.Class.TimeComparator;
+import com.example.qr_scanner.Class.noActivThisTIme.TimeComparator;
 import com.example.qr_scanner.DataBase_Class.Company;
 import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.Adapter.ViewAdapter;
@@ -67,6 +69,15 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
     private ProgressBar progressBar;
     private Button buttonAppBar;
     private Messenger ifYouHaveAComment;
+
+
+    TextView translateView;
+    private ProgressDialog progressDialog;
+    private String sourceLanguageCode = "en";
+    private String destinationLanguageCode = "ur";
+    private String sourceLanguageText;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,6 +141,12 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
         productImageView = findViewById(R.id.product_image_view);
         showMore = findViewById(R.id.show_more);
         ifMore = true;
+
+        progressDialog = new ProgressDialog(Read.this);
+        progressDialog.setTitle("Please wait");
+        progressDialog.setCanceledOnTouchOutside(false);
+        translateView = findViewById(R.id.translate);
+
     }
 
     public void sendToData(Float ratingValue){
@@ -153,7 +170,6 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
             ratingBar.setIsIndicator(true);
         }
     }
-
     public void onClickShowMore(View view){
         if(ifMore){
             bioText.setText(longText);
@@ -182,14 +198,12 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
         sortMethod();
         sortByText.setText(R.string.sort_by_time);
     }
-
     public void onClickSort(View view){
         PopupMenu popupMenu = new PopupMenu(this, view);
         popupMenu.setOnMenuItemClickListener(this);
         popupMenu.inflate(R.menu.popup_menu);
         popupMenu.show();
     }
-
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
@@ -204,7 +218,6 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
 
         }
     }
-
     public void sortMethod(){
         if(sortMethod) {
             Collections.sort(listData, new LexicographicComparator());
@@ -215,7 +228,6 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
             listView.setAdapter(viewAdapter);
         }
     }
-
     private void getDataFromDataBase(){
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
@@ -282,6 +294,7 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
                     if(!Objects.equals(productBio.getImageRef(), StaticString.noImage)) {
                         Glide.with(Read.this).load(productBio.getImageRef()).into(productImageView);
                     }
+                    sourceLanguageText = longText;
                     referenceHistory.child(barCode).setValue(productBio);
                     if(!productBio.getAccess()){
                         userCorrect.setVisibility(View.VISIBLE);
@@ -291,7 +304,7 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 User userNameAndImageUnit = snapshot.getValue(User.class);
                                 companyName.setText(userNameAndImageUnit.getName());
-                                User.COMPANY = userNameAndImageUnit.getEmail();
+                                User.COMPANY_EMAIL = userNameAndImageUnit.getEmail();
                                 User.COMPANY_URL = userNameAndImageUnit.getImageRef();
                                 if(!Objects.equals(userNameAndImageUnit.getImageRef(), StaticString.noImage)) {
                                     Glide.with(Read.this).load(userNameAndImageUnit.getImageRef()).into(companyImageView);
@@ -311,7 +324,7 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 Company companyNameAndImageUnit = snapshot.getValue(Company.class);
                                 companyName.setText(companyNameAndImageUnit.getName());
-                                User.COMPANY = companyNameAndImageUnit.getEmail();
+                                User.COMPANY_EMAIL = companyNameAndImageUnit.getEmail();
                                 User.COMPANY_URL = companyNameAndImageUnit.getImageRef();
                                 if(!Objects.equals(companyNameAndImageUnit.getImageRef(), StaticString.noImage)) {
                                     Glide.with(Read.this).load(companyNameAndImageUnit.getImageRef()).into(companyImageView);
@@ -344,7 +357,6 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
         referenceProduct.addValueEventListener(eventListener);
 
     }
-
     public void firstBio() {
         String title = "This product is missing from the database";
         String message = "You can add yourself";
@@ -364,7 +376,6 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
         builder.create();
         builder.show();
     }
-
     private Messenger getCommentUserNameAndUserImage(Messenger messenger){
         Messenger a = messenger;
         DatabaseReference referenceUser = FirebaseDatabase.getInstance().getReference(StaticString.user).child(Function.CONVERTOR(a.getEmail()));
@@ -405,12 +416,11 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
         }, 1 * 1000);
 
     }
-
     public void onClickProduct(View view) {
         if (companyCorrect.getVisibility() == View.VISIBLE) {
             Intent intent = new Intent(Read.this, CompanyHomeActivity.class);
             intent.putExtra(StaticString.onlyRead,true);
-            intent.putExtra(StaticString.email,User.COMPANY);
+            intent.putExtra(StaticString.email,User.COMPANY_EMAIL);
             startActivity(intent);
         }
         else {
@@ -427,9 +437,6 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
         getMenuInflater().inflate(R.menu.bottom_app_bar_menu,menu);
         return true;
     }
-
-
-
     private void load(boolean b){
         if(b){
             activity.setVisibility(View.GONE);
@@ -447,4 +454,28 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
         }
     }
 
+    public void onClickTranslate(View view) {
+        Translations translations = new Translations(progressDialog,sourceLanguageCode,destinationLanguageCode,sourceLanguageText,bioText,translateView,view);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent a;
+        if (User.ifCompany){
+            a = new Intent(this, CompanyHomeActivity.class);
+            a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(a);
+        }
+        else{
+            if (User.FINISH_ACTIVITY) {
+                a = new Intent(this, HomeActivity.class);
+                a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(a);
+            }
+            else{
+                finish();
+            }
+        }
+
+    }
 }

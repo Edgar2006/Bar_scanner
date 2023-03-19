@@ -122,12 +122,11 @@
 
             <ImageButton
                 android:id="@+id/like"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/zxing_transparent"
                 android:src="@drawable/dislike"
-                app:tint="@color/grey" />
+                />
 
             <TextView
                 android:id="@+id/count"

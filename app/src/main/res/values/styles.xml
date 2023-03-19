@@ -27,8 +27,8 @@
     </style>
 
     <style name="ThemeOverlay.App.FloatingActionButton" parent="">
-        <item name="colorContainer">@color/purple_500</item>
-        <item name="colorOnContainer">@color/purple_700</item>
+        <item name="colorContainer">@color/Second_color</item>
+        <item name="colorOnContainer">@color/Second_color</item>
     </style>
     <style name="Widget.App.Button.OutlinedButton.IconOnly" parent="Widget.Material3.Button.OutlinedButton">
         <item name="iconPadding">0dp</item>
@@ -36,5 +36,12 @@
         <item name="android:insetBottom">0dp</item>
         <item name="android:minWidth">88dp</item>
         <item name="android:minHeight">88dp</item>
+    </style>
+    <style name="roundImageView" parent="">
+
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20dp</item>
+        <item name="color">@color/Red</item>
+
     </style>
 </resources>
