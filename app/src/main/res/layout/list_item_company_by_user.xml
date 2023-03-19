@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Barcode"
+            android:text="@string/barcode"
             android:textStyle="bold" />
 
         <TextView
@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="0dp"
-                    android:text="Scan count"
+                    android:text="@string/scan_count"
                     android:textColor="@color/white"
                     android:textSize="15dp" />
 

@@ -14,6 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/annotation_read"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -49,12 +50,11 @@
                     android:layout_alignTop="@+id/agree"
                     android:layout_marginEnd="10dp"
                     android:layout_toStartOf="@+id/agree"
-                    android:text="I accept these terms" />
+                    android:text="@string/i_accept_these_terms" />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/register_relative_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
@@ -67,7 +67,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="26dp"
                     android:layout_marginTop="55dp"
-                    android:text="Create new Company account"
+                    android:text="@string/create_new_company_account"
                     android:textColor="@color/black"
                     android:textSize="30dp" />
 

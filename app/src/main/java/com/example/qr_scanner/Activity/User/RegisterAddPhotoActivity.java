@@ -78,7 +78,6 @@ public class RegisterAddPhotoActivity extends AppCompatActivity {
             final UploadTask uploadTask = storageReference1.putBytes(byteArray);
             Task<Uri> task = uploadTask.continueWithTask(task1 -> storageReference1.getDownloadUrl()).addOnCompleteListener(task12 -> {
                 uploadUri = task12.getResult();
-                Toast.makeText(RegisterAddPhotoActivity.this, "Loading is complete", Toast.LENGTH_SHORT).show();
                 User user;
                 String uri;
                 if (uploadUri == null) {
@@ -118,7 +117,7 @@ public class RegisterAddPhotoActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Glide.with(RegisterAddPhotoActivity.this).load(data.getData()).into(imageView);
+        Glide.with(getApplicationContext()).load(data.getData()).into(imageView);
     }
 
 }

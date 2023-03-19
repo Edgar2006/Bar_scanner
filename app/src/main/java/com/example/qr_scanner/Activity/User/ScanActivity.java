@@ -32,7 +32,7 @@ public class ScanActivity extends AppCompatActivity {
         boolean b=false;
         if(barCodeText.isEmpty() && barCode.isEmpty()){
             b=true;
-            Toast.makeText(this, "place scan barcode", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.pleace_scan_or_input_bar_code, Toast.LENGTH_SHORT).show();
         }
         else if(barCode.isEmpty() || !barCodeText.equals(barCode)){
             barCode = barCodeText;
@@ -51,11 +51,11 @@ public class ScanActivity extends AppCompatActivity {
                     barCodeEditText.getEditText().setText(barCode);
                     push_activity();
                 }catch (Exception e){
-                    Toast.makeText(this, "place scan again or input barcode number manually", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.pleace_scan_or_input_bar_code, Toast.LENGTH_SHORT).show();
                 }
             }
             else{
-                Toast.makeText(this, "No results", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.no_results, Toast.LENGTH_SHORT).show();
             }
         }else{
             super.onActivityResult(requestCode,resultCode,data);

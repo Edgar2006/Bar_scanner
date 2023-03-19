@@ -24,6 +24,7 @@
         tools:layout_editor_absoluteY="31dp" />
 
     <TextView
+        android:textColor="@color/black"
         android:id="@+id/idk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

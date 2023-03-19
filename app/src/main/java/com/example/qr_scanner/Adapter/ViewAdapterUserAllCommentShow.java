@@ -176,7 +176,7 @@ public class ViewAdapterUserAllCommentShow extends RecyclerView.Adapter<ViewAdap
         private void init(View view){
             translateView = view.findViewById(R.id.translate);
             progressDialog = new ProgressDialog(view.getContext());
-            progressDialog.setTitle("Please wait");
+            progressDialog.setTitle(R.string.please_wait);
             progressDialog.setCanceledOnTouchOutside(false);
             ratingBarScore = view.findViewById(R.id.rating_bar_score);
             more = view.findViewById(R.id.more);
@@ -194,10 +194,10 @@ public class ViewAdapterUserAllCommentShow extends RecyclerView.Adapter<ViewAdap
         private void deleteComment(View view){
             AlertDialog.Builder builder;
             builder = new AlertDialog.Builder(view.getContext());
-            builder.setMessage("Do you want delete comment?")
+            builder.setMessage(R.string.you_want_delete)
                     .setCancelable(false)
-                    .setPositiveButton("Yes", (dialog, id) -> {
-                        Toast.makeText(view.getContext(), "Thank you " + User.EMAIL, Toast.LENGTH_SHORT).show();
+                    .setPositiveButton(R.string.yes, (dialog, id) -> {
+                        Toast.makeText(view.getContext(), R.string.thank_you + User.EMAIL + R.string.for_help, Toast.LENGTH_SHORT).show();
                         if(!Objects.equals(User.EMAIL, emailToString)) {
                             DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.deleteComment).child(address);
                             Messenger newMessenger = new Messenger(emailToString, name, comment.getText().toString(), address, count.getText().toString(), StaticString.noImage, StaticString.noImage, time, ratingBar.getRating());
@@ -214,11 +214,11 @@ public class ViewAdapterUserAllCommentShow extends RecyclerView.Adapter<ViewAdap
                             reference.removeValue();
                         }
                     })
-                    .setNegativeButton("No", (dialog, id) -> {
+                    .setNegativeButton(R.string.no, (dialog, id) -> {
                         dialog.cancel();
                     });
             AlertDialog alert = builder.create();
-            alert.setTitle("Do you want delete comment");
+            alert.setTitle(R.string.you_want_delete);
             alert.show();
         }
 

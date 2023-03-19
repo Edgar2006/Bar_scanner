@@ -143,7 +143,7 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
         ifMore = true;
 
         progressDialog = new ProgressDialog(Read.this);
-        progressDialog.setTitle("Please wait");
+        progressDialog.setTitle(R.string.please_wait);
         progressDialog.setCanceledOnTouchOutside(false);
         translateView = findViewById(R.id.translate);
 
@@ -156,7 +156,6 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.product).child(barCode).child(User.EMAIL_CONVERT);
             if(ifYouHaveAComment.getTime() != 0){
                 Toast.makeText(this, "!", LENGTH_SHORT).show();
-                Log.e("T",ifYouHaveAComment.toString());
                 messenger = ifYouHaveAComment;
                 rating.countRating--;
                 rating.rating-=messenger.getRatingBarScore();
@@ -174,12 +173,12 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
         if(ifMore){
             bioText.setText(longText);
             ifMore=!ifMore;
-            showMore.setText("close");
+            showMore.setText(R.string.close);
         }
         else{
             bioText.setText(shortText);
             ifMore=!ifMore;
-            showMore.setText("show more");
+            showMore.setText(R.string.show_more);
         }
     }
     public void onClickComment(View view){
@@ -292,7 +291,7 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
                     bioText.setText(shortText);
                     if (longText.length() <= 200){showMore.setVisibility(View.GONE);}
                     if(!Objects.equals(productBio.getImageRef(), StaticString.noImage)) {
-                        Glide.with(Read.this).load(productBio.getImageRef()).into(productImageView);
+                        Glide.with(getApplicationContext()).load(productBio.getImageRef()).into(productImageView);
                     }
                     sourceLanguageText = longText;
                     referenceHistory.child(barCode).setValue(productBio);
@@ -307,7 +306,7 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
                                 User.COMPANY_EMAIL = userNameAndImageUnit.getEmail();
                                 User.COMPANY_URL = userNameAndImageUnit.getImageRef();
                                 if(!Objects.equals(userNameAndImageUnit.getImageRef(), StaticString.noImage)) {
-                                    Glide.with(Read.this).load(userNameAndImageUnit.getImageRef()).into(companyImageView);
+                                    Glide.with(getApplicationContext()).load(userNameAndImageUnit.getImageRef()).into(companyImageView);
                                 }
                             }
                             @Override
@@ -327,7 +326,7 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
                                 User.COMPANY_EMAIL = companyNameAndImageUnit.getEmail();
                                 User.COMPANY_URL = companyNameAndImageUnit.getImageRef();
                                 if(!Objects.equals(companyNameAndImageUnit.getImageRef(), StaticString.noImage)) {
-                                    Glide.with(Read.this).load(companyNameAndImageUnit.getImageRef()).into(companyImageView);
+                                    Glide.with(getApplicationContext()).load(companyNameAndImageUnit.getImageRef()).into(companyImageView);
                                 }
                             }
                             @Override
@@ -358,10 +357,10 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
 
     }
     public void firstBio() {
-        String title = "This product is missing from the database";
-        String message = "You can add yourself";
-        String button1String = "Add now";
-        String button2String = "Go back";
+        String title = getString(R.string.no_dataBase_this_product);
+        String message = getString(R.string.you_can_add);
+        String button1String = getString(R.string.add_now);
+        String button2String = getString(R.string.go_back);
         AlertDialog.Builder builder = new AlertDialog.Builder(Read.this);
         builder.setTitle(title);  // заголовок
         builder.setMessage(message); // сообщение

@@ -69,7 +69,7 @@ public class CompanyEditActivity extends AppCompatActivity {
         description.getEditText().setText(User.DESCRIPTION);
         try {
             uploadUri = Uri.parse(User.URL);
-            Glide.with(CompanyEditActivity.this).load(User.URL).into(companyImage);
+            Glide.with(getApplicationContext()).load(User.URL).into(companyImage);
         }catch (Exception e){}
 
     }
@@ -96,7 +96,7 @@ public class CompanyEditActivity extends AppCompatActivity {
         User.COMPANY = Function.CONVERTOR(emailToString);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.companyInformation).child(emailToString);
         reference.setValue(company);
-        Toast.makeText(CompanyEditActivity.this, "Your comment send", Toast.LENGTH_SHORT).show();
+        Toast.makeText(CompanyEditActivity.this, R.string.comment_send, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(CompanyEditActivity.this,CompanyHomeActivity.class);
         intent.putExtra(StaticString.email,emailToString);
         intent.putExtra(StaticString.password,passwordToString);
@@ -113,7 +113,6 @@ public class CompanyEditActivity extends AppCompatActivity {
             final UploadTask uploadTask = mRef.putBytes(byteArray);
             Task<Uri> task = uploadTask.continueWithTask(task1 -> mRef.getDownloadUrl()).addOnCompleteListener(task12 -> {
                 uploadUri = task12.getResult();
-                Toast.makeText(CompanyEditActivity.this, "Loading is complete", Toast.LENGTH_SHORT).show();
                 sendToData();
             });
         }catch (Exception e){
@@ -157,7 +156,7 @@ public class CompanyEditActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Glide.with(CompanyEditActivity.this).load(data.getData()).into(companyImage);
+        Glide.with(getApplicationContext()).load(data.getData()).into(companyImage);
     }
 
 

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">BarCode_scanner</string>
     <string name="create_new_account">Create new account</string>
-    <string name="control_your_choices">Control your choices</string>
+    <string name="control_your_choices">Know what you are buying</string>
     <string name="sign_in">Sign in</string>
     <string name="next_step">Next step</string>
     <string name="confirm_password">Confirm password</string>
@@ -11,7 +11,7 @@
     <string name="sign_in_to_your_account">Sign in to your account</string>
     <string name="forgot_password">Forgot password ?</string>
     <string name="get_started_scan">Get started scan</string>
-    <string name="your_barcode_number">Your barcode number</string>
+    <string name="your_barcode_number">Product barcode</string>
     <string name="i_ll_do_it_later">I’ll do it later</string>
     <string name="be_in_control_of_your_something">Be in control of your Something</string>
     <string name="settings">Settings</string>
@@ -22,17 +22,16 @@
     <string name="annotation">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
     <string name="comment">But I musonsequences, or one who avoids a pain that produces no resultant pleasure?\"</string>
     <string name="company_name">Company name</string>
-    <string name="yourGiveyourRating">You are a company you can not leave your products</string>
+    <string name="yourGiveyourRating">You are a company you can not leave your review</string>
     <string name="edit_product_info1">Edit product info</string>
     <string name="delete_product">Delete product</string>
     <string name="lorem">Lorem Ipsum is sr since the 1500s, um is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standawhen ao electronic larised  containing Lorem Ipsum passages, and more recently with desktop</string>
     <string name="report_a_review">Report a review</string>
     <string name="rating">Rating</string>
-    <string name="your_review">Your review</string>
+    <string name="your_review">Your product review</string>
     <string name="hey_this_product_no_have_a_description_n_if_you_hava_add_click_this_button">Hey this product no have a description \n if you hava add click this button</string>
     <string name="barcode">BarCode</string>
     <string name="recent">recent</string>
-    <string name="setting">Settings</string>
     <string name="n_this_product_currently_no_have_comment">This product currently has no comments, you can add a comment by clicking the Add Review button.\n\n</string>
     <string name="the_most_recent">The most recent</string>
     <string name="the_most_liked">The most liked</string>
@@ -43,9 +42,8 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="change_language">Change language</string>
     <string name="logout">Logout</string>
-    <string name="your_product">Your product</string>
+    <string name="your_product">Your products</string>
     <string name="product_name">Product name</string>
-    <string name="add_image_or_continue">Add image or continue</string>
     <string name="next">Next</string>
     <string name="translate">See translation</string>
     <string name="see_original">See original</string>
@@ -53,7 +51,7 @@
     <string name="sorry_but_this_your_language">Sorry but this sentence is already in your language</string>
     <string name="cannot_be_translated">Sorry, but this sentence cannot be translated</string>
     <string name="scan_barcode_automatically">Scan barcode automatically</string>
-    <string name="description_for_company">Description for company</string>
+    <string name="description_for_company">Company Description</string>
     <string name="add_photo">Add photo</string>
     <string name="save">Save</string>
     <string name="description_for_product">Description for product</string>
@@ -63,7 +61,7 @@
     <string name="maybe_no_correct">Maybe no correct</string>
     <string name="add_your_avatar_or_skip">Add your avatar or skip</string>
     <string name="edit_your_profile">Edit your profile</string>
-    <string name="user_name">user Name</string>
+    <string name="user_name">User name</string>
     <string name="user">User</string>
     <string name="company">Company</string>
     <string name="searches_history">Your past searches</string>
@@ -71,6 +69,43 @@
     <string name="pl">Please complete all the lines</string>
     <string name="comment_send">Your comment send</string>
     <string name="loading_complete">Loading is complete</string>
+    <string name="scan_count">Scan count</string>
+    <string name="time">Time</string>
+    <string name="i_accept_these_terms">I accept these terms</string>
+    <string name="create_new_company_account">Create new Company account</string>
+    <string name="add_a_company_information">Add a company information</string>
+    <string name="please_wait">Please wait</string>
+    <string name="you_want_delete">Do you want delete comment?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="thank_you">\"Thank you \"</string>
+    <string name="for_help"> for help</string>
+    <string name="english">English</string>
+    <string name="russian">Russian</string>
+    <string name="armenia">Armenia</string>
+    <string name="chosse_an_item">Choose an item</string>
+    <string name="your_comment_send">Your comment send</string>
+    <string name="please_input_your_comment">Please input your Comment</string>
+    <string name="close">close</string>
+    <string name="no_dataBase_this_product">This product is missing from the database</string>
+    <string name="you_can_add">You can add yourself</string>
+    <string name="add_now">Add now</string>
+    <string name="go_back">Go back</string>
+    <string name="fielids_cannot_be_empty">Fields cannot be empty</string>
+    <string name="password_incorrect">Password incorrect</string>
+    <string name="check_email_verifi">Please check your email for verification</string>
+    <string name="if_open_email">Do you want to open Email?</string>
+    <string name="email">Email</string>
+    <string name="pleace_scan_or_input_bar_code">place scan or input barcode number manually</string>
+    <string name="no_results">No results</string>
+    <string name="internet_connection_broken">Your internet connection is broken</string>
+    <string name="open_settings">Open settings?</string>
+    <string name="connect_internet">Please connect to the internet</string>
+    <string name="please_change_bar_code">Please change barCode</string>
+    <string name="sorry_bar_code_booking">Sorry, but this bar code is already using another company, if you are the true owner, then contact your dreams via Email</string>
+    <string name="cancel">Cancel</string>
+    <string name="email_sent">Email sent</string>
+    <string name="no_verifi_admin">Your account is not verified by Admin</string>
 
 
 </resources>

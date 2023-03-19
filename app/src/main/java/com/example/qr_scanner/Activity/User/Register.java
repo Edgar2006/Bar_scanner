@@ -53,7 +53,7 @@ public class Register extends AppCompatActivity {
 
     public void register(){
         if(nameToString.isEmpty() || emailToString.isEmpty() || passwordToString.isEmpty() || passwordCopyToString.isEmpty()){
-            Toast.makeText(Register.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Register.this, R.string.fielids_cannot_be_empty, Toast.LENGTH_SHORT).show();
         }
         else {
             if(passwordToString.length() > 7 && passwordCopyToString.equals(passwordToString)){
@@ -72,21 +72,21 @@ public class Register extends AppCompatActivity {
                 });
             }
             else{
-                Toast.makeText(Register.this, "Password incorrect", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Register.this, R.string.password_incorrect, Toast.LENGTH_SHORT).show();
             }
         }
     }
     public void verification(){
         getTextAll();
         if(nameToString.isEmpty() || emailToString.isEmpty() || passwordToString.isEmpty() || passwordCopyToString.isEmpty()){
-            Toast.makeText(Register.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Register.this, R.string.fielids_cannot_be_empty, Toast.LENGTH_SHORT).show();
         }
         else {
             if(passwordToString.length() > 7 && passwordCopyToString.equals(passwordToString)){
                 createUser();
             }
             else{
-                Toast.makeText(Register.this, "Password incorrect", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Register.this, R.string.password_incorrect, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -122,7 +122,7 @@ public class Register extends AppCompatActivity {
     private void toastEmailOpen(){
         register.setVisibility(View.GONE);
         load.setVisibility(View.VISIBLE);
-        Toast.makeText(Register.this, "Please check your email for verification", Toast.LENGTH_SHORT).show();
+        Toast.makeText(Register.this, R.string.check_email_verifi, Toast.LENGTH_SHORT).show();
         Handler handler = new Handler();
         handler.postDelayed(() -> {
             openEmail();
@@ -150,23 +150,23 @@ public class Register extends AppCompatActivity {
     private void openEmail(){
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(this);
-        builder.setMessage("Do you want to open Email ?")
+        builder.setMessage(R.string.if_open_email)
                 .setCancelable(false)
-                .setPositiveButton("Yes", (dialog, id) -> {
+                .setPositiveButton(R.string.yes, (dialog, id) -> {
 
-                    Uri webpage = Uri.parse("https://mail.google.com/");
+                    Uri webpage = Uri.parse(StaticString.emailLink);
                     Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
         /*
                     Intent intent = new Intent(Intent.ACTION_MAIN);
                     intent.addCategory(Intent.CATEGORY_APP_EMAIL);*/
-                    startActivity(Intent.createChooser(webIntent, "Email"));
+                    startActivity(Intent.createChooser(webIntent, getString(R.string.email)));
                 })
                 .setNegativeButton("No", (dialog, id) -> {
-                    Toast.makeText(Register.this, "Please check your email for verification", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Register.this, R.string.check_email_verifi, Toast.LENGTH_SHORT).show();
                     dialog.cancel();
                 });
         AlertDialog alert = builder.create();
-        alert.setTitle("Do you want to open Email ?");
+        alert.setTitle(R.string.if_open_email);
         alert.show();
     }
 

@@ -13,7 +13,7 @@
     <RelativeLayout
         android:id="@+id/activity"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <RelativeLayout
             android:backgroundTint="@color/white"
             android:background="@drawable/round_rect_shape"
@@ -70,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
 
-                    android:text="Description"
+                    android:text="@string/description"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 

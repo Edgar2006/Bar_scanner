@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Activity.All.Login_or_register;
 import com.example.qr_scanner.Activity.Company.CompanyHomeActivity;
 import com.example.qr_scanner.Adapter.ViewAdapterCompanyByUser;
+import com.example.qr_scanner.Class.AppCompat;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.LanguageManger;
 import com.example.qr_scanner.Class.StaticString;
@@ -40,7 +41,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class HomeActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener{
+public class HomeActivity extends AppCompat implements PopupMenu.OnMenuItemClickListener{
     private RecyclerView listView;
     private RecyclerView.Adapter viewAdapter;
     private ArrayList<ProductBio> listData;
@@ -50,7 +51,7 @@ public class HomeActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private RelativeLayout activity;
     private ProgressBar progressBar;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         addLocalData();
@@ -86,7 +87,7 @@ public class HomeActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 yourName.setText(user.getName());
                 if(!Objects.equals(uploadUri, StaticString.noImage)) {
                     uploadUri = user.getImageRef();
-                    Glide.with(HomeActivity.this).load(uploadUri).into(imageDataBase);
+                    Glide.with(getApplicationContext()).load(uploadUri).into(imageDataBase);
                 }
             }
 
@@ -124,7 +125,7 @@ public class HomeActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
     }
     private  void  getDataFromDataBase(){
-        DatabaseReference referenceHistory = FirebaseDatabase.getInstance().getReference("History").child(User.EMAIL_CONVERT);
+        DatabaseReference referenceHistory = FirebaseDatabase.getInstance().getReference(StaticString.history).child(User.EMAIL_CONVERT);
         GenRemoteDataSource genRemoteDataSource = new GenRemoteDataSource(ProductBio.class);
         genRemoteDataSource.getDataFromDataBase(listView,viewAdapter,listData,referenceHistory,activity,progressBar);
     }
@@ -163,22 +164,23 @@ public class HomeActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     }
     public void onClickChangeLanguage(){
         LanguageManger languageManger = new LanguageManger(this);
-        String[] listItems = new String[]{"English", "Russian", "Armenia"};
+        String[] listItems = new String[]{getString(R.string.english), getString(R.string.russian), getString(R.string.armenia)};
         String[] language = new String[]{"en", "ru", "am"};
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-        builder.setTitle("Choose an item");
+        builder.setTitle(R.string.chosse_an_item);
         builder.setIcon(R.drawable.ic_baseline_language_24);
         builder.setSingleChoiceItems(listItems, -1, (dialog, i) -> {
             languageManger.updateResource(language[i]);
             recreate();
             dialog.dismiss();
         });
-        builder.setNeutralButton("Cancel", (dialog, i) -> {
+        builder.setNeutralButton(R.string.cancel, (dialog, i) -> {
 
         });
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
     public void onCLickSetting(){
         Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
         startActivity(intent);

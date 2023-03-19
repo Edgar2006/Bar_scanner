@@ -81,7 +81,7 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
         User.PAGE = true;
         translateView = findViewById(R.id.translate);
         progressDialog = new ProgressDialog(CompanyHomeActivity.this);
-        progressDialog.setTitle("Please wait");
+        progressDialog.setTitle(R.string.please_wait);
         progressDialog.setCanceledOnTouchOutside(false);
         setting = findViewById(R.id.setting);
         description = findViewById(R.id.description);
@@ -124,7 +124,7 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
                 description.setText(company.getDescription());
                 if(!Objects.equals(uploadUri, StaticString.noImage)) {
 //                    Picasso.get().load(company.getImageRef()).into(companyImage);
-                    Glide.with(CompanyHomeActivity.this).load(company.getImageRef()).into(companyImage);
+                    Glide.with(getApplicationContext()).load(company.getImageRef()).into(companyImage);
                 }
             }
 
@@ -218,17 +218,17 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
     }
     public void onClickChangeLanguage(){
         LanguageManger languageManger = new LanguageManger(this);
-        String[] listItems = new String[]{"English", "Russian", "Armenia"};
+        String[] listItems = new String[]{(String) getText(R.string.english), (String) getText(R.string.russian), (String) getText(R.string.armenia)};
         String[] language = new String[]{"en", "ru", "am"};
         AlertDialog.Builder builder = new AlertDialog.Builder(CompanyHomeActivity.this);
-        builder.setTitle("Choose an item");
+        builder.setTitle(R.string.chosse_an_item);
         builder.setIcon(R.drawable.ic_baseline_language_24);
         builder.setSingleChoiceItems(listItems, -1, (dialog, i) -> {
             languageManger.updateResource(language[i]);
             recreate();
             dialog.dismiss();
         });
-        builder.setNeutralButton("Cancel", (dialog, i) -> {
+        builder.setNeutralButton(R.string.cancel, (dialog, i) -> {
 
         });
         AlertDialog dialog = builder.create();

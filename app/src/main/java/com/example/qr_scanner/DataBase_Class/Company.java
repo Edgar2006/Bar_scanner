@@ -1,7 +1,5 @@
 package com.example.qr_scanner.DataBase_Class;
 
-import android.text.Editable;
-
 public class Company {
     private String name,email,description,imageRef;
 

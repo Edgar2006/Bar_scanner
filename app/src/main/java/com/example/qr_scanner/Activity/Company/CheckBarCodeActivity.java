@@ -58,11 +58,11 @@ public class CheckBarCodeActivity extends AppCompatActivity {
                     barCodeEditText.getEditText().setText(barCode);
                     check();
                 }catch (Exception e){
-                    Toast.makeText(this, "place scan again or input barcode number manually", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.pleace_scan_or_input_bar_code, Toast.LENGTH_SHORT).show();
                 }
             }
             else{
-                Toast.makeText(this, "No results", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.no_results, Toast.LENGTH_SHORT).show();
             }
         }else{
             super.onActivityResult(requestCode,resultCode,data);
@@ -86,7 +86,7 @@ public class CheckBarCodeActivity extends AppCompatActivity {
         boolean b=false;
         if(barCodeText.isEmpty() && barCode.isEmpty()){
             b=true;
-            Toast.makeText(this, "place scan barcode", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.pleace_scan_or_input_bar_code, Toast.LENGTH_SHORT).show();
         }
         else if(barCode.isEmpty() || !barCodeText.equals(barCode)){
             barCode = barCodeText;
@@ -122,9 +122,9 @@ public class CheckBarCodeActivity extends AppCompatActivity {
         startActivity(intent);
     }
     private void sendEmail(){
-        builder.setMessage("Do you want to open Email ?")
+        builder.setMessage(R.string.if_open_email)
                 .setCancelable(false)
-                .setPositiveButton("Yes", (dialog, id) -> {
+                .setPositiveButton(R.string.yes, (dialog, id) -> {
                     finish();
                     Intent emailIntent = new Intent(Intent.ACTION_SEND);
                     emailIntent.setType("plain/text");
@@ -133,13 +133,13 @@ public class CheckBarCodeActivity extends AppCompatActivity {
                     emailIntent.putExtra(Intent.EXTRA_TEXT, "Email Body");
                     startActivity(Intent.createChooser(emailIntent, "Send mail..."));
                 })
-                .setNegativeButton("No", (dialog, id) -> {
+                .setNegativeButton(R.string.no, (dialog, id) -> {
                     dialog.cancel();
-                    Toast.makeText(getApplicationContext(),"Please change barCode",
+                    Toast.makeText(getApplicationContext(), R.string.please_change_bar_code,
                             Toast.LENGTH_SHORT).show();
                 });
         AlertDialog alert = builder.create();
-        alert.setTitle("Sorry, but this bar code is already using another company, if you are the true owner, then contact your dreams via Email");
+        alert.setTitle(getString(R.string.sorry_bar_code_booking));
         alert.show();
     }
 }

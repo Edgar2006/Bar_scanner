@@ -27,7 +27,6 @@ public class AdminSendActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public void onCLickSendEmail(View view) {

@@ -24,5 +24,5 @@ public class StaticString {
     public static String userComment = "UserComment";
     public static String companyInformation = "Company_Information";
     public static String history = "History";
-
+    public static String emailLink = "https://mail.google.com/";
 }

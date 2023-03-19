@@ -60,7 +60,7 @@ public class SettingsActivity extends AppCompatActivity {
         imageView = findViewById(R.id.image);
         name.getEditText().setText(User.NAME);
         uploadUri = Uri.parse(User.URL);
-        Glide.with(SettingsActivity.this).load(User.URL).into(imageView);
+        Glide.with(getApplicationContext()).load(User.URL).into(imageView);
         storageReference = FirebaseStorage.getInstance().getReference(StaticString.userImage);
     }
 
@@ -83,7 +83,7 @@ public class SettingsActivity extends AppCompatActivity {
         final UploadTask uploadTask = mRef.putBytes(byteArray);
         Task<Uri> task = uploadTask.continueWithTask(task1 -> mRef.getDownloadUrl()).addOnCompleteListener(task12 -> {
             uploadUri = task12.getResult();
-            Toast.makeText(SettingsActivity.this, "Loading is complete", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SettingsActivity.this, R.string.loading_complete, Toast.LENGTH_SHORT).show();
             User user = new User(Function.POP(name.getEditText().getText().toString()), User.EMAIL,StaticString.noImage,false);
             String uri;
             if(uploadUri != null){
@@ -109,7 +109,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Glide.with(SettingsActivity.this).load(data.getData()).into(imageView);
+        Glide.with(getApplicationContext()).load(data.getData()).into(imageView);
     }
 
 

@@ -69,7 +69,7 @@ public class UserAllCommentShowActivity extends AppCompatActivity {
         name.setText(intent.getStringExtra(StaticString.user));
         String userImageUrl = intent.getStringExtra(StaticString.userImage);
         if(!Objects.equals(userImageUrl, StaticString.noImage)) {
-            Glide.with(UserAllCommentShowActivity.this).load(userImageUrl).into(imageView);
+            Glide.with(getApplicationContext()).load(userImageUrl).into(imageView);
         }
         email = intent.getStringExtra(StaticString.email);
     }

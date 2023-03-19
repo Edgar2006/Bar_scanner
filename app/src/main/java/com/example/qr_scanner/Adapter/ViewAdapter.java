@@ -236,17 +236,17 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
             userImage = view.findViewById(R.id.user_image);
             size = 0;
             progressDialog = new ProgressDialog(view.getContext());
-            progressDialog.setTitle("Please wait");
+            progressDialog.setTitle(R.string.please_wait);
             progressDialog.setCanceledOnTouchOutside(false);
         }
 
         private void deleteComment(View view){
             AlertDialog.Builder builder;
             builder = new AlertDialog.Builder(view.getContext());
-            builder.setMessage("Do you want delete comment?")
+            builder.setMessage(R.string.you_want_delete)
                     .setCancelable(false)
-                    .setPositiveButton("Yes", (dialog, id) -> {
-                        Toast.makeText(view.getContext(), "Thank you " + User.EMAIL, Toast.LENGTH_SHORT).show();
+                    .setPositiveButton(R.string.yes, (dialog, id) -> {
+                        Toast.makeText(view.getContext(), R.string.thank_you + User.NAME + R.string.for_help, Toast.LENGTH_SHORT).show();
                         if(!Objects.equals(User.EMAIL, emailToString)) {
                             DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.deleteComment).child(address);
                             Messenger newMessenger = new Messenger(emailToString, name, sourceLanguageText, address, count.getText().toString(), StaticString.noImage, StaticString.noImage, time, ratingBar.getRating());
@@ -263,11 +263,11 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
                             reference.removeValue();
                         }
                     })
-                    .setNegativeButton("No", (dialog, id) -> {
+                    .setNegativeButton(R.string.no, (dialog, id) -> {
                         dialog.cancel();
                     });
             AlertDialog alert = builder.create();
-            alert.setTitle("Do you want delete comment");
+            alert.setTitle(R.string.you_want_delete);
             alert.show();
         }
 

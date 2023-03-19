@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:onClick="@string/sign_in"
     tools:context=".Activity.All.Login_or_register">
 
     <TextView

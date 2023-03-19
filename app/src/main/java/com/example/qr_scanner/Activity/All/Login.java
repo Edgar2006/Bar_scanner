@@ -49,7 +49,7 @@ public class Login extends AppCompatActivity {
         Log.e("T", "_"+emailToString + "T");
         passwordToString = Function.POP(password.getEditText().getText().toString());
         if(emailToString.isEmpty() || passwordToString.isEmpty() || passwordToString.length() < 8){
-            Toast.makeText(Login.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Login.this, R.string.fielids_cannot_be_empty, Toast.LENGTH_SHORT).show();
         }
         else{
             firebaseAuth.signInWithEmailAndPassword(emailToString, passwordToString).addOnCompleteListener(task -> {
@@ -60,11 +60,11 @@ public class Login extends AppCompatActivity {
                         checkIfCompany();
                     }
                     else{
-                        Toast.makeText(Login.this, "Please verify your email address", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login.this, R.string.check_email_verifi, Toast.LENGTH_SHORT).show();
                     }
                 }
                 else{
-                    Toast.makeText(Login.this, "You have some errors", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, R.string.fielids_cannot_be_empty, Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -78,7 +78,7 @@ public class Login extends AppCompatActivity {
                 User user = snapshot.getValue(User.class);
                 if(user != null){
                     if(!Objects.equals(user.getImageRef(), StaticString.noImage)){
-                        Toast.makeText(Login.this, "Your account is verified by Admin", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login.this, R.string.no_verifi_admin, Toast.LENGTH_SHORT).show();
                         if(Objects.equals(user.getImageRef(), "1") || Objects.equals(user.getImageRef(), "0")) {
                             User.ifCompany = false;
                             if(Objects.equals(user.getImageRef(), "1")){
@@ -94,7 +94,7 @@ public class Login extends AppCompatActivity {
                         }
                     }
                     else{
-                        Toast.makeText(Login.this, "Your account is not verified by Admin", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login.this, R.string.no_verifi_admin, Toast.LENGTH_SHORT).show();
                     }
                 }
                 else{
@@ -129,12 +129,9 @@ public class Login extends AppCompatActivity {
         startActivity(intent);
     }
     public void onClickForgotPassword(View view){
-        firebaseAuth.sendPasswordResetEmail(emailToString).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(Login.this, "Email sent", Toast.LENGTH_SHORT).show();
-                }
+        firebaseAuth.sendPasswordResetEmail(emailToString).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(Login.this, R.string.email_sent, Toast.LENGTH_SHORT).show();
             }
         });
     }

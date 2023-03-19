@@ -26,7 +26,7 @@ public class OpenImageActivity extends AppCompatActivity {
         imageView = findViewById(R.id.image_view);
         Intent intent = getIntent();
         if (intent != null) {
-            Glide.with(OpenImageActivity.this).load(intent.getStringExtra(StaticString.url)).into(imageView);
+            Glide.with(getApplicationContext()).load(intent.getStringExtra(StaticString.url)).into(imageView);
         }
 
     }

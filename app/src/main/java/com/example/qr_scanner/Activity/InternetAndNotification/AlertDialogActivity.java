@@ -34,15 +34,15 @@ public class AlertDialogActivity extends Activity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder
-                .setTitle("Your internet connection is broken")
-                .setMessage("Open settings?")
+                .setTitle(R.string.internet_connection_broken)
+                .setMessage(R.string.open_settings)
                 .setCancelable(false)
-                .setPositiveButton("Yes", (dialog, id) -> {
+                .setPositiveButton(R.string.yes, (dialog, id) -> {
                     builder.getContext().startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
                     dialog.cancel();
                 })
-                .setNegativeButton("No", (dialog, id) -> {
-                    Toast.makeText(AlertDialogActivity.this, "Please connect to the internet", Toast.LENGTH_SHORT).show();
+                .setNegativeButton(R.string.no, (dialog, id) -> {
+                    Toast.makeText(AlertDialogActivity.this, R.string.connect_internet, Toast.LENGTH_SHORT).show();
                     dialog.cancel();
                 });
         AlertDialog alert = builder.create();

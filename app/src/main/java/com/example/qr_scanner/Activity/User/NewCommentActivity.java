@@ -129,7 +129,7 @@ public class NewCommentActivity extends AppCompatActivity {
             DatabaseReference userComment = FirebaseDatabase.getInstance().getReference(StaticString.userComment).child(User.EMAIL_CONVERT).child(barCode);
             UserCommentSaveData userCommentSaveData = new UserCommentSaveData(User.COMPANY_EMAIL,User.EMAIL_CONVERT,barCode);
             userComment.setValue(userCommentSaveData);
-            Toast.makeText(NewCommentActivity.this, "Your comment send", Toast.LENGTH_SHORT).show();
+            Toast.makeText(NewCommentActivity.this, R.string.your_comment_send, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(NewCommentActivity.this, Read.class);
             intent.putExtra(StaticString.barCode, barCode);
             startActivity(intent);
@@ -141,7 +141,7 @@ public class NewCommentActivity extends AppCompatActivity {
                 activity.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
             }, 120);
-            Toast.makeText(this, "Please input your Comment", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.please_input_your_comment, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -157,7 +157,7 @@ public class NewCommentActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Glide.with(NewCommentActivity.this).load(data.getData()).into(imageView);
+        Glide.with(getApplicationContext()).load(data.getData()).into(imageView);
     }
 
     private void load(boolean b){

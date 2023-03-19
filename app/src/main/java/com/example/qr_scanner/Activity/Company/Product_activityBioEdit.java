@@ -71,7 +71,7 @@ public class Product_activityBioEdit extends AppCompatActivity {
             barCode = intent.getStringExtra(StaticString.barCode);
             productName.getEditText().setText(intent.getStringExtra(StaticString.user));
             bio.getEditText().setText( intent.getStringExtra(StaticString.productBio));
-            Glide.with(Product_activityBioEdit.this).load(intent.getStringExtra(StaticString.url)).into(imageView);
+            Glide.with(getApplicationContext()).load(intent.getStringExtra(StaticString.url)).into(imageView);
         }
     }
     public void onClickSubmit(View view){
@@ -160,7 +160,7 @@ public class Product_activityBioEdit extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Glide.with(Product_activityBioEdit.this).load(data.getData()).into(imageView);
+        Glide.with(getApplicationContext()).load(data.getData()).into(imageView);
     }
 
     public String bioShortGeneration(String bioLong){
