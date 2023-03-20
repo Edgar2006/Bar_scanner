@@ -8,6 +8,8 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.qr_scanner.Class.noActivThisTIme.LexicographicComparator;
+import com.example.qr_scanner.Class.noActivThisTIme.TimeCompByHistory;
 import com.example.qr_scanner.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -15,10 +17,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Objects;
 
-public class GenRemoteDataSource<E>
-{
+public class GenRemoteDataSource<E>{
     private final Class<E> clazz;
 
     public GenRemoteDataSource(Class<E> clazz)
@@ -34,11 +37,41 @@ public class GenRemoteDataSource<E>
                     listData.clear();
                 }
                 for(DataSnapshot ds : snapshot.getChildren()){
-                    E history = ds.getValue(clazz);
-                    assert  history != null;
-                    listData.add(history);
+                        E history = ds.getValue(clazz);
+                        assert  history != null;
+                        listData.add(history);
                 }
                 listView.setAdapter(viewAdapter);
+
+                Handler handler = new Handler();
+                handler.postDelayed(() -> {
+                    activity.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                }, 100);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        reference.addValueEventListener(eventListener);
+    }
+    public void getDataFromDataBase(RecyclerView listView, RecyclerView.Adapter viewAdapter, ArrayList<ProductBio> listData, DatabaseReference reference, RelativeLayout activity, ProgressBar progressBar, Boolean b){
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(listData.size() > 0){
+                    listData.clear();
+                }
+                for(DataSnapshot ds : snapshot.getChildren()){
+                        ProductBio history = ds.getValue(ProductBio.class);
+                        assert  history != null;
+                        listData.add(history);
+                }
+                Collections.sort(listData, new TimeCompByHistory());
+                listView.setAdapter(viewAdapter);
+
                 Handler handler = new Handler();
                 handler.postDelayed(() -> {
                     activity.setVisibility(View.VISIBLE);
@@ -82,5 +115,6 @@ public class GenRemoteDataSource<E>
         };
         reference.addValueEventListener(eventListener);
     }
+
 
 }

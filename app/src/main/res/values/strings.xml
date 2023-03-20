@@ -57,8 +57,8 @@
     <string name="description_for_product">Description for product</string>
     <string name="description">Description</string>
     <string name="show_more">show more</string>
-    <string name="correct">Correct</string>
-    <string name="maybe_no_correct">Maybe no correct</string>
+    <string name="correct">Added by company</string>
+    <string name="maybe_no_correct">Added by user</string>
     <string name="add_your_avatar_or_skip">Add your avatar or skip</string>
     <string name="edit_your_profile">Edit your profile</string>
     <string name="user_name">User name</string>
@@ -106,6 +106,8 @@
     <string name="cancel">Cancel</string>
     <string name="email_sent">Sent by email</string>
     <string name="no_verifi_admin">Your account has not been verified by an administrator</string>
+    <string name="added_maybe_no_correct_info">Information about this product was added by the user</string>
+    <string name="so_no_correct">So this information may not be correct.</string>
 
 
 </resources>

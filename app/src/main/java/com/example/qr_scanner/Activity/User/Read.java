@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -62,14 +63,14 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
     private String shortText,longText,barCode;
     private TextView productName,bioText,showMore,ratingBarScore,companyName,barCodeTextView,firstComment,sortByText;
     private ImageView productImageView,companyImageView;
-    private RelativeLayout relativeLayout,userCorrect,companyCorrect,viewLayoutComment;
+    private RelativeLayout relativeLayout,companyCorrect,viewLayoutComment;
+    private RelativeLayout userCorrect;
     private RatingBar ratingBar;
     private Rating rating;
     private RelativeLayout activity;
     private ProgressBar progressBar;
     private Button buttonAppBar;
     private Messenger ifYouHaveAComment;
-
 
     TextView translateView;
     private ProgressDialog progressDialog;
@@ -294,6 +295,7 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
                         Glide.with(getApplicationContext()).load(productBio.getImageRef()).into(productImageView);
                     }
                     sourceLanguageText = longText;
+                    productBio.setCompanyRef(Long.toString(System.currentTimeMillis()));
                     referenceHistory.child(barCode).setValue(productBio);
                     if(!productBio.getAccess()){
                         userCorrect.setVisibility(View.VISIBLE);
@@ -476,5 +478,16 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
             }
         }
 
+    }
+
+    public void onClickUserCorrect(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.added_maybe_no_correct_info)
+                .setMessage(R.string.so_no_correct)
+                .setPositiveButton( R.string.close, (dialog, id) -> {
+                    dialog.cancel();
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

@@ -29,76 +29,11 @@
                 android:background="@drawable/round_rect_shape">
 
 
-                <RelativeLayout
-                    android:paddingTop="35dp"
-                    android:paddingHorizontal="20dp"
-                    android:paddingBottom="20dp"
-                    android:id="@+id/user_correct"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/company_layout"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="0dp"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/correct"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/maybe_no_correct" />
-
-                    <ImageView
-                        android:id="@+id/ok"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/correct"
-                        android:layout_alignBottom="@+id/correct"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginBottom="0dp"
-                        android:layout_toEndOf="@+id/correct"
-                        android:src="@drawable/ic_baseline_do_not_disturb_24" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:visibility="gone"
-                    android:paddingTop="35dp"
-                    android:paddingHorizontal="20dp"
-                    android:paddingBottom="20dp"
-                    android:id="@+id/company_correct"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/company_layout"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="0dp"
-                    >
-
-                    <TextView
-                        android:id="@+id/correct1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/correct" />
-
-                    <ImageView
-                        android:id="@+id/ok1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/correct1"
-                        android:layout_alignBottom="@+id/correct1"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginBottom="0dp"
-                        android:layout_toEndOf="@+id/correct1"
-                        android:src="@drawable/ic_baseline_done_24" />
-                </RelativeLayout>
-
 
                 <RelativeLayout
 
                     android:id="@+id/company_layout"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="onClickProduct">
 
@@ -108,9 +43,70 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_marginStart="10dp"
-                        android:layout_marginTop="35dp"
+                        android:layout_marginTop="16dp"
                         android:layout_toEndOf="@+id/company_image"
                         android:text="@string/company_name" />
+
+                    <RelativeLayout
+                        android:visibility="gone"
+                        android:id="@+id/company_correct"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/company_name"
+                        android:layout_alignStart="@+id/company_name"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="0dp">
+
+                        <TextView
+                            android:id="@+id/correct1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/correct" />
+
+                        <ImageView
+                            android:id="@+id/ok1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/correct1"
+                            android:layout_alignBottom="@+id/correct1"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginBottom="0dp"
+                            android:layout_toEndOf="@+id/correct1"
+                            android:src="@drawable/ic_baseline_done_24" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:visibility="gone"
+                        android:onClick="onClickUserCorrect"
+                        android:id="@+id/user_correct"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/company_name"
+                        android:layout_alignStart="@+id/company_name"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:id="@+id/correct"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/maybe_no_correct" />
+
+                        <ImageView
+                            android:id="@+id/ok"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/correct"
+                            android:layout_alignBottom="@+id/correct"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginBottom="0dp"
+                            android:layout_toEndOf="@+id/correct"
+                            android:src="@drawable/ic_baseline_description_24" />
+                    </RelativeLayout>
+
+
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/company_image"
@@ -134,43 +130,45 @@
                     >
 
                     <RelativeLayout
-                        android:layout_toEndOf="@+id/product_image_view"
-                        android:layout_marginTop="10dp"
                         android:id="@+id/barCodeView"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/product_name"
+                        android:layout_marginTop="10dp"
+                        android:layout_toEndOf="@+id/product_image_view">
+
                         <TextView
-                            android:textStyle="bold"
                             android:id="@+id/product_barCodeText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/barcode" />
+                            android:text="@string/barcode"
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:textStyle="bold"
                             android:id="@+id/product_barCode"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="7dp"
                             android:layout_toEndOf="@+id/product_barCodeText"
-                            android:text="" />
+                            android:text=""
+                            android:textStyle="bold" />
                     </RelativeLayout>
 
                     <TextView
-                        android:textStyle="bold"
                         android:id="@+id/product_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/barCodeView"
                         android:layout_alignStart="@+id/barCodeView"
+                        android:layout_alignParentTop="true"
                         android:layout_marginStart="0dp"
-                        android:layout_marginTop="10dp"
-                        android:text="@string/product_name" />
+                        android:layout_marginTop="20dp"
+                        android:text="@string/product_name"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:id="@+id/product_image_view"
-                        android:layout_width="130dp"
-                        android:layout_height="130dp"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
                         android:foreground="@drawable/corner1"
                         android:scaleType="centerCrop"
                         tools:srcCompat="@tools:sample/avatars" />
@@ -181,7 +179,7 @@
                         style="?android:attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/product_name"
+                        android:layout_below="@+id/barCodeView"
                         android:layout_alignStart="@+id/product_name"
                         android:layout_marginStart="0dp"
                         android:layout_marginTop="10dp"
@@ -202,15 +200,11 @@
                         android:textSize="15dp" />
 
 
-
-
                     <TextView
                         android:id="@+id/descriptionBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/product_image_view"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="7dp"
                         android:layout_marginTop="17dp"
                         android:onClick="onClickShowMore"
                         android:text="@string/description"

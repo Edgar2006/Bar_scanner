@@ -127,7 +127,7 @@ public class HomeActivity extends AppCompat implements PopupMenu.OnMenuItemClick
     private  void  getDataFromDataBase(){
         DatabaseReference referenceHistory = FirebaseDatabase.getInstance().getReference(StaticString.history).child(User.EMAIL_CONVERT);
         GenRemoteDataSource genRemoteDataSource = new GenRemoteDataSource(ProductBio.class);
-        genRemoteDataSource.getDataFromDataBase(listView,viewAdapter,listData,referenceHistory,activity,progressBar);
+        genRemoteDataSource.getDataFromDataBase(listView,viewAdapter,listData,referenceHistory,activity,progressBar,false);
     }
 
     private void load(){

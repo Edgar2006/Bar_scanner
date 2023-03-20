@@ -109,6 +109,7 @@
     <string name="sorry_bar_code_booking">Извините, но этот штрих-код уже используется другой компанией. Если вы являетесь его настоящим владельцем, свяжитесь с нами по электронной почте.</string>
     <string name="cancel">Отмена</string>
     <string name="email_sent">Отправлено по электронной почте</string>
-    <string name="no_verifi_admin">Ваш аккаунт не проверен администратором</string>
-
+    <string name="no_verifi_admin">Информация об этом товаре добавлена пользователем</string>
+    <string name="added_maybe_no_correct_info">Information about this product was added by the user</string>
+    <string name="so_no_correct">так что эта информация может быть не верна.</string>
 </resources>
