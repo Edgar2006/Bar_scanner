@@ -71,7 +71,8 @@
             android:onClick="onClickForgotPassword"
             android:textSize="20dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+            app:cornerRadius="20dp"
             android:textStyle="bold"
             android:textAllCaps="false"
             android:textSize="15dp"

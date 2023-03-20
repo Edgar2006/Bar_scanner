@@ -7,7 +7,8 @@
     tools:context=".Activity.Company.CheckBarCodeActivity">
 
 
-    <Button
+    <com.google.android.material.button.MaterialButton
+        app:cornerRadius="20dp"
         android:id="@+id/scan_now"
         android:layout_width="match_parent"
         android:layout_height="70dp"
@@ -46,7 +47,8 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <Button
+    <com.google.android.material.button.MaterialButton
+        app:cornerRadius="20dp"
         android:id="@+id/start_activity_read"
         android:layout_width="match_parent"
         android:layout_height="70dp"

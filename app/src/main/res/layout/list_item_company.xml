@@ -94,8 +94,7 @@
                 android:padding="2dp">
 
                 <TextView
-
-                    android:id="@id/text1"
+                    android:id="@id/text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/edit_product_info1"
@@ -106,11 +105,8 @@
                     android:id="@+id/image_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginLeft="30dp"
-                    android:layout_toEndOf="@+id/text1"
-                    android:src="@drawable/ic_baseline_edit_24"
-                    />
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_baseline_edit_24" />
 
             </RelativeLayout>
 
@@ -136,24 +132,25 @@
                     android:textSize="16dp" />
 
                 <ImageView
+                    android:layout_centerVertical="true"
                     android:id="@+id/imageView1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
                     android:layout_marginLeft="30dp"
-                    android:layout_toEndOf="@+id/text2"
-                    android:src="@drawable/ic_baseline_emoji_people_24"
-                 />
+                    android:layout_marginEnd="4dp"
+                    android:layout_toStartOf="@+id/count"
+                    android:src="@drawable/ic_baseline_emoji_people_24" />
 
                 <TextView
+                    android:layout_centerVertical="true"
                     android:id="@id/count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/imageView1"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="3dp"
                     android:text="0"
                     android:textColor="@color/white"
                     android:textSize="16dp" />
-
 
             </RelativeLayout>
 

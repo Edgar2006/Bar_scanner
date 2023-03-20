@@ -78,7 +78,6 @@ public class Login extends AppCompatActivity {
                 User user = snapshot.getValue(User.class);
                 if(user != null){
                     if(!Objects.equals(user.getImageRef(), StaticString.noImage)){
-                        Toast.makeText(Login.this, R.string.no_verifi_admin, Toast.LENGTH_SHORT).show();
                         if(Objects.equals(user.getImageRef(), "1") || Objects.equals(user.getImageRef(), "0")) {
                             User.ifCompany = false;
                             if(Objects.equals(user.getImageRef(), "1")){

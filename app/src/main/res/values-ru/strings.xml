@@ -15,7 +15,7 @@
     <string name="forgot_password">Забыли пароль ?</string>
     <string name="your_barcode_number">Номер штрих-кода вашего продукта</string>
     <string name="i_ll_do_it_later">Я сделаю это позже</string>
-    <string name="be_in_control_of_your_something">Знать что покупаешь</string>
+    <string name="be_in_control_of_your_something">Знайте, что вы покупаете</string>
     <string name="settings">Настройки</string>
     <string name="welcome_home">Добро пожаловать домой</string>
     <string name="i_agree_with_terms_and_privacy_policy">Я согласен с Условиями и Политикой конфиденциальности</string>
@@ -72,5 +72,43 @@
     <string name="pl">Пожалуйста, заполните все строки</string>
     <string name="comment_send">Ваш комментарий отправить</string>
     <string name="loading_complete">Загрузка завершена</string>
+
+    <string name="scan_count">Количество сканирований</string>
+    <string name="time">Время</string>
+    <string name="i_accept_these_terms">Я принимаю эти условия</string>
+    <string name="create_new_company_account">Создать новую учетную запись компании</string>
+    <string name="add_a_company_information">Добавить информацию о компании</string>
+    <string name="please_wait">Пожалуйста, подождите</string>
+    <string name="you_want_delete">Вы хотите удалить комментарий?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="thank_you">Спасибо </string>
+    <string name="for_help"> за помощь</string>
+    <string name="english">Английский</string>
+    <string name="russian">Русский</string>
+    <string name="armenia">Армянский</string>
+    <string name="chosse_an_item">Выберите элемент</string>
+    <string name="your_comment_send">Ваш комментарий отправить</string>
+    <string name="please_input_your_comment">Пожалуйста, введите ваш комментарий</string>
+    <string name="close">close</string>
+    <string name="no_dataBase_this_product">Этот продукт отсутствует в базе данных</string>
+    <string name="you_can_add">Вы можете добавить сами</string>
+    <string name="add_now">Добавить сейчас</string>
+    <string name="go_back">Вернуться</string>
+    <string name="fielids_cannot_be_empty">Поля не могут быть пустыми</string>
+    <string name="password_incorrect">Неверный пароль</string>
+    <string name="check_email_verifi">Пожалуйста, проверьте свою электронную почту для подтверждения</string>
+    <string name="if_open_email">Хотите открыть электронную почту?</string>
+    <string name="email">Электронная почта</string>
+    <string name="pleace_scan_or_input_bar_code">отсканируйте или введите номер штрих-кода вручную</string>
+    <string name="no_results">Результат не найден</string>
+    <string name="internet_connection_broken">Ваше интернет-соединение прервано</string>
+    <string name="open_settings">Открыть настройки?</string>
+    <string name="connect_internet">Пожалуйста, подключитесь к Интернету</string>
+    <string name="please_change_bar_code">Пожалуйста, измените штрих-код</string>
+    <string name="sorry_bar_code_booking">Извините, но этот штрих-код уже используется другой компанией. Если вы являетесь его настоящим владельцем, свяжитесь с нами по электронной почте.</string>
+    <string name="cancel">Отмена</string>
+    <string name="email_sent">Отправлено по электронной почте</string>
+    <string name="no_verifi_admin">Ваш аккаунт не проверен администратором</string>
 
 </resources>

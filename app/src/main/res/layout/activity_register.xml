@@ -93,21 +93,22 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/register"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_below="@+id/passwordCopy"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="44dp"
-                android:backgroundTint="@color/Base_color"
-                android:onClick="onCLickRegister"
-                android:text="@string/register"
-                android:textAllCaps="false"
-                android:textSize="15dp"
-                android:textStyle="bold" />
+        <com.google.android.material.button.MaterialButton
+            app:cornerRadius="20dp"
+            android:id="@+id/register"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_below="@+id/passwordCopy"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="45dp"
+            android:backgroundTint="@color/Base_color"
+            android:onClick="onCLickRegister"
+            android:text="@string/register"
+            android:textAllCaps="false"
+            android:textSize="15dp"
+            android:textStyle="bold" />
 
-        </RelativeLayout>
+    </RelativeLayout>
     </ScrollView>
     <RelativeLayout
         android:visibility="gone"

@@ -81,7 +81,7 @@
 
             <RelativeLayout
                 android:id="@+id/countView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
@@ -97,22 +97,25 @@
                     android:layout_marginStart="0dp"
                     android:text="@string/scan_count"
                     android:textColor="@color/white"
-                    android:textSize="15dp" />
+                    android:textSize="16dp" />
 
                 <ImageView
+                    android:layout_centerVertical="true"
                     android:id="@+id/imageView1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
                     android:layout_marginLeft="30dp"
-                    android:layout_toEndOf="@+id/text2"
+                    android:layout_marginEnd="4dp"
+                    android:layout_toStartOf="@+id/count"
                     android:src="@drawable/ic_baseline_emoji_people_24" />
 
                 <TextView
+                    android:layout_centerVertical="true"
                     android:id="@id/count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/imageView1"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="3dp"
                     android:text="0"
                     android:textColor="@color/white"
                     android:textSize="16dp" />

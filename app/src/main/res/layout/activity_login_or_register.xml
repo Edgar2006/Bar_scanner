@@ -7,12 +7,12 @@
     tools:context=".Activity.All.Login_or_register">
 
     <TextView
+        android:layout_marginHorizontal="20dp"
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="-4dp"
         android:layout_marginTop="22dp"
         android:text="@string/be_in_control_of_your_something"
         android:textColor="@color/black"
@@ -29,7 +29,8 @@
         android:layout_marginTop="26dp"
         app:srcCompat="@drawable/scan_icon" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
+        app:cornerRadius="20dp"
         android:id="@+id/create_new_account"
         android:layout_width="match_parent"
         android:layout_height="70dp"
@@ -42,7 +43,8 @@
         android:textAllCaps="false"
         android:textStyle="bold" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
+        app:cornerRadius="20dp"
         android:id="@+id/log_in"
         android:layout_width="match_parent"
         android:layout_height="70dp"

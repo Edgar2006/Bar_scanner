@@ -77,7 +77,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
                 android:id="@+id/start_activity_read"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -85,6 +85,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="27dp"
                 android:backgroundTint="@color/Base_color"
+                app:cornerRadius="20dp"
                 android:onClick="onCLickNextStep"
                 android:text="@string/get_started_scan"
                 android:textAllCaps="false"

@@ -107,7 +107,8 @@
 
         </RelativeLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+            app:cornerRadius="20dp"
             android:id="@+id/submit"
             android:layout_width="match_parent"
             android:layout_height="70dp"

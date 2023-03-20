@@ -164,12 +164,20 @@ public class HomeActivity extends AppCompat implements PopupMenu.OnMenuItemClick
     }
     public void onClickChangeLanguage(){
         LanguageManger languageManger = new LanguageManger(this);
-        String[] listItems = new String[]{getString(R.string.english), getString(R.string.russian), getString(R.string.armenia)};
+        String destinationLanguageCode = languageManger.getLang();
+        String[] listItems = new String[]{(String) getText(R.string.english), (String) getText(R.string.russian), (String) getText(R.string.armenia)};
         String[] language = new String[]{"en", "ru", "am"};
+        int index=0;
+        for(int i=0;i<language.length;i++){
+            if(language[i].equals(destinationLanguageCode)){
+                index=i;
+                break;
+            }
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
         builder.setTitle(R.string.chosse_an_item);
         builder.setIcon(R.drawable.ic_baseline_language_24);
-        builder.setSingleChoiceItems(listItems, -1, (dialog, i) -> {
+        builder.setSingleChoiceItems(listItems, index, (dialog, i) -> {
             languageManger.updateResource(language[i]);
             recreate();
             dialog.dismiss();
