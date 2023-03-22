@@ -82,12 +82,14 @@ public class HomeActivity extends AppCompat implements PopupMenu.OnMenuItemClick
                     Intent intent1 = new Intent(HomeActivity.this, Login_or_register.class);
                     startActivity(intent1);
                 }
-                User.NAME = user.getName();
-                User.URL = user.getImageRef();
-                yourName.setText(user.getName());
-                if(!Objects.equals(uploadUri, StaticString.noImage)) {
-                    uploadUri = user.getImageRef();
-                    Glide.with(getApplicationContext()).load(uploadUri).into(imageDataBase);
+                else {
+                    User.NAME = user.getName();
+                    User.URL = user.getImageRef();
+                    yourName.setText(user.getName());
+                    if (!Objects.equals(user.getImageRef(), StaticString.noImage)) {
+                        uploadUri = user.getImageRef();
+                        Glide.with(getApplicationContext()).load(uploadUri).into(imageDataBase);
+                    }
                 }
             }
 

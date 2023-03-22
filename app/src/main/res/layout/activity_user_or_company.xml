@@ -42,6 +42,7 @@
             android:src="@drawable/u_user" />
 
         <TextView
+            android:textColor="@color/black"
             android:layout_width="243dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/User_image_view"
@@ -83,6 +84,7 @@
             android:src="@drawable/ic_baseline_work_outline_24" />
 
         <TextView
+            android:textColor="@color/black"
             android:layout_width="243dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/company_image_view"

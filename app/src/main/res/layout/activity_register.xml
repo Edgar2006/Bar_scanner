@@ -94,6 +94,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
+            android:textColor="@color/white"
             app:cornerRadius="20dp"
             android:id="@+id/register"
             android:layout_width="match_parent"

@@ -39,13 +39,6 @@ public class MainActivity extends AppCompatActivity {
             while ((lines = buffer.readLine()) != null){
                 list.add(lines);
             }
-            if (list.size() == 1){
-                if (list.get(0).equals(StaticString.haveARating)){
-                    Intent intent;
-                    intent = new Intent(MainActivity.this, Login.class);
-                    startActivity(intent);
-                }
-            }
             if(list.size() == 3){
                 String emailToString = list.get(0);
                 String passwordToString = list.get(1);

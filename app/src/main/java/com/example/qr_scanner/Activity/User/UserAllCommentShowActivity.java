@@ -92,6 +92,7 @@ public class UserAllCommentShowActivity extends AppCompatActivity {
                     messenger = getCompany(messenger);
                     messenger = getComment(messenger);
                     listData.add(messenger);
+
                 }
                 listView.setAdapter(viewAdapter);
                 Handler handler = new Handler();
@@ -139,6 +140,7 @@ public class UserAllCommentShowActivity extends AppCompatActivity {
                 messenger.setRatingBarScore(productBio.getRatingBarScore());
                 messenger.setTime(productBio.getTime());
                 messenger.setCount(productBio.getCount());
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

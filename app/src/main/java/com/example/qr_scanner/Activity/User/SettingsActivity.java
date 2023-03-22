@@ -37,6 +37,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 
 public class SettingsActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
@@ -60,7 +61,9 @@ public class SettingsActivity extends AppCompatActivity {
         imageView = findViewById(R.id.image);
         name.getEditText().setText(User.NAME);
         uploadUri = Uri.parse(User.URL);
-        Glide.with(getApplicationContext()).load(User.URL).into(imageView);
+        if (!StaticString.noImage.equals(User.URL)) {
+            Glide.with(getApplicationContext()).load(User.URL).into(imageView);
+        }
         storageReference = FirebaseStorage.getInstance().getReference(StaticString.userImage);
     }
 
@@ -144,5 +147,4 @@ public class SettingsActivity extends AppCompatActivity {
             }, 100);
         }
     }
-
 }

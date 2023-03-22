@@ -34,8 +34,10 @@ import com.example.qr_scanner.Activity.Company.CompanyHomeActivity;
 import com.example.qr_scanner.Activity.Company.Product_activityBioEdit;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.Translations;
+import com.example.qr_scanner.Class.UserLike;
 import com.example.qr_scanner.Class.noActivThisTIme.LexicographicComparator;
 import com.example.qr_scanner.Class.StaticString;
+import com.example.qr_scanner.DataBase_Class.MyBool;
 import com.example.qr_scanner.DataBase_Class.Rating;
 import com.example.qr_scanner.Class.noActivThisTIme.TimeComparator;
 import com.example.qr_scanner.DataBase_Class.Company;
@@ -52,6 +54,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Objects;
 
 public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
@@ -59,6 +62,7 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
     private RecyclerView listView;
     private ViewAdapter viewAdapter;
     private ArrayList<Messenger> listData;
+    private ArrayList<UserLike> userLikeArrayList;
     private DatabaseReference referenceComment,referenceProduct,companyNameRef,referenceHistory,productRating;
     private String shortText,longText,barCode;
     private TextView productName,bioText,showMore,ratingBarScore,companyName,barCodeTextView,firstComment,sortByText;
@@ -102,6 +106,7 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
     }
 
     private void init(){
+        userLikeArrayList = new ArrayList<>();
         sortByText = findViewById(R.id.sortByText);
         viewLayoutComment = findViewById(R.id.view_comment);
         viewLayoutComment.setVisibility(View.GONE);
@@ -156,7 +161,6 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
             messenger = new Messenger(User.EMAIL, User.NAME, StaticString.haveARating, barCode, "0",StaticString.noImage,StaticString.noImage,System.currentTimeMillis(),ratingBar.getRating());
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.product).child(barCode).child(User.EMAIL_CONVERT);
             if(ifYouHaveAComment.getTime() != 0){
-                Toast.makeText(this, "!", LENGTH_SHORT).show();
                 messenger = ifYouHaveAComment;
                 rating.countRating--;
                 rating.rating-=messenger.getRatingBarScore();
@@ -185,18 +189,20 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
     public void onClickComment(View view){
         Intent intent = new Intent(Read.this, NewCommentActivity.class);
         intent.putExtra(StaticString.barCode, barCode);
-
         startActivity(intent);
     }
+
+
+
     public void SortByLike(){
         sortMethod=true;
         sortMethod();
-        sortByText.setText(R.string.Sort_review_most_liked);
+        sortByText.setText(R.string.sort_by_time);
     }
     public void SortByTime(){
         sortMethod=false;
         sortMethod();
-        sortByText.setText(R.string.sort_by_time);
+        sortByText.setText(R.string.Sort_review_most_liked);
     }
     public void onClickSort(View view){
         PopupMenu popupMenu = new PopupMenu(this, view);
@@ -220,6 +226,8 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
     }
     public void sortMethod(){
         if(sortMethod) {
+            sortLike();
+            Log.e("_",listData.toString());
             Collections.sort(listData, new LexicographicComparator());
             listView.setAdapter(viewAdapter);
         }
@@ -228,6 +236,53 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
             listView.setAdapter(viewAdapter);
         }
     }
+    public void sortLike(){
+        setUserLikeArrayList();
+        userLikeArrayList.sort((a, b) -> Integer.compare(b.getLike(), a.getLike()));
+        ArrayList<Messenger> messengerArrayList = listData;
+        ArrayList<Messenger> newListData = new ArrayList<>();
+        for(int i=0;i<userLikeArrayList.size();i++){
+            for(int j=0;j<messengerArrayList.size();j++){
+                if(Objects.equals(userLikeArrayList.get(i).getUser(), Function.CONVERTOR(messengerArrayList.get(j).getEmail()))){
+                    newListData.add(messengerArrayList.get(j));
+                    listData.get(j).setCount(String.valueOf(userLikeArrayList.get(i).getLike()));
+                }
+            }
+        }
+    }
+    private void setUserLikeArrayList(){
+        DatabaseReference likeReference = FirebaseDatabase.getInstance().getReference(StaticString.friends).child(barCode);
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot data: snapshot.getChildren()) {
+                    int a=0;
+                    for(DataSnapshot data1: data.getChildren()) {
+                        try {
+                            MyBool isLike = data1.getValue(MyBool.class);
+                            boolean isOk = isLike.isLike();
+                            if (isOk) {
+                                a++;
+                            }
+                        } catch (Exception e) {
+                        }
+                    }
+                    Log.e("_", String.valueOf(a));
+                    Log.e("_", String.valueOf(data.getRef()));
+                    userLikeArrayList.add(new UserLike(a,data.getKey()));
+                }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        likeReference.addValueEventListener(eventListener);
+
+    }
+
     private void getDataFromDataBase(){
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
@@ -236,6 +291,7 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
                     listData.clear();
                     rating.rating = 0;
                     rating.countRating = 0;
+                    userLikeArrayList.clear();
                 }
                 for(DataSnapshot ds : snapshot.getChildren()){
                     Messenger messenger = ds.getValue(Messenger.class);
@@ -273,7 +329,6 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
             }
         };
         referenceComment.addValueEventListener(eventListener);
-
     }
     private void getDataProductDataBase(){
         ValueEventListener eventListener = new ValueEventListener() {
@@ -426,7 +481,7 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
         }
         else {
             Intent intent = new Intent(Read.this, UserAllCommentShowActivity.class);
-            intent.putExtra(StaticString.email,User.EMAIL_CONVERT);
+            intent.putExtra(StaticString.email,User.COMPANY_EMAIL);
             intent.putExtra(StaticString.user,User.COMPANY_NAME);
             intent.putExtra(StaticString.userImage,User.COMPANY_URL);
             startActivity(intent);
@@ -464,6 +519,8 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
         Intent a;
         if (User.ifCompany){
             a = new Intent(this, CompanyHomeActivity.class);
+            a.putExtra(StaticString.onlyRead, false);
+            a.putExtra(StaticString.email, User.COMPANY);
             a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(a);
         }

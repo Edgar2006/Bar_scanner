@@ -37,12 +37,12 @@
     <string name="n_this_product_currently_no_have_comment">У этого продукта в настоящее время нет комментариев. Вы можете добавить комментарий, нажав кнопку «Добавить отзыв».\n\n</string>
     <string name="the_most_recent">Самый последний</string>
     <string name="the_most_liked">Самые понравившиеся</string>
-    <string name="sort_by_time">Сортировать комментарий по времени</string>
+    <string name="sort_by_time">Сортировать отзывов по времени</string>
     <string name="add_review">Добавить отзыв</string>
     <string name="Sort_review_most_liked">Сортировка отзывов по наиболее понравившимся</string>
     <string name="review">Отзыв</string>
     <string name="edit_profile">Редактировать профиль</string>
-    <string name="change_language">Изменить язык</string>
+    <string name="change_language">Изменить язык</string>g
     <string name="logout">Выйти</string>
     <string name="get_started_scan">Начать сканирование</string>
     <string name="your_product">Ваши продукты</string>

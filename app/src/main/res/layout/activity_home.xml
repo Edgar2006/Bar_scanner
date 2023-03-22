@@ -78,6 +78,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
+            android:textColor="@color/white"
                 android:id="@+id/start_activity_read"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"

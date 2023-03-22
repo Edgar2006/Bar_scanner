@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.TransitionOptions;
 import com.example.qr_scanner.Activity.All.OpenImageActivity;
+import com.example.qr_scanner.Activity.User.Read;
 import com.example.qr_scanner.Activity.User.UserAllCommentShowActivity;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.ModelLanguage;
@@ -74,6 +75,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Messenger messenger = messengers.get(position);
+        holder.arrayPosition = holder.getLayoutPosition();
         holder.address = messenger.getAddress();
         holder.email.setText(messenger.getName());
         holder.emailToString = messenger.getEmail();
@@ -155,7 +157,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         FirebaseDatabase database;
         RelativeLayout userClick;
         int size;
-
+        int arrayPosition;
         TextView translateView;
         private ProgressDialog progressDialog;
         private String sourceLanguageCode = "en";
@@ -166,7 +168,6 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         public ViewHolder(View view) {
             super(view);
             init(view);
-
             like.setOnClickListener(view1 -> friendRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -194,6 +195,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
                         likeRef.child(User.EMAIL_CONVERT).setValue(new MyBool(true));
                         int second = Integer.parseInt(count.getText().toString());
                         second++;
+                        like.setImageResource(R.drawable.like);
                         count.setText(Integer.toString(second));
                     }
                 }

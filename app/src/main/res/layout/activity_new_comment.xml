@@ -108,6 +108,7 @@
         </RelativeLayout>
 
         <com.google.android.material.button.MaterialButton
+            android:textColor="@color/white"
             app:cornerRadius="20dp"
             android:id="@+id/submit"
             android:layout_width="match_parent"

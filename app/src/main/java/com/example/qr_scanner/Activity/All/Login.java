@@ -38,6 +38,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         init();
+        Log.e("1111111111111111111111","1");
     }
     public void init(){
         email = findViewById(R.id.email);
@@ -79,16 +80,17 @@ public class Login extends AppCompatActivity {
                 if(user != null){
                     if(!Objects.equals(user.getImageRef(), StaticString.noImage)){
                         if(Objects.equals(user.getImageRef(), "1") || Objects.equals(user.getImageRef(), "0")) {
-                            User.ifCompany = false;
+                            User.ifCompany = true;
                             if(Objects.equals(user.getImageRef(), "1")){
                                 nextActivityCompanyEdit(user);
                             }
                             else{
+                                User.ifCompany = true;
                                 nextActivityCompanyHome();
                             }
                         }
                         else{
-                            User.ifCompany = true;
+                            User.ifCompany = false;
                             nextActivityUser();
                         }
                     }
@@ -116,7 +118,10 @@ public class Login extends AppCompatActivity {
         startActivity(intent);
     }
     public void nextActivityCompanyHome() {
+        Log.e("_________!!#EE!EE","!");
         Intent intent = new Intent(Login.this, CompanyHomeActivity.class);
+        User.COMPANY = emailToString;
+        intent.putExtra(StaticString.onlyRead, false);
         intent.putExtra(StaticString.email, emailToString);
         intent.putExtra(StaticString.password, passwordToString);
         startActivity(intent);

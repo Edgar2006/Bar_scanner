@@ -14,7 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/annotation_read"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -31,30 +30,31 @@
                     android:text="@string/annotation" />
 
                 <Button
+                    android:textColor="@color/white"
                     android:id="@+id/agree"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_below="@id/annotation"
                     android:layout_marginTop="50dp"
-                    android:layout_marginEnd="41dp"
+                    android:layout_marginEnd="10dp"
                     android:onClick="onClickReg"
                     android:backgroundTint="@color/Base_color"
-                    android:text="@string/next_step" />
+                    android:text="@string/next" />
 
                 <CheckBox
-                    android:textStyle="bold"
                     android:id="@+id/check_box"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/agree"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@+id/agree"
-                    android:text="@string/i_accept_these_terms" />
+                    android:text="@string/i_accept_these_terms"
+                    android:textSize="10dp"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/register_relative_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">

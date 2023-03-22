@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         >
         <TextView
+            android:textColor="@color/black"
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,6 +24,7 @@
 
 
         <com.google.android.material.button.MaterialButton
+            android:textColor="@color/white"
             app:cornerRadius="20dp"
             android:id="@+id/start_activity_read"
             android:layout_width="match_parent"

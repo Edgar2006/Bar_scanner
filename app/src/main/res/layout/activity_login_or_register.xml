@@ -30,6 +30,7 @@
         app:srcCompat="@drawable/scan_icon" />
 
     <com.google.android.material.button.MaterialButton
+        android:textColor="@color/white"
         app:cornerRadius="20dp"
         android:id="@+id/create_new_account"
         android:layout_width="match_parent"
@@ -44,6 +45,7 @@
         android:textStyle="bold" />
 
     <com.google.android.material.button.MaterialButton
+        android:shadowColor="@color/white"
         app:cornerRadius="20dp"
         android:id="@+id/log_in"
         android:layout_width="match_parent"
@@ -57,7 +59,7 @@
         android:textColor="@color/black"
         android:textSize="16dp"
         android:textStyle="bold"
-        app:backgroundTint="@android:color/transparent"
+        app:backgroundTint="@android:color/white"
         app:strokeColor="@color/Base_color"
         app:strokeWidth="2dp" />
 

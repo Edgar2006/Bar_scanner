@@ -264,22 +264,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <RelativeLayout
-                    android:layout_marginStart="20dp"
-
-                    android:layout_marginEnd="160dp"
                     android:padding="5dp"
                     android:onClick="onClickSort"
                     android:backgroundTint="@color/white"
                     android:background="@drawable/round_rect_shape"
                     android:id="@+id/rembobo"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginHorizontal="20dp"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/sortByText"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/sort_by_time"
                         />
@@ -288,8 +284,9 @@
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="20dp"
                         android:layout_marginEnd="10dp"
+                        android:layout_toEndOf="@+id/sortByText"
                         android:src="@drawable/ic_baseline_keyboard_arrow_down_24" />
 
                 </RelativeLayout>
@@ -346,6 +343,7 @@
         android:foregroundTint="@color/Red"
         />
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:textColor="@color/white"
         android:id="@+id/button_app_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -355,6 +353,7 @@
         android:onClick="onClickComment"
         android:text="@string/add_review"
         android:textAllCaps="false"
+        app:iconTint="@color/white"
         app:icon="@drawable/ic_baseline_add_24"
     />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

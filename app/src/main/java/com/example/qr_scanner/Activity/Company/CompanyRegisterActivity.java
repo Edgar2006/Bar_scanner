@@ -122,7 +122,8 @@ public class CompanyRegisterActivity extends AppCompatActivity {
             if(task.isSuccessful()){
                 firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task1 -> {
                     if(task1.isSuccessful()){
-                        Toast.makeText(CompanyRegisterActivity.this, R.string.check_email_verifi, Toast.LENGTH_SHORT).show();
+                        toastEmailOpen();
+                        //Toast.makeText(CompanyRegisterActivity.this, R.string.check_email_verifi, Toast.LENGTH_SHORT).show();
                     }
                     else{
                         register();
@@ -130,7 +131,7 @@ public class CompanyRegisterActivity extends AppCompatActivity {
                 });
             }
             else{
-                Toast.makeText(CompanyRegisterActivity.this, R.string.check_email_verifi, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(CompanyRegisterActivity.this, R.string.check_email_verifi, Toast.LENGTH_SHORT).show();
             }
         });
     }

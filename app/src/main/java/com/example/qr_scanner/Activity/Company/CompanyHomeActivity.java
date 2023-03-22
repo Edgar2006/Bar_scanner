@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -69,12 +70,12 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_home);
-        addLocalData();
+        Log.e("_______________","_!!");
         init();
+        addLocalData();
         load(true);
         readUser();
         getDataFromDataBase();
-
 
     }
     private void init(){
@@ -89,6 +90,8 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
         companyImage = findViewById(R.id.company_image);
         companyName = findViewById(R.id.company_name);
         listView = findViewById(R.id.rec_view);
+        activity = findViewById(R.id.activity);
+        progressBar = findViewById(R.id.progress_bar);
         listData = new ArrayList<>();
         if (onlyRead){
             viewAdapter = new ViewAdapterCompanyByUser(this,listData);
@@ -104,7 +107,7 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
     }
     private void readUser(){
         if (!onlyRead){
-            User.COMPANY_EMAIL = User.COMPANY;
+            User.COMPANY_EMAIL = Function.CONVERTOR(User.COMPANY);
         }
         DatabaseReference myUserRef = FirebaseDatabase.getInstance().getReference(StaticString.companyInformation).child(User.COMPANY_EMAIL);
         ValueEventListener postListener = new ValueEventListener() {
@@ -140,6 +143,7 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
             String emailToString, passwordToString;
             emailToString = intent.getStringExtra(StaticString.email);
             User.COMPANY_EMAIL = emailToString;
+            User.COMPANY = emailToString;
             passwordToString = intent.getStringExtra(StaticString.password);
             onlyRead = intent.getBooleanExtra(StaticString.onlyRead,false);
             String type = StaticString.company;
@@ -160,7 +164,7 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
         }
     }
     public void getDataFromDataBase(){
-        if (!onlyRead){
+        if (onlyRead){
             User.COMPANY_EMAIL = User.COMPANY;
         }
             DatabaseReference referenceProduct = FirebaseDatabase.getInstance().getReference().child(StaticString.productBio);
@@ -178,9 +182,7 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
 
     private void load(boolean b){
         if(b){
-            activity = findViewById(R.id.activity);
             activity.setVisibility(View.GONE);
-            progressBar = findViewById(R.id.progress_bar);
             progressBar.setVisibility(View.VISIBLE);
         }
         else{

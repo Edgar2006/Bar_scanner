@@ -72,6 +72,7 @@
             android:textSize="20dp" />
 
         <com.google.android.material.button.MaterialButton
+            android:textColor="@color/white"
             app:cornerRadius="20dp"
             android:textStyle="bold"
             android:textAllCaps="false"

@@ -71,7 +71,15 @@ public class Product_activityBioEdit extends AppCompatActivity {
             barCode = intent.getStringExtra(StaticString.barCode);
             productName.getEditText().setText(intent.getStringExtra(StaticString.user));
             bio.getEditText().setText( intent.getStringExtra(StaticString.productBio));
-            Glide.with(getApplicationContext()).load(intent.getStringExtra(StaticString.url)).into(imageView);
+            try {
+                String url = intent.getStringExtra(StaticString.url);
+                if (!url.equals(StaticString.noImage)) {
+                    Glide.with(getApplicationContext()).load(url).into(imageView);
+                }
+            }catch (Exception e){
+
+            }
+
         }
     }
     public void onClickSubmit(View view){
