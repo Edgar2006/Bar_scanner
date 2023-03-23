@@ -71,8 +71,8 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_home);
         Log.e("_______________","_!!");
-        init();
         addLocalData();
+        init();
         load(true);
         readUser();
         getDataFromDataBase();
@@ -94,6 +94,7 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
         progressBar = findViewById(R.id.progress_bar);
         listData = new ArrayList<>();
         if (onlyRead){
+            Log.e("_","1");
             viewAdapter = new ViewAdapterCompanyByUser(this,listData);
             relativeLayout.setVisibility(View.GONE);
             setting.setVisibility(View.GONE);
@@ -106,9 +107,6 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
 
     }
     private void readUser(){
-        if (!onlyRead){
-            User.COMPANY_EMAIL = Function.CONVERTOR(User.COMPANY);
-        }
         DatabaseReference myUserRef = FirebaseDatabase.getInstance().getReference(StaticString.companyInformation).child(User.COMPANY_EMAIL);
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -118,6 +116,7 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
                     Intent intent1 = new Intent(CompanyHomeActivity.this, Login_or_register.class);
                     startActivity(intent1);
                 }
+                Log.e("____",myUserRef.getKey());
                 User.NAME = company.getName();
                 User.URL = company.getImageRef();
                 User.DESCRIPTION = company.getDescription();
@@ -126,7 +125,6 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
                 companyName.setText(company.getName());
                 description.setText(company.getDescription());
                 if(!Objects.equals(uploadUri, StaticString.noImage)) {
-//                    Picasso.get().load(company.getImageRef()).into(companyImage);
                     Glide.with(getApplicationContext()).load(company.getImageRef()).into(companyImage);
                 }
             }
@@ -139,13 +137,13 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
     }
     private void addLocalData(){
         Intent intent = getIntent();
-        if (intent != null) {
+        if (intent != null && !onlyRead) {
             String emailToString, passwordToString;
             emailToString = intent.getStringExtra(StaticString.email);
-            User.COMPANY_EMAIL = emailToString;
-            User.COMPANY = emailToString;
+            User.COMPANY_EMAIL = Function.CONVERTOR(emailToString);
             passwordToString = intent.getStringExtra(StaticString.password);
             onlyRead = intent.getBooleanExtra(StaticString.onlyRead,false);
+            Log.e("___", String.valueOf(onlyRead));
             String type = StaticString.company;
             if(emailToString!=null && !onlyRead) {
                 User.EMAIL = emailToString;
@@ -164,9 +162,6 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
         }
     }
     public void getDataFromDataBase(){
-        if (onlyRead){
-            User.COMPANY_EMAIL = User.COMPANY;
-        }
             DatabaseReference referenceProduct = FirebaseDatabase.getInstance().getReference().child(StaticString.productBio);
             GenRemoteDataSource genRemoteDataSource = new GenRemoteDataSource(ProductBio.class);
             genRemoteDataSource.getDataFromDataBase(listView, viewAdapter, listData, referenceProduct, User.COMPANY_EMAIL, activity, progressBar);
@@ -248,6 +243,7 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
     public void onCLickSetting() {
         Intent intent = new Intent(CompanyHomeActivity.this,CompanyEditActivity.class);
         intent.putExtra(StaticString.email,User.EMAIL_CONVERT);
+        intent.putExtra(StaticString.user,new User(companyName.toString(),User.EMAIL_CONVERT,"0",false));
         startActivity(intent);
     }
     public void onClickLogout() {

@@ -78,16 +78,9 @@ public class CompanyEditActivity extends AppCompatActivity {
         String emailToString, passwordToString;
         emailToString = Function.CONVERTOR(dataGet.getStringExtra(StaticString.email));
         passwordToString = dataGet.getStringExtra(StaticString.password);
-        User user = new User("","","",false);
-        try {
-            user = (User)dataGet.getSerializableExtra(StaticString.user);
-            user.setImageRef("0");
-        }catch (Exception e){
-
-        }
+        User user = (User)dataGet.getSerializableExtra(StaticString.user);
         DatabaseReference boolRef = FirebaseDatabase.getInstance().getReference(StaticString.company).child(emailToString);
         boolRef.setValue(user);
-
         Company company;
         company = new Company(emailToString, Function.POP(name.getEditText().getText().toString()), Function.POP(description.getEditText().getText().toString()), StaticString.noImage);
         if(uploadUri != null){

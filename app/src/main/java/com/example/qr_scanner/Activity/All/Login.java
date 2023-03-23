@@ -111,10 +111,11 @@ public class Login extends AppCompatActivity {
 
     }
     public void nextActivityCompanyEdit(User user) {
+        user.setImageRef("0");
         Intent intent = new Intent(Login.this, CompanyEditActivity.class);
         intent.putExtra(StaticString.email, emailToString);
         intent.putExtra(StaticString.password, passwordToString);
-        intent.putExtra(StaticString.user, (Serializable) user);
+        intent.putExtra(StaticString.user, user);
         startActivity(intent);
     }
     public void nextActivityCompanyHome() {

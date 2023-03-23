@@ -78,7 +78,6 @@
 
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:foreground="@drawable/corner1"
                 android:scaleType="centerCrop"
                 android:id="@+id/company_image"
                 android:layout_width="150dp"
