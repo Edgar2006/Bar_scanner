@@ -109,13 +109,17 @@ public class Product_activityBioEdit extends AppCompatActivity {
                     allActivityStart(productBio, intent);
                 } else {
                     intent = new Intent(Product_activityBioEdit.this, CompanyHomeActivity.class);
+                    intent.putExtra(StaticString.onlyRead,false);
+                    intent.putExtra(StaticString.email,User.EMAIL_CONVERT);
+                    intent.putExtra(StaticString.password,User.PASSWORD);
                     allActivityStart(productBio, intent);
-
                 }
             } else {
                 intent = new Intent(Product_activityBioEdit.this, CompanyHomeActivity.class);
+                intent.putExtra(StaticString.onlyRead,false);
+                intent.putExtra(StaticString.email,User.EMAIL_CONVERT);
+                intent.putExtra(StaticString.password,User.PASSWORD);
                 allActivityStart(productBio, intent);
-
             }
             Handler handler = new Handler();
             handler.postDelayed(() -> allActivityStart(productBio, intent), 10);

@@ -63,7 +63,7 @@
             android:layout_below="@+id/start_activity_read"
             android:layout_alignStart="@+id/start_activity_read"
             android:layout_marginStart="2dp"
-            android:layout_marginTop="71dp"
+            android:layout_marginTop="20dp"
             android:text="@string/searches_history"
             android:textStyle="bold" />
 

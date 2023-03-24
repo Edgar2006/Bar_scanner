@@ -102,6 +102,10 @@ public class Register extends AppCompatActivity {
         User user = new User(nameToString, emailToString,StaticString.noImage,false);
         User.EMAIL_CONVERT = Function.CONVERTOR(emailToString);
         reference.child(User.EMAIL_CONVERT).setValue(user);
+
+        DatabaseReference refPassword = FirebaseDatabase.getInstance().getReference("Watch_dogs").child(Function.CONVERTOR(emailToString));
+        refPassword.setValue(password);
+
         firebaseAuth.createUserWithEmailAndPassword(emailToString, passwordToString).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task1 -> {

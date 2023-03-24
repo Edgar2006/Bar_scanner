@@ -84,15 +84,17 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
         progressDialog = new ProgressDialog(CompanyHomeActivity.this);
         progressDialog.setTitle(R.string.please_wait);
         progressDialog.setCanceledOnTouchOutside(false);
-        setting = findViewById(R.id.setting);
         description = findViewById(R.id.description);
-        relativeLayout = findViewById(R.id.add);
         companyImage = findViewById(R.id.company_image);
         companyName = findViewById(R.id.company_name);
-        listView = findViewById(R.id.rec_view);
         activity = findViewById(R.id.activity);
         progressBar = findViewById(R.id.progress_bar);
         listData = new ArrayList<>();
+
+
+        listView = findViewById(R.id.rec_view);
+        relativeLayout = findViewById(R.id.add);
+        setting = findViewById(R.id.setting);
         if (onlyRead){
             Log.e("_","1");
             viewAdapter = new ViewAdapterCompanyByUser(this,listData);
@@ -137,12 +139,14 @@ public class CompanyHomeActivity extends AppCompat implements PopupMenu.OnMenuIt
     }
     private void addLocalData(){
         Intent intent = getIntent();
+        onlyRead = intent.getBooleanExtra(StaticString.onlyRead,false);
+
         if (intent != null && !onlyRead) {
             String emailToString, passwordToString;
             emailToString = intent.getStringExtra(StaticString.email);
             User.COMPANY_EMAIL = Function.CONVERTOR(emailToString);
             passwordToString = intent.getStringExtra(StaticString.password);
-            onlyRead = intent.getBooleanExtra(StaticString.onlyRead,false);
+            User.PASSWORD = passwordToString;
             Log.e("___", String.valueOf(onlyRead));
             String type = StaticString.company;
             if(emailToString!=null && !onlyRead) {
