@@ -9,19 +9,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         >
+
+
         <TextView
-            android:textColor="@color/black"
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="145dp"
             android:background="@drawable/round_rect_shape"
             android:padding="20dp"
-            android:text="@string/lorem"
-            android:textSize="20dp" />
-
+            android:text="@string/email_documents_proving_that_you_are_the_owner_or_employee_of_this_company"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <com.google.android.material.button.MaterialButton
             android:textColor="@color/white"

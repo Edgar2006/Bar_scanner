@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:padding="10dp"
     android:background="@drawable/round_rect_shape">
     <TextView
-        android:textStyle="bold"
         android:id="@+id/product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/product_name" />
+        android:text="Product name" />
 
     <RelativeLayout
-        android:id="@+id/id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/one"
@@ -27,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/barcode"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
@@ -50,14 +48,15 @@
 
         <ImageView
             android:id="@+id/product_image_view"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
+            android:layout_width="450dp"
+            android:layout_height="450dp"
             android:layout_alignParentStart="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
             android:foreground="@drawable/corner"
+
             android:scaleType="centerCrop"
             android:src="@drawable/ic_custom_star" />
 
@@ -78,43 +77,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
             android:layout_toEndOf="@+id/product_image_view">
 
             <RelativeLayout
-                android:id="@+id/edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/round_rect"
-                android:padding="2dp">
-
-                <TextView
-                    android:id="@id/text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/edit_product_info1"
-                    android:textColor="@color/white"
-                    android:textSize="16dp" />
-
-                <ImageView
-                    android:id="@+id/image_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:src="@drawable/ic_baseline_edit_24" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
                 android:id="@+id/countView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/edit"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
@@ -152,10 +121,8 @@
                     android:textColor="@color/white"
                     android:textSize="16dp" />
 
+
             </RelativeLayout>
-
-
-
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -163,7 +130,7 @@
                 android:layout_below="@+id/countView"
                 android:layout_alignStart="@+id/countView"
                 android:layout_marginStart="0dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="12dp">
 
                 <RatingBar
                     android:id="@+id/rating_bar"
@@ -186,7 +153,6 @@
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
-
 
 
 </RelativeLayout>

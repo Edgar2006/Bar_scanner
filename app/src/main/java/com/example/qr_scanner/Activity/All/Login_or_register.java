@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.qr_scanner.Activity.Company.CompanyRegisterActivity;
-import com.example.qr_scanner.Activity.User.Register;
 import com.example.qr_scanner.R;
 
 public class Login_or_register extends AppCompatActivity {

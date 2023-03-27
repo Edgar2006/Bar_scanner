@@ -76,7 +76,7 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
     private Button buttonAppBar;
     private Messenger ifYouHaveAComment;
 
-    TextView translateView;
+    private TextView translateView;
     private ProgressDialog progressDialog;
     private String sourceLanguageCode = "en";
     private String destinationLanguageCode = "ur";
@@ -179,11 +179,17 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
             bioText.setText(longText);
             ifMore=!ifMore;
             showMore.setText(R.string.close);
+            if (!Objects.equals(sourceLanguageText, bioText.getText().toString())){
+                onClickTranslate(view);
+            }
         }
         else{
             bioText.setText(shortText);
             ifMore=!ifMore;
             showMore.setText(R.string.show_more);
+            if (!Objects.equals(sourceLanguageText, bioText.getText().toString())){
+                onClickTranslate(view);
+            }
         }
     }
     public void onClickComment(View view){
@@ -191,18 +197,15 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
         intent.putExtra(StaticString.barCode, barCode);
         startActivity(intent);
     }
-
-
-
     public void SortByLike(){
         sortMethod=true;
         sortMethod();
-        sortByText.setText(R.string.sort_by_time);
+        sortByText.setText(R.string.Sort_review_most_liked);
     }
     public void SortByTime(){
         sortMethod=false;
         sortMethod();
-        sortByText.setText(R.string.Sort_review_most_liked);
+        sortByText.setText(R.string.sort_by_time);
     }
     public void onClickSort(View view){
         PopupMenu popupMenu = new PopupMenu(this, view);
@@ -214,10 +217,10 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
             case R.id.option_1:
-                SortByTime();
+                SortByLike();
                 return true;
             case R.id.option_2:
-                SortByLike();
+                SortByTime();
                 return true;
             default:
                 return false;
@@ -227,9 +230,11 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
     public void sortMethod(){
         if(sortMethod) {
             sortLike();
-            Log.e("_",listData.toString());
-            Collections.sort(listData, new LexicographicComparator());
-            listView.setAdapter(viewAdapter);
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                sortLike();
+            }, 310);
+
         }
         else{
             Collections.sort(listData, new TimeComparator());
@@ -249,6 +254,9 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
                 }
             }
         }
+        Log.e("_",listData.toString());
+        Collections.sort(listData, new LexicographicComparator());
+        listView.setAdapter(viewAdapter);
     }
     private void setUserLikeArrayList(){
         DatabaseReference likeReference = FirebaseDatabase.getInstance().getReference(StaticString.friends).child(barCode);
@@ -282,7 +290,6 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
         likeReference.addValueEventListener(eventListener);
 
     }
-
     private void getDataFromDataBase(){
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
@@ -511,6 +518,9 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
     }
 
     public void onClickTranslate(View view) {
+        if (!ifMore){sourceLanguageText = longText;}
+        else{sourceLanguageText = shortText;}
+        Log.e("1_", String.valueOf(System.currentTimeMillis()));
         Translations translations = new Translations(progressDialog,sourceLanguageCode,destinationLanguageCode,sourceLanguageText,bioText,translateView,view);
     }
 

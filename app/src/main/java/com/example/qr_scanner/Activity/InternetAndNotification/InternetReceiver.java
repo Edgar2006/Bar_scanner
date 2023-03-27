@@ -1,20 +1,12 @@
 package com.example.qr_scanner.Activity.InternetAndNotification;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog;
-
-import com.example.qr_scanner.Activity.User.Register;
 
 public class InternetReceiver extends BroadcastReceiver {
     @Override

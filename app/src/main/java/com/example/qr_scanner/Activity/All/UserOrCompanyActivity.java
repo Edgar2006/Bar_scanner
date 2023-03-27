@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.qr_scanner.Activity.Company.CompanyRegisterActivity;
-import com.example.qr_scanner.Activity.User.Register;
+import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
 
 public class UserOrCompanyActivity extends AppCompatActivity {
@@ -18,11 +18,13 @@ public class UserOrCompanyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_or_company);
     }
     public void create_new_account(View view){
-        Intent intent = new Intent(UserOrCompanyActivity.this, Register.class);
+        Intent intent = new Intent(UserOrCompanyActivity.this, CompanyRegisterActivity.class);
+        User.ifCompany = false;
         startActivity(intent);
     }
     public void create_new_account_company(View view){
         Intent intent = new Intent(UserOrCompanyActivity.this, CompanyRegisterActivity.class);
+        User.ifCompany = true;
         startActivity(intent);
     }
 }

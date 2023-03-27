@@ -261,7 +261,9 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
                             reference.setValue(newMessenger);
                         }
                         else{
-                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.product).child(address);
+                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference(StaticString.product).child(address).child(Function.CONVERTOR(emailToString));
+                            reference.removeValue();
+                            reference = FirebaseDatabase.getInstance().getReference(StaticString.userComment).child(Function.CONVERTOR(emailToString)).child(address);
                             reference.removeValue();
                         }
                     })

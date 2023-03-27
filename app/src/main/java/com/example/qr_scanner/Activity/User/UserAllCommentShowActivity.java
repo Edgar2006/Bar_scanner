@@ -115,6 +115,7 @@ public class UserAllCommentShowActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 load();
+                Log.e("++++++++++++++++++++++++++++",snapshot.getRef().toString());
                 ProductBio productBio = snapshot.getValue(ProductBio.class);
                 messenger.setEmail(productBio.getCompanyEmail());
                 messenger.setName(productBio.getProductName());

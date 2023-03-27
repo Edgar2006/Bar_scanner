@@ -28,15 +28,6 @@
         <activity
             android:screenOrientation="portrait"
 
-            android:name=".Activity.All.SettingAllActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:screenOrientation="portrait"
-
             android:name=".Activity.InternetAndNotification.AlertDialogActivity"
             android:exported="false">
             <meta-data
@@ -191,15 +182,6 @@
             android:screenOrientation="portrait"
 
             android:name=".Activity.User.Read"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:screenOrientation="portrait"
-
-            android:name=".Activity.User.Register"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

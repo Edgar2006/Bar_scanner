@@ -31,7 +31,7 @@
     <string name="report_a_review">Сообщить об отзыве</string>
     <string name="rating">Рейтинг</string>
     <string name="your_review">Ваш отзыв о продукте</string>
-    <string name="hey_this_product_no_have_a_description_n_if_you_hava_add_click_this_button">Hey this product no have a description \n if you hava add click this button</string>
+    <string name="hey_this_product_no_have_a_description_n_if_you_hava_add_click_this_button">Hey this product no have a description \n if you wanna add click this button</string>
     <string name="barcode">Штрих-код</string>
     <string name="recent">Недавний</string>
     <string name="n_this_product_currently_no_have_comment">У этого продукта в настоящее время нет комментариев. Вы можете добавить комментарий, нажав кнопку «Добавить отзыв».\n\n</string>
@@ -112,4 +112,6 @@
     <string name="no_verifi_admin">Информация об этом товаре добавлена пользователем</string>
     <string name="added_maybe_no_correct_info">Information about this product was added by the user</string>
     <string name="so_no_correct">так что эта информация может быть не верна.</string>
+    <string name="email_documents_proving_that_you_are_the_owner_or_employee_of_this_company">Отправьте по электронной почте документы, подтверждающие, что вы являетесь владельцем или сотрудником этой компании</string>
+
 </resources>

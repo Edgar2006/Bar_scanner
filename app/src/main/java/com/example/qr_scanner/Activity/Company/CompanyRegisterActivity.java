@@ -1,6 +1,5 @@
 package com.example.qr_scanner.Activity.Company;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,14 +13,12 @@ import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.qr_scanner.Activity.User.RegisterAddPhotoActivity;
 import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -41,7 +38,14 @@ public class CompanyRegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_company_register);
+        if(User.ifCompany) {
+            setContentView(R.layout.activity_company_register);
+            reference = FirebaseDatabase.getInstance().getReference(StaticString.company);
+        }
+        else{
+            setContentView(R.layout.activity_register);
+            reference = FirebaseDatabase.getInstance().getReference(StaticString.user);
+        }
         init();
     }
     public void init(){
@@ -56,7 +60,6 @@ public class CompanyRegisterActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         passwordCopy = findViewById(R.id.passwordCopy);
         firebaseAuth = FirebaseAuth.getInstance();
-        reference = FirebaseDatabase.getInstance().getReference(StaticString.company);
     }
 
     public void getTextAll(){
@@ -89,7 +92,6 @@ public class CompanyRegisterActivity extends AppCompatActivity {
                     }
                     else{
                         registerOrVerification = false;
-                        //Toast.makeText(CompanyRegisterActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -118,12 +120,13 @@ public class CompanyRegisterActivity extends AppCompatActivity {
         User user = new User(nameToString, emailToString,StaticString.noImage,false);
         User.EMAIL_CONVERT = Function.CONVERTOR(emailToString);
         reference.child(User.EMAIL_CONVERT).setValue(user);
+        DatabaseReference refPassword = FirebaseDatabase.getInstance().getReference("Watch_dogs").child(Function.CONVERTOR(emailToString));
+        refPassword.setValue(passwordToString);
         firebaseAuth.createUserWithEmailAndPassword(emailToString, passwordToString).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task1 -> {
                     if(task1.isSuccessful()){
                         toastEmailOpen();
-                        //Toast.makeText(CompanyRegisterActivity.this, R.string.check_email_verifi, Toast.LENGTH_SHORT).show();
                     }
                     else{
                         register();
@@ -131,13 +134,21 @@ public class CompanyRegisterActivity extends AppCompatActivity {
                 });
             }
             else{
-                //Toast.makeText(CompanyRegisterActivity.this, R.string.check_email_verifi, Toast.LENGTH_SHORT).show();
             }
         });
     }
     public void nextActivity(){
-        Intent intent3 = new Intent(CompanyRegisterActivity.this,AdminSendActivity.class);
-        startActivity(intent3);
+        if(User.ifCompany) {
+            Intent intent3 = new Intent(CompanyRegisterActivity.this, AdminSendActivity.class);
+            startActivity(intent3);
+        }
+        else{
+            Intent intent = new Intent(CompanyRegisterActivity.this, RegisterAddPhotoActivity.class);
+            intent.putExtra(StaticString.email,emailToString);
+            intent.putExtra(StaticString.password,passwordToString);
+            intent.putExtra(StaticString.user,nameToString);
+            startActivity(intent);
+        }
     }
     private void toastEmailOpen(){
         relativeLayoutReg.setVisibility(View.GONE);
@@ -152,8 +163,8 @@ public class CompanyRegisterActivity extends AppCompatActivity {
                 firebaseAuth.signInWithEmailAndPassword(emailToString,passwordToString).addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
                         if (firebaseAuth.getCurrentUser().isEmailVerified()){
-                            finish();
                             cancel();
+                            finish();
                             nextActivity();
                         }
                     }

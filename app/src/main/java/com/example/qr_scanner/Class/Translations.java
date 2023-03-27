@@ -35,6 +35,7 @@ public class Translations {
         this.comment = comment;
         this.translateView = translateView;
         this.view = view;
+        Log.e("2_", String.valueOf(System.currentTimeMillis()));
         translateOnClick();
     }
 
