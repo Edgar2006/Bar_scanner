@@ -29,6 +29,8 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/barCode"
+        app:startIconScaleType="fitCenter"
+
         style="@style/LoginTextInputLayoutStyle"
         app:startIconDrawable="@drawable/scan_icon"
         android:layout_below="@+id/scan_now"

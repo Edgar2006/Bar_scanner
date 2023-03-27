@@ -93,7 +93,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         holder.uploadUri = messenger.getImageRef();
         holder.userImageUrl = messenger.getUserRef();
         holder.ratingBar.setRating(messenger.getRatingBarScore());
-        holder.ratingBarScore.setText(Float.toString(messenger.getRatingBarScore()));
+        holder.ratingBarScore.setText(Function.ROUND(messenger.getRatingBarScore()));
         holder.friendRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

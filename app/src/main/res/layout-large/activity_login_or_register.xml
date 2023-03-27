@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.All.Login_or_register">
+
+    <TextView
+        android:layout_marginHorizontal="20dp"
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:text="@string/be_in_control_of_your_something"
+        android:textColor="@color/black"
+        android:textSize="63dp"
+        android:textStyle="bold" />
+
+
+    <ImageView
+
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="440dp"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="26dp"
+        app:srcCompat="@drawable/scan_icon" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/create_new_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView1"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="135dp"
+        android:backgroundTint="@color/Base_color"
+        android:onClick="create_new_account"
+        android:text="@string/create_new_account"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        app:cornerRadius="20dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/log_in"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/create_new_account"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="83dp"
+        android:onClick="sign_in"
+        android:outlineSpotShadowColor="@color/white"
+        android:shadowColor="@color/white"
+        android:text="@string/sign_in"
+        android:textColor="@color/black"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        app:backgroundTint="@android:color/white"
+        app:cornerRadius="20dp"
+        app:strokeColor="@color/Base_color"
+        app:strokeWidth="2dp" />
+
+</RelativeLayout>

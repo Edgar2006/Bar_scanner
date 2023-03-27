@@ -7,20 +7,21 @@
     tools:context=".Activity.User.RegisterAddPhotoActivity">
 
 
-    <TextView
-        android:textColor="@color/white"
+    <com.google.android.material.button.MaterialButton
+        android:backgroundTint="@color/Base_color"
         android:id="@+id/skip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="41dp"
-        android:layout_marginBottom="33dp"
-        android:background="@drawable/round_rect"
+        android:layout_marginEnd="103dp"
+        android:layout_marginBottom="42dp"
         android:onClick="onCLickNext"
-        android:paddingHorizontal="20dp"
+        android:paddingHorizontal="60dp"
         android:text="@string/next"
-        android:textSize="30dp"
+        android:textColor="@color/white"
+        android:textSize="60sp"
+        app:cornerRadius="20dp"
         tools:layout_editor_absoluteX="545dp"
         tools:layout_editor_absoluteY="31dp" />
 
@@ -33,16 +34,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="@string/add_your_avatar_or_skip"
-        android:textSize="30dp"
+        android:textSize="70dp"
         android:textStyle="bold" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:foreground="@drawable/corner1"
         android:id="@+id/image_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="306dp"
         android:layout_below="@+id/idk"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="98dp"
+        android:foreground="@drawable/corner1"
         android:onClick="onClickChooseImage"
         android:src="@drawable/ic_baseline_account_circle_24" />
 </RelativeLayout>

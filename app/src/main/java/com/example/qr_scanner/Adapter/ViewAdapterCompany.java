@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.qr_scanner.Activity.Company.Product_activityBioEdit;
 import com.example.qr_scanner.Activity.User.Read;
+import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.Rating;
 import com.example.qr_scanner.DataBase_Class.ProductBio;
@@ -62,7 +63,7 @@ public class ViewAdapterCompany extends RecyclerView.Adapter<ViewAdapterCompany.
                     if(rating.countRating != 0) {
                         v = rating.rating / (float) rating.countRating;
                     }
-                    holder.ratingScore.setText(v + "  (" + rating.countRating + ')');
+                    holder.ratingScore.setText(Function.ROUND(v) + "  (" + rating.countRating + ')');
                     holder.ratingBar.setRating(v);
                 }catch (Exception e){
 

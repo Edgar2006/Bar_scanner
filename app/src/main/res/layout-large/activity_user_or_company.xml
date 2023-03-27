@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginHorizontal="80dp"
+    tools:context=".Activity.All.UserOrCompanyActivity">
+
+
+
+    <RelativeLayout
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:padding="20dp"
+            android:id="@+id/user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/round_rect_shape"
+            android:onClick="create_new_account"
+            >
+
+            <TextView
+                android:id="@+id/user_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/user"
+                android:textColor="@color/Base_color"
+                android:textSize="80sp" />
+
+            <ImageView
+                android:id="@+id/User_image_view"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_below="@+id/user_text"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="39dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/u_user" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/company"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user"
+            android:layout_marginTop="120dp"
+            android:background="@drawable/round_rect_shape"
+            android:onClick="create_new_account_company"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/company_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/company"
+                android:textColor="@color/Base_color"
+                android:textSize="80dp" />
+
+            <ImageView
+                android:id="@+id/company_image_view"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_below="@+id/company_text"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_baseline_work_outline_24" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>

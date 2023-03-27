@@ -19,6 +19,8 @@ import com.google.mlkit.nl.translate.Translation;
 import com.google.mlkit.nl.translate.Translator;
 import com.google.mlkit.nl.translate.TranslatorOptions;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -32,10 +34,6 @@ public class Function  extends AppCompatActivity{
     public Function(int contentLayoutId) {
         super(contentLayoutId);
     }
-
-
-
-
     public static String CONVERTOR(String s){
         return s.replace(".", "|");
     }
@@ -59,6 +57,9 @@ public class Function  extends AppCompatActivity{
         }
         return String.valueOf(s);
     }
-
+    public static String ROUND(Float v){
+        BigDecimal bigDecimal = new BigDecimal(v).setScale(2, RoundingMode.DOWN);
+        return bigDecimal.toString();
+    }
 
 }

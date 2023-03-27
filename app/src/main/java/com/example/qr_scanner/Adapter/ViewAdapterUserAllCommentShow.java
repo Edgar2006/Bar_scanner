@@ -74,7 +74,7 @@ public class ViewAdapterUserAllCommentShow extends RecyclerView.Adapter<ViewAdap
         holder.uploadUri = messenger.getImageRef();
         holder.userImageUrl = messenger.getUserRef();
         holder.ratingBar.setRating(messenger.getRatingBarScore());
-        holder.ratingBarScore.setText(Float.toString(messenger.getRatingBarScore()));
+        holder.ratingBarScore.setText(Function.ROUND(messenger.getRatingBarScore()));
 
 
 

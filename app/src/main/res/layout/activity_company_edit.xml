@@ -29,6 +29,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/name"
+            app:startIconScaleType="fitCenter"
+
             style="@style/LoginTextInputLayoutStyle"
             android:layout_below="@+id/textView2"
             android:layout_marginTop="50dp"
@@ -46,6 +48,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/description"
+            app:startIconScaleType="fitCenter"
+
             style="@style/LoginTextInputLayoutStyle"
             android:layout_below="@+id/name"
             android:hint="@string/description_for_company"

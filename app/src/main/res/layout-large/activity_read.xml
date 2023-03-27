@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/Second_color"
+    android:layout_height="match_parent"
+    tools:context=".Activity.User.Read">
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:paddingHorizontal="10dp"
+                android:paddingTop="30dp"
+                android:paddingBottom="20dp"
+                android:id="@+id/bio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-10dp"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/round_rect_shape">
+
+
+
+                <RelativeLayout
+
+                    android:id="@+id/company_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClickProduct">
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:textSize="30dp"
+
+                        android:id="@+id/company_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_toEndOf="@+id/company_image"
+                        android:text="@string/company_name" />
+
+                    <RelativeLayout
+                        android:visibility="gone"
+                        android:id="@+id/company_correct"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/company_name"
+                        android:layout_alignStart="@+id/company_name"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="0dp">
+
+                        <TextView
+                            android:id="@+id/correct1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/correct" />
+
+                        <ImageView
+                            android:id="@+id/ok1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/correct1"
+                            android:layout_alignBottom="@+id/correct1"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginBottom="0dp"
+                            android:layout_toEndOf="@+id/correct1"
+                            android:src="@drawable/ic_baseline_done_24" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:visibility="gone"
+                        android:onClick="onClickUserCorrect"
+                        android:id="@+id/user_correct"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/company_name"
+                        android:layout_alignStart="@+id/company_name"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:id="@+id/correct"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/maybe_no_correct" />
+
+                        <ImageView
+                            android:id="@+id/ok"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/correct"
+                            android:layout_alignBottom="@+id/correct"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginBottom="0dp"
+                            android:layout_toEndOf="@+id/correct"
+                            android:src="@drawable/ic_baseline_description_24" />
+                    </RelativeLayout>
+
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/company_image"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/ic_baseline_account_circle_24" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/bio1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/company_layout"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="20dp"
+                    >
+
+                    <RelativeLayout
+                        android:layout_marginStart="30dp"
+                        android:id="@+id/barCodeView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/product_name"
+                        android:layout_marginTop="10dp"
+                        android:layout_toEndOf="@+id/product_image_view">
+
+                        <TextView
+                            android:textSize="30sp"
+                            android:id="@+id/product_barCodeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/barcode"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:textSize="30sp"
+                            android:id="@+id/product_barCode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="7dp"
+                            android:layout_toEndOf="@+id/product_barCodeText"
+                            android:text=""
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/product_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@+id/barCodeView"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/product_name"
+                        android:textSize="30dp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/product_image_view"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
+                        android:foreground="@drawable/corner1"
+                        android:scaleType="centerCrop"
+                        tools:srcCompat="@tools:sample/avatars" />
+
+
+                    <RatingBar
+                        android:id="@+id/rating_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/barCodeView"
+                        android:layout_alignStart="@+id/product_name"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="10dp"
+                        android:isIndicator="false"
+                        android:progressTint="@color/Gold"
+                        android:secondaryProgressTint="@color/zxing_transparent" />
+
+                    <TextView
+                        android:id="@+id/rating_bar_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/rating_bar"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_toEndOf="@+id/rating_bar"
+                        android:text="0.0"
+                        android:textColor="@color/Second_color"
+                        android:textSize="40sp" />
+
+
+                    <TextView
+                        android:textSize="30dp"
+                        android:id="@+id/descriptionBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/product_image_view"
+                        android:layout_marginTop="17dp"
+                        android:onClick="onClickShowMore"
+                        android:text="@string/description"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:textSize="30sp"
+                        android:textColor="@color/black"
+                        android:id="@+id/bioShort"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/descriptionBold"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/lorem" />
+
+
+                    <TextView
+                        android:textSize="30sp"
+                        android:onClick="onClickTranslate"
+                        android:id="@+id/translate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/bioShort"
+                        android:layout_marginTop="7dp"
+                        android:text="@string/translate" />
+
+                    <TextView
+                        android:textSize="30dp"
+                        android:id="@+id/show_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/bioShort"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="12dp"
+                        android:onClick="onClickShowMore"
+                        android:text="@string/show_more"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rating_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/bio1"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp">
+
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/view_comment"
+                android:layout_below="@+id/bio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:padding="5dp"
+                    android:onClick="onClickSort"
+                    android:backgroundTint="@color/white"
+                    android:background="@drawable/round_rect_shape"
+                    android:id="@+id/rembobo"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textSize="30dp"
+                        android:id="@+id/sortByText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sort_by_time" />
+
+                    <ImageView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/sortByText"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_toEndOf="@+id/sortByText"
+                        android:src="@drawable/ic_baseline_keyboard_arrow_down_24" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:backgroundTint="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rembobo">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rec_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="70dp" />
+
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/first_comment"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@+id/bio"
+                android:layout_alignParentBottom="true"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="20dp"
+                android:layout_marginBottom="50dp"
+                android:background="@drawable/round_rect_shape"
+                android:backgroundTint="@color/white"
+                android:padding="30dp"
+                android:text="@string/n_this_product_currently_no_have_comment"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+
+
+
+        </RelativeLayout>
+    </ScrollView>
+    <ProgressBar
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:id="@+id/progress_bar"
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/Base_color"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foregroundTint="@color/Red"
+        />
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        app:iconSize="42dp"
+        android:textSize="40sp"
+        android:textColor="@color/white"
+        android:id="@+id/button_app_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:backgroundTint="@color/Base_color"
+        android:layout_margin="16dp"
+        android:onClick="onClickComment"
+        android:text="@string/add_review"
+        android:textAllCaps="false"
+        app:iconTint="@color/white"
+        app:icon="@drawable/ic_baseline_add_24"
+    />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

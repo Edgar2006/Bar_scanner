@@ -4,20 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.User.ScanActivity">
-
-    <TextView
-        android:id="@+id/view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="43dp"
-        android:text="@string/get_started_scan"
-        android:textColor="@color/black"
-        android:textSize="30dp"
-        android:textStyle="bold" />
+    tools:context=".Activity.Company.CheckBarCodeActivity">
 
 
     <com.google.android.material.button.MaterialButton
@@ -25,7 +12,7 @@
         android:id="@+id/scan_now"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_below="@+id/view"
+        android:layout_alignParentTop="true"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="129dp"
         android:backgroundTint="@color/Second_color"
@@ -33,22 +20,21 @@
         android:text="@string/scan_barcode_automatically"
         android:textAllCaps="false"
         android:textColor="@color/Base_color"
-        android:textSize="18dp"
+        android:textSize="40sp"
         android:textStyle="bold"
         app:icon="@drawable/scan_icon"
         app:iconSize="40dp"
-        app:iconTint="@color/Base_color" />
+        app:iconTint="@color/Base_color"
+        />
 
     <com.google.android.material.textfield.TextInputLayout
-
-        android:id="@+id/barCode_edit_text"
+        android:id="@+id/barCode"
         style="@style/LoginTextInputLayoutStyle"
         app:startIconDrawable="@drawable/scan_icon"
         android:layout_below="@+id/scan_now"
         android:hint="@string/your_barcode_number"
         android:textStyle="bold"
         app:startIconScaleType="fitCenter"
-
         >
 
         <com.google.android.material.textfield.TextInputEditText
@@ -57,6 +43,7 @@
             android:inputType="number"
             android:imeActionLabel="Done"
             android:singleLine="true"
+            android:textSize="40dp"
             android:textStyle="bold"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -65,16 +52,19 @@
     <com.google.android.material.button.MaterialButton
         android:textColor="@color/white"
         app:cornerRadius="20dp"
+        android:textSize="40dp"
         android:id="@+id/start_activity_read"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_below="@+id/barCode_edit_text"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/barCode"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="143dp"
+        android:layout_marginTop="194dp"
         android:backgroundTint="@color/Base_color"
-        android:onClick="onCLickRead"
+        android:onClick="onClickCheck"
         android:text="@string/next_step"
         android:textAllCaps="false"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        />
+
 
 </RelativeLayout>

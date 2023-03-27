@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/image_data_base"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="0dp"
             android:foreground="@drawable/corner1"
@@ -29,8 +29,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:src="@drawable/ic_baseline_account_circle_24" />
 
 
@@ -45,7 +45,7 @@
             android:layout_toEndOf="@+id/user_image"
             android:text="Soonershik"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="40sp"
             android:textStyle="bold" />
 
         <TextView
@@ -57,7 +57,7 @@
             android:layout_alignBottom="@+id/rating_bar"
             android:layout_marginStart="10dp"
             android:layout_marginTop="0dp"
-            android:textSize="12dp"
+            android:textSize="40sp"
             android:layout_marginBottom="0dp"
             android:layout_toEndOf="@+id/rating_bar"
             android:text="0.0"
@@ -65,7 +65,6 @@
 
         <RatingBar
             android:id="@+id/rating_bar"
-            style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/name"
@@ -91,10 +90,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="0dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="15dp"
             android:text="@string/comment"
             android:textColor="@color/black"
-            android:textSize="26dp" />
+            android:textSize="46dp" />
 
     </RelativeLayout>
 
@@ -105,12 +104,12 @@
         android:layout_below="@+id/mid"
         android:layout_marginTop="9dp"
         android:text="@string/translate"
-        android:textSize="20sp" />
+        android:textSize="40sp" />
 
     <RelativeLayout
         android:id="@+id/down1"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/translate"
         android:layout_marginTop="8dp">
 
@@ -122,8 +121,8 @@
 
             <ImageButton
                 android:id="@+id/like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:backgroundTint="@color/zxing_transparent"
                 android:src="@drawable/dislike"
                 />
@@ -132,10 +131,10 @@
                 android:id="@+id/count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-7dp"
+                android:layout_marginStart="7dp"
                 android:layout_toEndOf="@+id/like"
                 android:hint="0"
-                android:textSize="20sp"
+                android:textSize="40sp"
                 android:textStyle="bold" />
         </RelativeLayout>
 
@@ -145,16 +144,16 @@
             android:layout_height="wrap_content"
             android:hint="@string/time"
             android:textColor="@color/grey"
-            android:textSize="20sp"
+            android:textSize="40sp"
             android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="36dp"
+            android:layout_height="42dp"
             android:layout_alignTop="@+id/time"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="0dp"
             android:src="@drawable/ic_baseline_more_vert_24"
             app:tint="@color/grey" />

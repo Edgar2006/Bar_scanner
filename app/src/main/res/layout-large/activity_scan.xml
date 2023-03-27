@@ -16,7 +16,7 @@
         android:layout_marginTop="43dp"
         android:text="@string/get_started_scan"
         android:textColor="@color/black"
-        android:textSize="30dp"
+        android:textSize="60sp"
         android:textStyle="bold" />
 
 
@@ -24,7 +24,7 @@
         app:cornerRadius="20dp"
         android:id="@+id/scan_now"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/view"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="129dp"
@@ -33,25 +33,23 @@
         android:text="@string/scan_barcode_automatically"
         android:textAllCaps="false"
         android:textColor="@color/Base_color"
-        android:textSize="18dp"
+        android:textSize="45sp"
         android:textStyle="bold"
         app:icon="@drawable/scan_icon"
         app:iconSize="40dp"
         app:iconTint="@color/Base_color" />
 
     <com.google.android.material.textfield.TextInputLayout
-
         android:id="@+id/barCode_edit_text"
         style="@style/LoginTextInputLayoutStyle"
         app:startIconDrawable="@drawable/scan_icon"
         android:layout_below="@+id/scan_now"
         android:hint="@string/your_barcode_number"
         android:textStyle="bold"
-        app:startIconScaleType="fitCenter"
-
         >
 
         <com.google.android.material.textfield.TextInputEditText
+            android:textSize="40sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
@@ -63,11 +61,12 @@
 
 
     <com.google.android.material.button.MaterialButton
-        android:textColor="@color/white"
         app:cornerRadius="20dp"
+        android:textColor="@color/white"
         android:id="@+id/start_activity_read"
         android:layout_width="match_parent"
         android:layout_height="70dp"
+        android:textSize="40sp"
         android:layout_below="@+id/barCode_edit_text"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="143dp"

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.User.HomeActivity">
+
+    <RelativeLayout
+        android:id="@+id/activity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+
+            android:background="@drawable/round_rect_shape"
+            android:paddingHorizontal="20dp"
+            android:layout_marginTop="-10dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="30dp"
+            android:id="@+id/user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/your_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="35dp"
+                android:layout_toEndOf="@+id/profile_image"
+                android:text="@string/welcome_home"
+                android:textColor="@color/black"
+                android:textSize="40dp"
+                android:textStyle="bold" />
+
+
+            <ImageView
+                android:id="@+id/setting"
+                android:layout_width="45dp"
+                android:layout_height="49dp"
+                android:layout_alignTop="@+id/your_name"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="0dp"
+                android:onClick="onCLickMore"
+                android:src="@drawable/ic_baseline_more_vert_24" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:src="@drawable/ic_baseline_account_circle_24" />
+
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:textSize="30dp"
+            android:id="@+id/hi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/start_activity_read"
+            android:layout_alignStart="@+id/start_activity_read"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/searches_history"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rec_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/hi"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:textColor="@color/white"
+                android:id="@+id/start_activity_read"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/user"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="27dp"
+                android:backgroundTint="@color/Base_color"
+                app:cornerRadius="20dp"
+                android:textSize="30sp"
+                android:onClick="onCLickNextStep"
+                android:text="@string/get_started_scan"
+                android:textAllCaps="false"
+                android:textStyle="bold" />
+
+
+
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foregroundTint="@color/Red"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/Base_color"
+            android:indeterminateTintMode="src_atop" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

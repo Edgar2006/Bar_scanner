@@ -16,8 +16,6 @@
         android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputLayout
-                app:startIconScaleType="fitCenter"
-
                 android:id="@+id/product_name"
                 style="@style/LoginTextInputLayoutStyle"
                 android:layout_alignParentTop="true"
@@ -29,6 +27,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
+                    android:textSize="40dp"
 
                     />
 
@@ -36,8 +35,6 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/bio"
-                app:startIconScaleType="fitCenter"
-
                 style="@style/LoginTextInputLayoutStyle"
                 android:layout_below="@+id/product_name"
                 android:layout_marginTop="40dp"
@@ -48,7 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
-
+                    android:textSize="40dp"
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,18 +64,18 @@
                 android:layout_marginStart="21dp"
                 android:text="@string/add_photo"
                 android:textColor="@color/black"
-                android:textSize="25dp"
+                android:textSize="35dp"
                 android:textStyle="bold" />
 
 
             <ImageView
-                android:foreground="@drawable/corner1"
                 android:id="@+id/image"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 android:layout_below="@+id/add_photo"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="50dp"
+                android:foreground="@drawable/corner1"
                 android:onClick="onClickChooseImage"
                 android:src="@drawable/ic_baseline_add_photo_alternate_24" />
 
@@ -89,7 +86,7 @@
             app:cornerRadius="20dp"
             android:id="@+id/submit"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/photo"
             android:layout_marginHorizontal="@dimen/side"
             android:layout_marginTop="44dp"
@@ -97,7 +94,7 @@
             android:onClick="onClickSubmit"
             android:text="@string/save"
             android:textAllCaps="false"
-            android:textSize="15dp"
+            android:textSize="50dp"
             android:textStyle="bold" />
 
     </RelativeLayout>

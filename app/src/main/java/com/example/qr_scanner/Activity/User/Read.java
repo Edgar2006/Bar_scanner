@@ -319,7 +319,7 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
                     rating_=0F;
                 }
                 ratingBar.setRating(rating_);
-                ratingBarScore.setText(Float.toString(rating_) + "  (" + rating.countRating + ')');
+                ratingBarScore.setText(Function.ROUND(rating_) + "  (" + rating.countRating + ')');
                 load(false);
                 if(viewAdapter.getItemCount()==0){
                     viewLayoutComment.setVisibility(View.GONE);
