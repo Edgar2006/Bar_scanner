@@ -83,6 +83,7 @@ public class Translations {
         });
     }
 
+
     private void getTextLanguageIdentifier(String text){
         LanguageIdentifier languageIdentifier = LanguageIdentification.getClient();
         languageIdentifier.identifyLanguage(text).addOnSuccessListener(languageCode -> {
