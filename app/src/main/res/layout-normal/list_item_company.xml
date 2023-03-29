@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
@@ -7,14 +8,13 @@
     android:background="@drawable/round_rect_shape">
     <TextView
         android:textStyle="bold"
-        android:layout_marginStart="20dp"
-        android:textSize="25sp"
         android:id="@+id/product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/product_name" />
 
     <RelativeLayout
+        android:id="@+id/id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/one"
@@ -27,11 +27,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/barcode"
-            android:textSize="25sp"
             android:textStyle="bold" />
 
         <TextView
-            android:textSize="25sp"
             android:id="@+id/barCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,15 +50,14 @@
 
         <ImageView
             android:id="@+id/product_image_view"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="51dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
             android:foreground="@drawable/corner"
-
             android:scaleType="centerCrop"
             android:src="@drawable/ic_custom_star" />
 
@@ -77,18 +74,47 @@
             android:scaleX="-1"/>
 
         <RelativeLayout
-            android:layout_marginEnd="40dp"
             android:id="@+id/idk"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
             android:layout_toEndOf="@+id/product_image_view">
 
             <RelativeLayout
-                android:id="@+id/countView"
-                android:layout_width="match_parent"
+                android:id="@+id/edit"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/round_rect"
+                android:padding="2dp">
+
+                <TextView
+                    android:id="@id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/edit_product_info1"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:id="@+id/image_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_baseline_edit_24" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/countView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edit"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
@@ -103,13 +129,13 @@
                     android:layout_marginStart="0dp"
                     android:text="@string/scan_count"
                     android:textColor="@color/white"
-                    android:textSize="30sp" />
+                    android:textSize="16dp" />
 
                 <ImageView
-                    android:id="@+id/imageView1"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
                     android:layout_centerVertical="true"
+                    android:id="@+id/imageView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:layout_marginEnd="4dp"
                     android:layout_toStartOf="@+id/count"
@@ -124,10 +150,12 @@
                     android:layout_marginEnd="3dp"
                     android:text="0"
                     android:textColor="@color/white"
-                    android:textSize="25sp" />
-
+                    android:textSize="16dp" />
 
             </RelativeLayout>
+
+
+
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -135,10 +163,11 @@
                 android:layout_below="@+id/countView"
                 android:layout_alignStart="@+id/countView"
                 android:layout_marginStart="0dp"
-                android:layout_marginTop="12dp">
+                android:layout_marginTop="10dp">
 
                 <RatingBar
                     android:id="@+id/rating_bar"
+                    style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -147,7 +176,6 @@
                     android:secondaryProgressTint="@color/zxing_transparent" />
 
                 <TextView
-                    android:textSize="40dp"
                     android:id="@+id/rating_score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -158,6 +186,7 @@
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
+
 
 
 </RelativeLayout>

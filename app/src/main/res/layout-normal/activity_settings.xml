@@ -22,9 +22,10 @@
             android:layout_centerHorizontal="true"
             android:text="@string/edit_your_profile"
             android:textColor="@color/black"
-            android:textSize="60sp" />
+            android:textSize="30dp" />
 
         <com.google.android.material.textfield.TextInputLayout
+
             android:id="@+id/name"
             android:hint="@string/full_name"
             app:startIconDrawable="@drawable/u_user"
@@ -33,7 +34,6 @@
             android:layout_marginTop="50dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:textSize="40dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -56,12 +56,11 @@
             android:src="@drawable/ic_baseline_add_photo_alternate_24" />
 
         <com.google.android.material.button.MaterialButton
-            android:padding="20dp"
             android:textColor="@color/white"
             app:cornerRadius="20dp"
             android:id="@+id/submit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:layout_below="@+id/image"
             android:layout_marginHorizontal="@dimen/side"
             android:layout_marginTop="47dp"
@@ -69,7 +68,7 @@
             android:onClick="onClickSubmit"
             android:text="@string/save"
             android:textAllCaps="false"
-            android:textSize="40sp"
+            android:textSize="15dp"
             android:textStyle="bold" />
     </RelativeLayout>
 

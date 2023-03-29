@@ -128,7 +128,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
             holder.imageDataBase.setVisibility(View.GONE);
             holder.comment.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
         }
-        if(!Objects.equals(holder.userImageUrl, StaticString.noImage)) {
+        if(!Objects.equals(holder.userImageUrl, StaticString.noImage)){
             Glide.with(holder.itemView.getContext()).load(holder.userImageUrl).into(holder.userImage);
         }
 

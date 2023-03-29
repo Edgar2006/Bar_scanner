@@ -448,8 +448,9 @@ public class Read extends AppCompatActivity implements PopupMenu.OnMenuItemClick
                 User user = snapshot.getValue(User.class);
                 a.setUserRef(user.getImageRef());
                 a.setName(user.getName());
+                Log.e("_____________________________",a.getUserRef());
+                Log.e("_____________________________",a.getName());
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.User.NewCommentActivity"
-    tools:ignore="UseSwitchCompatOrMaterialXml">
-
+    tools:context=".Activity.Company.CompanyEditActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,70 +15,60 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/q"
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="21dp"
-            android:layout_marginTop="17dp"
-            android:text="@string/rating"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="36dp"
+            android:text="@string/add_a_company_information"
             android:textColor="@color/black"
-            android:textSize="45dp"
+            android:textSize="30dp"
             android:textStyle="bold" />
-
-        <RatingBar
-            android:id="@+id/rating_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/q"
-            android:layout_alignStart="@+id/comment"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="25dp"
-            android:progressTint="@color/Base_color" />
-
-
-        <TextView
-            android:id="@+id/rating_score"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/rating_bar"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="0dp"
-            android:layout_toEndOf="@+id/rating_bar"
-            android:text="0.0"
-            android:textColor="@color/grey"
-            android:textSize="40dp"
-            android:textStyle="bold" />
-
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/comment"
+            android:id="@+id/name"
+            app:startIconScaleType="fitCenter"
+
             style="@style/LoginTextInputLayoutStyle"
-            android:layout_below="@+id/rating_score"
-            android:layout_marginTop="80dp"
-            app:counterEnabled="true"
-            app:counterMaxLength="200"
-            android:hint="@string/your_review"
-            app:startIconDrawable="@drawable/ic_baseline_add_comment_24">
+            android:layout_below="@+id/textView2"
+            android:layout_marginTop="50dp"
+            android:hint="@string/company_name"
+            app:startIconDrawable="@drawable/u_user">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:maxLength="200"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:textSize="40dp"
+                android:singleLine="true"
+                android:imeActionLabel="Done"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/description"
+            app:startIconScaleType="fitCenter"
+
+            style="@style/LoginTextInputLayoutStyle"
+            android:layout_below="@+id/name"
+            android:hint="@string/description_for_company"
+            app:startIconDrawable="@drawable/ic_baseline_add_comment_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
             android:id="@+id/photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/comment"
+            android:layout_below="@+id/description"
             android:layout_marginTop="44dp">
+
             <TextView
                 android:id="@+id/add_photo"
                 android:layout_width="wrap_content"
@@ -89,17 +77,16 @@
                 android:layout_marginStart="21dp"
                 android:text="@string/add_photo"
                 android:textColor="@color/black"
-                android:textSize="45dp"
+                android:textSize="25dp"
                 android:textStyle="bold" />
 
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_marginStart="20dp"
-                android:foreground="@drawable/corner1"
                 android:scaleType="centerCrop"
-                android:id="@+id/comment_image"
-                android:layout_width="350dp"
-                android:layout_height="350dp"
+                android:id="@+id/company_image"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_below="@+id/add_photo"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="50dp"
@@ -110,37 +97,31 @@
 
         <com.google.android.material.button.MaterialButton
             android:textColor="@color/white"
-            app:cornerRadius="20dp"            android:padding="20dp"
-
+            app:cornerRadius="20dp"
             android:id="@+id/submit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:layout_below="@+id/photo"
-            android:layout_alignParentBottom="true"
-            android:layout_marginHorizontal="60dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="42dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="23dp"
+            android:layout_marginHorizontal="@dimen/side"
+            android:layout_marginTop="41dp"
             android:backgroundTint="@color/Base_color"
             android:onClick="onClickSubmit"
             android:text="@string/save"
             android:textAllCaps="false"
-            android:textSize="40sp"
+            android:textSize="15dp"
             android:textStyle="bold" />
-
     </RelativeLayout>
     </ScrollView>
+
     <ProgressBar
         android:visibility="gone"
-        android:progressDrawable="@drawable/ic_custom_star"
         android:id="@+id/progress_bar"
         android:indeterminate="true"
         android:indeterminateTintMode="src_atop"
         android:indeterminateTint="@color/Base_color"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-    />
+        />
 
 
 </RelativeLayout>

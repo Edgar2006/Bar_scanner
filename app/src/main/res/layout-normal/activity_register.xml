@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.Company.CompanyRegisterActivity">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+            android:id="@+id/annotation_read"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="30dp"
+            >
+
+            <TextView
+                android:textSize="20dp"
+                android:id="@+id/annotation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/annotation" />
+
+            <Button
+                android:textColor="@color/white"
+                android:id="@+id/agree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/annotation"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="10dp"
+                android:onClick="onClickReg"
+                android:backgroundTint="@color/Base_color"
+                android:text="@string/next" />
+
+            <CheckBox
+                android:id="@+id/check_box"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/agree"
+                android:text="@string/i_accept_these_terms"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            </RelativeLayout>
+            <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/register_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textStyle="bold"
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="55dp"
+            android:text="@string/create_new_account"
+            android:textColor="@color/black"
+            android:textSize="30dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/name"
+
+            app:startIconDrawable="@drawable/u_user"
+            style="@style/LoginTextInputLayoutStyle"
+            android:layout_below="@+id/textView2"
+            android:layout_marginTop="70dp"
+            android:hint="@string/full_name">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/email"
+
+            style="@style/LoginTextInputLayoutStyle"
+            app:startIconDrawable="@drawable/u_mail"
+            android:layout_below="@+id/name"
+
+            android:hint="@string/e_mail_address"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/LoginTextInputLayoutStyle"
+            android:id="@+id/password"
+
+            app:startIconDrawable="@drawable/u_lock"
+            app:endIconMode="password_toggle"
+            android:layout_below="@+id/email"
+            android:hint="@string/password">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/LoginTextInputLayoutStyle"
+            android:id="@+id/passwordCopy"
+            app:startIconDrawable="@drawable/u_lock"
+            app:endIconMode="password_toggle"
+            android:layout_below="@+id/password"
+            android:hint="@string/confirm_password">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:textColor="@color/white"
+            app:cornerRadius="20dp"
+            android:id="@+id/register"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_below="@+id/passwordCopy"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="45dp"
+            android:backgroundTint="@color/Base_color"
+            android:onClick="onCLickRegister"
+            android:text="@string/register"
+            android:textAllCaps="false"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/load"
+        android:background="@color/Second_color"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ProgressBar
+            android:layout_centerInParent="true"
+            android:id="@+id/progress_bar"
+            android:indeterminate="true"
+            android:indeterminateTintMode="src_atop"
+            android:indeterminateTint="@color/Base_color"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foregroundTint="@color/Red"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -31,16 +31,13 @@
 
 
                 <RelativeLayout
-                    android:paddingTop="10dp"
+
                     android:id="@+id/company_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="onClickProduct">
 
                     <TextView
-                        android:textStyle="bold"
-                        android:textSize="30dp"
-
                         android:id="@+id/company_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -61,7 +58,6 @@
                         android:layout_marginStart="0dp">
 
                         <TextView
-                            android:textSize="30sp"
                             android:id="@+id/correct1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -92,7 +88,6 @@
                         android:layout_marginTop="10dp">
 
                         <TextView
-                            android:textSize="30sp"
                             android:id="@+id/correct"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -115,8 +110,8 @@
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/company_image"
-                        android:layout_width="140dp"
-                        android:layout_height="140dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_marginStart="14dp"
@@ -130,12 +125,11 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/company_layout"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginEnd="20dp"
                     >
 
                     <RelativeLayout
-                        android:layout_marginStart="30dp"
                         android:id="@+id/barCodeView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -144,7 +138,6 @@
                         android:layout_toEndOf="@+id/product_image_view">
 
                         <TextView
-                            android:textSize="30sp"
                             android:id="@+id/product_barCodeText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -152,7 +145,6 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:textSize="30sp"
                             android:id="@+id/product_barCode"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -171,13 +163,12 @@
                         android:layout_marginStart="0dp"
                         android:layout_marginTop="20dp"
                         android:text="@string/product_name"
-                        android:textSize="30dp"
                         android:textStyle="bold" />
 
                     <ImageView
                         android:id="@+id/product_image_view"
-                        android:layout_width="160dp"
-                        android:layout_height="160dp"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
                         android:foreground="@drawable/corner1"
                         android:scaleType="centerCrop"
                         tools:srcCompat="@tools:sample/avatars" />
@@ -185,6 +176,7 @@
 
                     <RatingBar
                         android:id="@+id/rating_bar"
+                        style="?android:attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/barCodeView"
@@ -205,11 +197,10 @@
                         android:layout_toEndOf="@+id/rating_bar"
                         android:text="0.0"
                         android:textColor="@color/Second_color"
-                        android:textSize="40sp" />
+                        android:textSize="15dp" />
 
 
                     <TextView
-                        android:textSize="30dp"
                         android:id="@+id/descriptionBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -220,7 +211,6 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:textSize="30sp"
                         android:textColor="@color/black"
                         android:id="@+id/bioShort"
                         android:layout_width="wrap_content"
@@ -231,7 +221,6 @@
 
 
                     <TextView
-                        android:textSize="30sp"
                         android:onClick="onClickTranslate"
                         android:id="@+id/translate"
                         android:layout_width="wrap_content"
@@ -241,7 +230,6 @@
                         android:text="@string/translate" />
 
                     <TextView
-                        android:textSize="30dp"
                         android:id="@+id/show_more"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -286,19 +274,17 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:textSize="30dp"
                         android:id="@+id/sortByText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/sort_by_time" />
+                        android:text="@string/sort_by_time"
+                        />
 
                     <ImageView
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/sortByText"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="10dp"
                         android:layout_marginEnd="10dp"
                         android:layout_toEndOf="@+id/sortByText"
                         android:src="@drawable/ic_baseline_keyboard_arrow_down_24" />
@@ -357,8 +343,6 @@
         android:foregroundTint="@color/Red"
         />
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        app:iconSize="42dp"
-        android:textSize="40sp"
         android:textColor="@color/white"
         android:id="@+id/button_app_bar"
         android:layout_width="wrap_content"

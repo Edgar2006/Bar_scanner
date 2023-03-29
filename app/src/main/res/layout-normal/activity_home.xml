@@ -15,8 +15,8 @@
 
             android:background="@drawable/round_rect_shape"
             android:paddingHorizontal="20dp"
-            android:layout_marginTop="-20dp"
-            android:paddingTop="50dp"
+            android:layout_marginTop="-10dp"
+            android:paddingTop="20dp"
             android:paddingBottom="30dp"
             android:id="@+id/user"
             android:layout_width="wrap_content"
@@ -31,14 +31,14 @@
                 android:layout_toEndOf="@+id/profile_image"
                 android:text="@string/welcome_home"
                 android:textColor="@color/black"
-                android:textSize="40dp"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
 
             <ImageView
                 android:id="@+id/setting"
-                android:layout_width="45dp"
-                android:layout_height="49dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/your_name"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="1dp"
@@ -48,8 +48,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_image"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:src="@drawable/ic_baseline_account_circle_24" />
 
 
@@ -57,7 +57,6 @@
 
 
         <TextView
-            android:textSize="30dp"
             android:id="@+id/hi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,17 +78,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
-            android:textColor="@color/white"            android:padding="20dp"
-
-            android:id="@+id/start_activity_read"
+            android:textColor="@color/white"
+                android:id="@+id/start_activity_read"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 android:layout_below="@+id/user"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="27dp"
                 android:backgroundTint="@color/Base_color"
                 app:cornerRadius="20dp"
-                android:textSize="30sp"
                 android:onClick="onCLickNextStep"
                 android:text="@string/get_started_scan"
                 android:textAllCaps="false"

@@ -60,7 +60,7 @@ public class ViewAdapterUserAllCommentShow extends RecyclerView.Adapter<ViewAdap
         holder.address = messenger.getAddress();
         holder.email.setText(messenger.getName());
         holder.emailToString = messenger.getEmail();
-        String temp = Function.CONVERTOR(holder.emailToString);
+        String temp = User.ALL_USER_COMMENT_SHOW_EMAIL;
         holder.name = messenger.getName();
         holder.comment.setText(messenger.getComment());
         holder.sourceLanguageText = messenger.getComment().trim();

@@ -23,17 +23,14 @@
                 >
 
                 <TextView
-                    android:textSize="50sp"
+                    android:textSize="20dp"
                     android:id="@+id/annotation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:text="@string/annotation" />
 
-                <com.google.android.material.button.MaterialButton
-                    app:cornerRadius="20dp"            android:padding="20dp"
-
-                    android:textSize="40sp"
+                <Button
                     android:textColor="@color/white"
                     android:id="@+id/agree"
                     android:layout_width="wrap_content"
@@ -52,13 +49,12 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/agree"
                     android:text="@string/i_accept_these_terms"
-                    android:textSize="40dp"
+                    android:textSize="10dp"
                     android:textStyle="bold" />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/register_relative_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
@@ -73,11 +69,10 @@
                     android:layout_marginTop="55dp"
                     android:text="@string/create_new_company_account"
                     android:textColor="@color/black"
-                    android:textSize="50sp" />
+                    android:textSize="30dp" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/name"
-                    app:startIconScaleType="fitCenter"
 
                     app:startIconDrawable="@drawable/u_user"
                     style="@style/LoginTextInputLayoutStyle"
@@ -89,13 +84,11 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:imeActionLabel="Done"
-                        android:textSize="40dp"
                         />
 
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/email"
-                    app:startIconScaleType="fitCenter"
 
                     style="@style/LoginTextInputLayoutStyle"
                     app:startIconDrawable="@drawable/u_mail"
@@ -108,8 +101,6 @@
                         android:inputType="textEmailAddress"
                         android:singleLine="true"
                         android:imeActionLabel="Done"
-                        android:textSize="40dp"
-
                         />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -117,7 +108,6 @@
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/LoginTextInputLayoutStyle"
                     android:id="@+id/password"
-                    app:startIconScaleType="fitCenter"
 
                     app:startIconDrawable="@drawable/u_lock"
                     app:endIconMode="password_toggle"
@@ -130,8 +120,6 @@
                         android:inputType="textPassword"
                         android:singleLine="true"
                         android:imeActionLabel="Done"
-                        android:textSize="40dp"
-
                         />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -140,6 +128,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/LoginTextInputLayoutStyle"
                     android:id="@+id/passwordCopy"
+
                     app:startIconDrawable="@drawable/u_lock"
                     app:endIconMode="password_toggle"
                     android:layout_below="@+id/password"
@@ -151,20 +140,16 @@
                         android:inputType="textPassword"
                         android:singleLine="true"
                         android:imeActionLabel="Done"
-                        android:textSize="40dp"
-
                         />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
-                    android:padding="20dp"
-
                     android:textColor="@color/white"
                     app:cornerRadius="20dp"
                     android:id="@+id/register"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
                     android:layout_below="@+id/passwordCopy"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="36dp"
@@ -172,7 +157,7 @@
                     android:onClick="onCLickRegister"
                     android:text="@string/register"
                     android:textAllCaps="false"
-                    android:textSize="45dp"
+                    android:textSize="15dp"
                     android:textStyle="bold" />
             </RelativeLayout>
         </RelativeLayout>

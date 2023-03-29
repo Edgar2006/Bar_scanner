@@ -26,7 +26,7 @@
             android:layout_marginTop="17dp"
             android:text="@string/rating"
             android:textColor="@color/black"
-            android:textSize="45dp"
+            android:textSize="25dp"
             android:textStyle="bold" />
 
         <RatingBar
@@ -56,6 +56,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/comment"
+
             style="@style/LoginTextInputLayoutStyle"
             android:layout_below="@+id/rating_score"
             android:layout_marginTop="80dp"
@@ -69,7 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
-                android:textSize="40dp"
+
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -89,17 +90,17 @@
                 android:layout_marginStart="21dp"
                 android:text="@string/add_photo"
                 android:textColor="@color/black"
-                android:textSize="45dp"
+                android:textSize="25dp"
                 android:textStyle="bold" />
 
 
             <ImageView
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="10dp"
                 android:foreground="@drawable/corner1"
                 android:scaleType="centerCrop"
                 android:id="@+id/comment_image"
-                android:layout_width="350dp"
-                android:layout_height="350dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_below="@+id/add_photo"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="50dp"
@@ -109,9 +110,9 @@
         </RelativeLayout>
 
         <com.google.android.material.button.MaterialButton
+            android:padding="20dp"
             android:textColor="@color/white"
-            app:cornerRadius="20dp"            android:padding="20dp"
-
+            app:cornerRadius="20dp"
             android:id="@+id/submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -126,7 +127,7 @@
             android:onClick="onClickSubmit"
             android:text="@string/save"
             android:textAllCaps="false"
-            android:textSize="40sp"
+            android:textSize="15dp"
             android:textStyle="bold" />
 
     </RelativeLayout>

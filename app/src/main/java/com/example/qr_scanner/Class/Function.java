@@ -58,7 +58,7 @@ public class Function  extends AppCompatActivity{
         return String.valueOf(s);
     }
     public static String ROUND(Float v){
-        BigDecimal bigDecimal = new BigDecimal(v).setScale(2, RoundingMode.DOWN);
+        BigDecimal bigDecimal = new BigDecimal(v).setScale(1, RoundingMode.DOWN);
         return bigDecimal.toString();
     }
 

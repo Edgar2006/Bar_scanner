@@ -21,7 +21,8 @@
 
 
     <com.google.android.material.button.MaterialButton
-        app:cornerRadius="20dp"
+        app:cornerRadius="20dp"            android:padding="20dp"
+
         android:id="@+id/scan_now"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,11 +62,12 @@
 
 
     <com.google.android.material.button.MaterialButton
+        android:padding="20dp"
         app:cornerRadius="20dp"
         android:textColor="@color/white"
         android:id="@+id/start_activity_read"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:textSize="40sp"
         android:layout_below="@+id/barCode_edit_text"
         android:layout_marginHorizontal="20dp"

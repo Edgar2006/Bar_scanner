@@ -64,7 +64,7 @@ public class Translations {
     private void startTranslations(){
         transitionOptions = new TranslatorOptions.Builder().setSourceLanguage(sourceLanguageCode).setTargetLanguage(destinationLanguageCode).build();
         translator = Translation.getClient(transitionOptions);
-        DownloadConditions downloadConditions = new DownloadConditions.Builder().requireWifi().build();
+        DownloadConditions downloadConditions = new DownloadConditions.Builder().build();
         translator.downloadModelIfNeeded(downloadConditions).addOnSuccessListener(unused -> {
             translateView.setText(R.string.loading);
             translator.translate(sourceLanguageText).addOnSuccessListener(s -> {

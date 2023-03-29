@@ -20,7 +20,7 @@
             <RelativeLayout
                 android:background="@drawable/round_rect_shape1"
                 android:layout_marginTop="-10dp"
-                android:paddingTop="40dp"
+                android:paddingTop="20dp"
 
                 android:id="@+id/welcome"
                 android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
                     android:layout_marginTop="18dp"
                     android:text="user name"
                     android:textColor="@color/black"
-                    android:textSize="40sp"
+                    android:textSize="20dp"
                     android:textStyle="bold"
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="16dp" />
@@ -51,7 +51,7 @@
                     android:layout_marginTop="18dp"
                     android:text="@string/review"
                     android:textColor="@color/black"
-                    android:textSize="40sp"
+                    android:textSize="20dp"
                     android:textStyle="bold"
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="16dp" />
@@ -67,15 +67,15 @@
                     android:layout_toEndOf="@+id/user_review_count_text"
                     android:text=""
                     android:textColor="@color/black"
-                    android:textSize="40sp"
+                    android:textSize="20dp"
                     android:textStyle="bold"
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="16dp" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/user_image"
-                    android:layout_width="196dp"
-                    android:layout_height="196dp"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginStart="10dp"
@@ -97,7 +97,6 @@
     </ScrollView>
 
     <ProgressBar
-        android:visibility="gone"
         android:id="@+id/progress_bar"
         android:indeterminate="true"
         android:indeterminateTintMode="src_atop"

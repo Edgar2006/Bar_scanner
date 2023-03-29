@@ -20,6 +20,7 @@ import com.example.qr_scanner.Class.Function;
 import com.example.qr_scanner.Class.StaticString;
 import com.example.qr_scanner.DataBase_Class.Messenger;
 import com.example.qr_scanner.DataBase_Class.ProductBio;
+import com.example.qr_scanner.DataBase_Class.User;
 import com.example.qr_scanner.DataBase_Class.UserCommentSaveData;
 import com.example.qr_scanner.R;
 import com.google.firebase.database.DataSnapshot;
@@ -71,11 +72,12 @@ public class UserAllCommentShowActivity extends AppCompatActivity {
         if(!Objects.equals(userImageUrl, StaticString.noImage)) {
             Glide.with(getApplicationContext()).load(userImageUrl).into(imageView);
         }
-        email = intent.getStringExtra(StaticString.email);
+        email = Function.CONVERTOR(intent.getStringExtra(StaticString.email));
+        User.ALL_USER_COMMENT_SHOW_EMAIL = email;
     }
 
     private void getDataFromDataBase(){
-        DatabaseReference referenceAllComment = FirebaseDatabase.getInstance().getReference(StaticString.userComment).child(Function.CONVERTOR(email));
+        DatabaseReference referenceAllComment = FirebaseDatabase.getInstance().getReference(StaticString.userComment).child(email);
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -115,7 +117,6 @@ public class UserAllCommentShowActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 load();
-                Log.e("++++++++++++++++++++++++++++",snapshot.getRef().toString());
                 ProductBio productBio = snapshot.getValue(ProductBio.class);
                 messenger.setEmail(productBio.getCompanyEmail());
                 messenger.setName(productBio.getProductName());
@@ -141,7 +142,6 @@ public class UserAllCommentShowActivity extends AppCompatActivity {
                 messenger.setRatingBarScore(productBio.getRatingBarScore());
                 messenger.setTime(productBio.getTime());
                 messenger.setCount(productBio.getCount());
-
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
